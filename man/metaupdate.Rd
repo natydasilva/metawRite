@@ -12,7 +12,7 @@ and trt.pair with the string name for the pairwise comparison in alphabetic orde
 
 \item{pair_result}{list with the pairwise meta-analysis models}
 
-\item{trt.pair}{variable with the pairwise treatment names}
+\item{trt.pair}{variable name with the pairwise treatment names}
 
 \item{treat1}{variable name with the treatment 1 in datapair}
 
