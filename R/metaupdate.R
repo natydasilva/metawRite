@@ -1,15 +1,19 @@
 #' Meta-analysis shiny app
 #'
 #'\code{metaupdate} implements .....
-#' @usage metaupdate(datapair, pair_result,trt.pair)
-#' @param datapair Data frame with .....
+#' @usage metaupdate(datapair, pair_result,trt.pair, treat1, treat2)
+#' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
+#' and trt.pair with the string name for the pairwise comparison in alphabetic order.
 #' @param pair_result  list with the pairwise meta-analysis models
 #' @param trt.pair variable with the pairwise treatment names
+#' @param treat1 variable name with the treatment 1 in datapair
+#' @param treat2 variable name with the treatment 2 in datapair
+#' @param id variable with id information in datapair
 #' @return shiny app.
 #' @export
-#' @examples
-#' metaupdate(MTCpairs2, pair_result, trt.pair)
-metaupdate <- function(datapair, pair_result, trt.pair) {
+# @examples
+# metaupdate(MTCpairs2, pair_result, trt.pair, id)
+metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
   library(metafor)
   ui = shiny::fluidPage(
     theme = "bootstrap.css",
@@ -182,19 +186,26 @@ metaupdate <- function(datapair, pair_result, trt.pair) {
 
         shiny::tabPanel(
           "Network" ,
-          shiny::fluidRow(shiny::column(
-            width = 3,
-            shiny::selectInput(
-              "subset2",
-              "Select revision:",
-              c("93 trials", "98 trials"),
-              selected = "93 trials"
-            )
-          )),
-          shiny::fluidRow(
-            shiny::column(width = 6, shiny::plotOutput("metaflonet")),
-            shiny::column(width = 6, shiny::plotOutput("netply"))
-          )
+          # shiny::fluidRow(shiny::column(
+          #   width = 3,
+          #   shiny::selectInput(
+          #     "subset2",
+          #     "Select revision:",
+          #     c("93 trials", "98 trials"),
+          #     selected = "93 trials"
+          #   )
+          # )),
+
+          shiny::fluidRow(shiny::column(width = 10,
+                                     plotly::plotlyOutput("netply"))),
+          shiny::fluidRow(shiny::column(width = 6 ,shiny::verbatimTextOutput("click")))
+
+
+
+          # shiny::fluidRow(
+          #   shiny::column(width = 6, shiny::plotOutput("metaflonet")),
+          #   shiny::column(width = 6, shiny::plotOutput("netply"))
+          # )
 
         )
             )
@@ -229,8 +240,49 @@ metaupdate <- function(datapair, pair_result, trt.pair) {
 
       return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
     })
+
+
+
+
+    rv <- shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
+
+    output$netply <- plotly::renderPlotly({
+      p <-
+        ggplot2::ggplot(data = datapair, ggplot2::aes(
+          from_id = treat1,
+          to_id = treat2,
+          key = id
+        ))
+
+      p2 <-
+        p + geomnet::geom_net(
+          layout.alg = "circle",
+          size = 3,
+          ggplot2::aes(col = treat1, key = datapair$id),
+          labelon = TRUE
+        ) +
+        geomnet::theme_net() + ggplot2::theme(legend.position = "none") + ggplot2::scale_colour_brewer(palette = "Set3")
+
+      plotly::ggplotly(p2) %>% plotly::layout(dragmode = "select")
+
+    })
+
+    output$click <- shiny::renderPrint({
+      d <- plotly::event_data("plotly_click")
+      if (is.null(d)) {
+        "Click events appear here (double-click to clear)"
+      } else{
+        d
+      }
+    })
+
   }
 
-  shiny::shinyApp(ui, server)
+
+
+
+
+  shiny::shinyApp(ui, server )
+
 
 }

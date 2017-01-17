@@ -4,22 +4,26 @@
 \alias{metaupdate}
 \title{Meta-analysis shiny app}
 \usage{
-metaupdate(datapair, pair_result,trt.pair)
+metaupdate(datapair, pair_result,trt.pair, treat1, treat2)
 }
 \arguments{
-\item{datapair}{Data frame with .....}
+\item{datapair}{Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
+and trt.pair with the string name for the pairwise comparison in alphabetic order.}
 
 \item{pair_result}{list with the pairwise meta-analysis models}
 
 \item{trt.pair}{variable with the pairwise treatment names}
+
+\item{treat1}{variable name with the treatment 1 in datapair}
+
+\item{treat2}{variable name with the treatment 2 in datapair}
+
+\item{id}{variable with id information in datapair}
 }
 \value{
 shiny app.
 }
 \description{
 \code{metaupdate} implements .....
-}
-\examples{
-metaupdate(MTCpairs2, pair_result, trt.pair)
 }
 
