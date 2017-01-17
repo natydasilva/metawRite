@@ -4,7 +4,7 @@
 \alias{metaupdate}
 \title{Meta-analysis shiny app}
 \usage{
-metaupdate(datapair, pair_result,trt.pair, treat1, treat2)
+metaupdate(datapair, pair_result,trt.pair, treat1, treat2, id)
 }
 \arguments{
 \item{datapair}{Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation

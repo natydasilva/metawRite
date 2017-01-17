@@ -1,1 +1,6 @@
 Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.
+<<>>=
+1+3
+@
+
+$\mu_i$

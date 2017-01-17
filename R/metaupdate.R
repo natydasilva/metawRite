@@ -1,7 +1,7 @@
 #' Meta-analysis shiny app
 #'
 #'\code{metaupdate} implements .....
-#' @usage metaupdate(datapair, pair_result,trt.pair, treat1, treat2)
+#' @usage metaupdate(datapair, pair_result,trt.pair, treat1, treat2, id)
 #' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order.
 #' @param pair_result  list with the pairwise meta-analysis models
@@ -10,11 +10,12 @@
 #' @param treat2 variable name with the treatment 2 in datapair
 #' @param id variable with id information in datapair
 #' @return shiny app.
+#' @importFrom magrittr %>%
 #' @export
 # @examples
 # metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
 metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
-  library(metafor)
+
   ui = shiny::fluidPage(
     theme = "bootstrap.css",
     shiny::titlePanel("Meta-analysis app"),

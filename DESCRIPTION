@@ -4,6 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("META-TEAM",  email = "ndasilva@iastate.edu", role = c("aut", "cre"))
 Depends:
     R (>= 3.3.2),
+    metafor 
 License: LGPL-2.1
 Encoding: UTF-8
 LazyData: yes
@@ -14,8 +15,7 @@ Imports:
     dplyr,
     ggplot2,
     geomnet,
-    plotly,
-    metafor
+    plotly
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)
