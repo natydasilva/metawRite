@@ -1,7 +1,7 @@
 Package: metaupdate
 Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("META-TEAM",  email = "ndasilva@iastate.edu", role = c("aut", "cre"))
 Depends:
     R (>= 3.3.2)
 License: LGPL-2.1
@@ -10,9 +10,11 @@ LazyData: true
 Imports:
     shiny,
     knitr,
-    dplyr,
-    metafor
+    dplyr
 Description: Shiny app to explore and update meta-analysis results.
 License: LGPL-2.1
 LazyData: yes
+Suggests:
+        metafor,
+        roxygen2 (>= 3.0.0)
 RoxygenNote: 5.0.1.9000

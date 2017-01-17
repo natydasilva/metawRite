@@ -10,6 +10,7 @@
 #' @examples
 #' metaupdate(MTCpairs2, pair_result, trt.pair)
 metaupdate <- function(datapair, pair_result, trt.pair) {
+  library(metafor)
   ui = shiny::fluidPage(
     theme = "bootstrap.css",
     shiny::titlePanel("Meta-analysis app"),
@@ -143,7 +144,7 @@ metaupdate <- function(datapair, pair_result, trt.pair) {
           "Pairwise",
           shiny::fluidRow(shiny::column(
             width = 3,
-            shiny::a(href = "https://cran.r-project.org/web/packages/netmeta/netmeta.pdf", "netmeta package help", target =
+            shiny::a(href = "http://www.metafor-project.org/doku.php/metafor", "metafor package help", target =
                        "_blank")
           )),
           shiny::fluidRow(
@@ -222,12 +223,11 @@ metaupdate <- function(datapair, pair_result, trt.pair) {
     )
 
     output$summary <- shiny::renderPrint({
-      aux <- names(pair_result[[input$update]]) %in%  input$pair
+      pair <- names(pair_result[[input$update]]) %in% input$pair
 
-      jj <- 1:length(aux)
+      npair <- 1:length(pair)
 
-
-      print(pair_result[[input$update]][[jj[aux]]][[2]])
+      return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
     })
   }
 
