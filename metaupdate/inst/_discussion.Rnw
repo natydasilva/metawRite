@@ -1,0 +1,4 @@
+              Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
+              Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
+              Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.
+              
