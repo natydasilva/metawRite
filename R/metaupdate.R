@@ -12,7 +12,7 @@
 #' @return shiny app.
 #' @export
 # @examples
-# metaupdate(MTCpairs2, pair_result, trt.pair, id)
+# metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
 metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
   library(metafor)
   ui = shiny::fluidPage(
@@ -173,7 +173,7 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
             )
           ),
           shiny::fluidRow(shiny::column(
-            width =  10, shiny::verbatimTextOutput("summary")
+            width =  8, shiny::verbatimTextOutput("summary")
           )),
           shiny::fluidRow(
             shiny::column(
