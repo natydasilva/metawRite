@@ -19,4 +19,5 @@ Imports:
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1

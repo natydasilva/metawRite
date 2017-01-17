@@ -186,26 +186,12 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
 
         shiny::tabPanel(
           "Network" ,
-          # shiny::fluidRow(shiny::column(
-          #   width = 3,
-          #   shiny::selectInput(
-          #     "subset2",
-          #     "Select revision:",
-          #     c("93 trials", "98 trials"),
-          #     selected = "93 trials"
-          #   )
-          # )),
 
-          shiny::fluidRow(shiny::column(width = 10,
+
+          shiny::fluidRow(shiny::column(width = 6,
                                      plotly::plotlyOutput("netply"))),
-          shiny::fluidRow(shiny::column(width = 6 ,shiny::verbatimTextOutput("click")))
+          shiny::fluidRow(shiny::column(width = 12 ,shiny::verbatimTextOutput("click")))
 
-
-
-          # shiny::fluidRow(
-          #   shiny::column(width = 6, shiny::plotOutput("metaflonet")),
-          #   shiny::column(width = 6, shiny::plotOutput("netply"))
-          # )
 
         )
             )
