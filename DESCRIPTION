@@ -4,7 +4,8 @@ Version: 0.0.0.9000
 Authors@R: person("META-TEAM",  email = "ndasilva@iastate.edu", role = c("aut", "cre"))
 Depends:
     R (>= 3.3.2),
-    metafor 
+    metafor,
+    netmeta
 License: LGPL-2.1
 Encoding: UTF-8
 LazyData: yes

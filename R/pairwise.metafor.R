@@ -9,6 +9,7 @@
 #'level=95, digits=4, btt, tau2, verbose=FALSE, control, ...)
 #' @param data Data frame with .....define\code{\link{ }}
 #' @param narms numbers of arms in the data
+#' @param nupdates numbers of updates in the meta-analysis.
 #' @param yi	vector of length k with the observed effect sizes or outcomes. See ‘Details’.
 #' @param vi	vector of length k with the corresponding sampling variances. See ‘Details’.
 #' @param sei	vector of length k with the corresponding standard errors (only relevant when not using vi). See ‘Details’.
@@ -57,7 +58,7 @@
 #' @return return a list with information needed for metapairwise
 #' @importFrom magrittr %>%
 #' @export
-pairwise.metafor <- function(data, narms, yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+pairwise.metafor <- function(data, narms,nupdates,  yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
                              m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
                              measure = "GEN", intercept = TRUE, data, slab, subset,
                              add = 1/2, to = "only0", drop00 = FALSE, vtype = "LS",
@@ -65,18 +66,22 @@ pairwise.metafor <- function(data, narms, yi, vi, sei, weights, ai, bi, ci, di, 
                              level = 95, digits = 4, btt, tau2, verbose = FALSE, control, ... ) {
 
 
-
-MTCredu <- data %>%
-  select(Number.of.Event.in.arm.1,Number.of.Event.in.arm.2,Number.of.Event.in.arm.3, Total.number.in.arm.1, Total.number.in.arm.2, Total.number.in.arm.3,
-         Arm.1,Arm.2, Arm.3) %>%
-  rename(event1 =Number.of.Event.in.arm.1, event2 = Number.of.Event.in.arm.2, event3 = Number.of.Event.in.arm.3,
-         n1 = Total.number.in.arm.1, n2 = Total.number.in.arm.2, n3 = Total.number.in.arm.3, treat1 =Arm.1, treat2 = Arm.2, treat3 = Arm.3)
-
-MTCpairs <- pairwise(list(treat1, treat2, treat3),
-                     list(event1, event2, event3),
-                     list(n1, n2, n3),
-                     data=MTCredu,
-                     sm="RR")
+#
+#
+# MTCredu <- data %>%
+#   select(Number.of.Event.in.arm.1,Number.of.Event.in.arm.2,Number.of.Event.in.arm.3, Total.number.in.arm.1, Total.number.in.arm.2, Total.number.in.arm.3,
+#          Arm.1,Arm.2, Arm.3) %>%
+#   rename(event1 =Number.of.Event.in.arm.1, event2 = Number.of.Event.in.arm.2, event3 = Number.of.Event.in.arm.3,
+#          n1 = Total.number.in.arm.1, n2 = Total.number.in.arm.2, n3 = Total.number.in.arm.3, treat1 =Arm.1, treat2 = Arm.2, treat3 = Arm.3)
+#
+#
+#
+#
+# MTCpairs <- pairwise(list(treat1, treat2, treat3),
+#                      list(event1, event2, event3),
+#                      list(n1, n2, n3),
+#                      data=MTCredu,
+#                      sm="RR")
 
 MTCpairs <- data.frame(Update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
 
