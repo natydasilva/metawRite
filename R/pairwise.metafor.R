@@ -64,7 +64,8 @@
 #'                 data = MTCdata,
 #'                 sm = "RR")
 #'MTCpairs <- data.frame(update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
-#' pairwise.metafor(MTCpairs)
+#' pairwise.metafor(MTCpairs2, "93 trials", yi = TE, vi = vi, data = x, method = "REML")
+
 
 pairwise.metafor <- function(dataini,up1,  yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
                              m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
@@ -78,51 +79,51 @@ pairwise.metafor <- function(dataini,up1,  yi, vi, sei, weights, ai, bi, ci, di,
 # MTCpairs <- data.frame(Update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
 #
 
-# library(stringr)
+ library(stringr)
 #
-# library(dplyr)
+ library(dplyr)
 #to use the stringr pkg convert factors to character and collapse str
 #unique pairwise treatments
 #should I use avreviation??
 
-MTCpairs2 <- MTCpairs %>% mutate_if(is.factor, as.character) %>%
-  mutate(id = 1:nrow(MTCpairs), vi = seTE^2) %>%
-  ddply( .(id), function(x){
-    aux <-   str_sort(x[1,] %>%select(treat1,treat2))
+  MTCpairs2 <- MTCpairs %>% mutate_if(is.factor, as.character) %>%
+    mutate(id = 1:nrow(MTCpairs), vi = seTE^2) %>%
+    ddply( .(id), function(x){
+      aux <-   str_sort(x[1,] %>%select(treat1,treat2))
 
-    mutate(x, trt.pair = str_c(aux[1],aux[2],sep ="-"))
+      mutate(x, trt.pair = str_c(aux[1],aux[2],sep ="-"))
 
-  }
-  )
+    }
+    )
 
-save(MTCpairs2, file ="./data/MTCpairs2.Rdata")
+  save(MTCpairs2, file ="./data/MTCpairs2.Rdata")
 
 
 #apply to each pair of treatments a pairwise meta-analysis
 
 #library(metafor)
-update1  <- MTCpairs2 %>% filter(update%in%"up1") %>%
+update1  <- dataini %>% filter(update%in%"up1") %>%
   dlply(.(trt.pair), function(x)
-    list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
-    # list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
-    # m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
-    # measure="GEN", intercept=TRUE, data=x, slab, subset,
-    # add=1/2, to="only0", drop00=FALSE, vtype="LS",
-    # method="REML", weighted=TRUE, test="z",
-    # level=95, digits=4, btt, tau2, verbose=FALSE, control))
+   # list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
+    list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+    m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
+    measure="GEN", intercept=TRUE, data=x, slab, subset,
+    add=1/2, to="only0", drop00=FALSE, vtype="LS",
+    method="REML", weighted=TRUE, test="z",
+    level=95, digits=4, btt, tau2, verbose=FALSE, control))
     )
 
 # pair_result <- MTCpairs2 %>%group_by(update) %>% dlply(.(trt.pair), function(x)
 #   list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
 # )
-update2<- MTCpairs2 %>% dlply(.(trt.pair), function(x)
-  list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
-  # list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
-  #             m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
-  #             measure="GEN", intercept=TRUE, data=x, slab, subset,
-  #             add=1/2, to="only0", drop00=FALSE, vtype="LS",
-  #             method="REML", weighted=TRUE, test="z",
-  #             level=95, digits=4, btt, tau2, verbose=FALSE, control))
+update2<- dataini %>% dlply(.(trt.pair), function(x)
+  #list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
+  list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+              m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
+              measure="GEN", intercept=TRUE, data=x, slab, subset,
+              add=1/2, to="only0", drop00=FALSE, vtype="LS",
+              method="REML", weighted=TRUE, test="z",
+              level=95, digits=4, btt, tau2, verbose=FALSE, control))
   )
 
 pair_result <- list(update1, update1)
