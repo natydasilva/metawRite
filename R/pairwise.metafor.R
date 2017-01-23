@@ -7,9 +7,7 @@
 #'add=1/2, to="only0", drop00=FALSE, vtype="LS",
 #'method="REML", weighted=TRUE, test="z",
 #'level=95, digits=4, btt, tau2, verbose=FALSE, control, ...)
-#' @param data Data frame with .....define\code{\link{ }}
-#' @param narms numbers of arms in the data
-#' @param nupdates numbers of updates in the meta-analysis.
+#' @param dataini Data frame with .....define\code{\link{ }... pairwise data info using pair function}
 #' @param yi	vector of length k with the observed effect sizes or outcomes. See ‘Details’.
 #' @param vi	vector of length k with the corresponding sampling variances. See ‘Details’.
 #' @param sei	vector of length k with the corresponding standard errors (only relevant when not using vi). See ‘Details’.
@@ -55,10 +53,20 @@
 #' @param control
 #' @param optional list of control values for the iterative estimation algorithms. If unspecified, default values are defined inside the function. See ‘Note’.
 #' @param ...additional arguments.
+#' @param up1 label of the variable update for the first update
 #' @return return a list with information needed for metapairwise
 #' @importFrom magrittr %>%
 #' @export
-pairwise.metafor <- function(data, narms,nupdates,  yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+#' @examples
+#' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
+#'                 list(event1, event2, event3),
+#'                 list(n1, n2, n3),
+#'                 data = MTCdata,
+#'                 sm = "RR")
+#'MTCpairs <- data.frame(update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
+#' pairwise.metafor(MTCpairs)
+
+pairwise.metafor <- function(dataini,up1,  yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
                              m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
                              measure = "GEN", intercept = TRUE, data, slab, subset,
                              add = 1/2, to = "only0", drop00 = FALSE, vtype = "LS",
@@ -66,29 +74,13 @@ pairwise.metafor <- function(data, narms,nupdates,  yi, vi, sei, weights, ai, bi
                              level = 95, digits = 4, btt, tau2, verbose = FALSE, control, ... ) {
 
 
+#   MTCpairs$update[i] <-
+# MTCpairs <- data.frame(Update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
 #
-#
-# MTCredu <- data %>%
-#   select(Number.of.Event.in.arm.1,Number.of.Event.in.arm.2,Number.of.Event.in.arm.3, Total.number.in.arm.1, Total.number.in.arm.2, Total.number.in.arm.3,
-#          Arm.1,Arm.2, Arm.3) %>%
-#   rename(event1 =Number.of.Event.in.arm.1, event2 = Number.of.Event.in.arm.2, event3 = Number.of.Event.in.arm.3,
-#          n1 = Total.number.in.arm.1, n2 = Total.number.in.arm.2, n3 = Total.number.in.arm.3, treat1 =Arm.1, treat2 = Arm.2, treat3 = Arm.3)
-#
-#
-#
-#
-# MTCpairs <- pairwise(list(treat1, treat2, treat3),
-#                      list(event1, event2, event3),
-#                      list(n1, n2, n3),
-#                      data=MTCredu,
-#                      sm="RR")
 
-MTCpairs <- data.frame(Update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
-
-
-library(stringr)
-
-library(dplyr)
+# library(stringr)
+#
+# library(dplyr)
 #to use the stringr pkg convert factors to character and collapse str
 #unique pairwise treatments
 #should I use avreviation??
@@ -103,23 +95,38 @@ MTCpairs2 <- MTCpairs %>% mutate_if(is.factor, as.character) %>%
   }
   )
 
-save(MTCpairs2, file ="MTCpairs2.Rdata")
+save(MTCpairs2, file ="./data/MTCpairs2.Rdata")
 
 
 #apply to each pair of treatments a pairwise meta-analysis
 
-library(metafor)
-update1  <- MTCpairs2 %>% filter(Update%in%"93 trials") %>%
+#library(metafor)
+update1  <- MTCpairs2 %>% filter(update%in%"up1") %>%
   dlply(.(trt.pair), function(x)
     list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
-  )
+    # list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+    # m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
+    # measure="GEN", intercept=TRUE, data=x, slab, subset,
+    # add=1/2, to="only0", drop00=FALSE, vtype="LS",
+    # method="REML", weighted=TRUE, test="z",
+    # level=95, digits=4, btt, tau2, verbose=FALSE, control))
+    )
 
+# pair_result <- MTCpairs2 %>%group_by(update) %>% dlply(.(trt.pair), function(x)
+#   list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
+# )
 update2<- MTCpairs2 %>% dlply(.(trt.pair), function(x)
   list(x,rma(yi = TE, vi = vi, data = x, method = "REML"))
-)
+  # list(x,rma( yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+  #             m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, mods,
+  #             measure="GEN", intercept=TRUE, data=x, slab, subset,
+  #             add=1/2, to="only0", drop00=FALSE, vtype="LS",
+  #             method="REML", weighted=TRUE, test="z",
+  #             level=95, digits=4, btt, tau2, verbose=FALSE, control))
+  )
 
 pair_result <- list(update1, update1)
 
-save(pair_result, file = "pair_resut.Rdata")
+save(pair_result, file = "./data/pair_resut.Rdata")
 
 }

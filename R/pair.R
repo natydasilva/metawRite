@@ -14,19 +14,23 @@
 #' @param time	A list or vector with information on person time at risk for individual treatment arms (see Details).
 #' @param data	An optional data frame containing the study information.
 #' @param studlab	A vector with study labels (optional).
+#' @param a vector with the number of observations per update, data suld be order in the same order that the vector.
 #' @param ...	 Additional arguments passed-through to the functions to calculate effects.
 #' @return a data frame with ...
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
-#' MTCpairs <- pair(list(treat1, treat2, treat3),
-#' list(event1, event2, event3),
-#' list(n1, n2, n3),
-#' data=MTCdata,
-#' sm="RR")
+#' MTCpairs <- pairo(list(treat1, treat2, treat3),
+#'                 list(event1, event2, event3),
+#'                 list(n1, n2, n3),
+#'                 data=MTCdata,
+#'                 sm="RR")
+#'MTCpairs <- data.frame(Update = c(rep("93 trials", 109), rep("98 trials", 5)), MTCpairs)
 
-pair <- function (treat, event, n, mean, sd, TE, seTE, time, data = NULL,
-          studlab, ...)
+
+
+pairo <- function(treat, event, n, mean, sd, TE, seTE, time, data = NULL,
+          studlab,...)
 {
   if (is.null(data))
     data <- sys.frame(sys.parent())
@@ -371,5 +375,6 @@ pair <- function (treat, event, n, mean, sd, TE, seTE, time, data = NULL,
   res <- res[order(factor(res$studlab, levels = levs), res$treat1,
                    res$treat2), ]
   rownames(res) <- 1:nrow(res)
-  res
+ res
+
 }
