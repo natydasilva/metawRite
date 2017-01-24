@@ -7,15 +7,15 @@
 #' @return returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 #' @importFrom magrittr %>%
 #' @export
-#' @examples
-#' load("./data/MTCdata.Rdata")
-#' MTCpairs <- pairwise(list(treat1, treat2, treat3),
-#'                 list(event1, event2, event3),
-#'                 list(n1, n2, n3),
-#'                 data = MTCdata,
-#'                 sm = "RR")
-#'MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
-#' pairwise_metafor(MTCpairs,  method  = "REML")
+# @examples
+# load("./data/MTCdata.Rdata")
+# MTCpairs <- pairwise(list(treat1, treat2, treat3),
+#                 list(event1, event2, event3),
+#                list(n1, n2, n3),
+#                 data = MTCdata,
+#                 sm = "RR")
+# MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
+# pairwise_metafor(MTCpairs,  method  = "REML")
 
 
 pairwise_metafor <- function(dataini, ... ) {
