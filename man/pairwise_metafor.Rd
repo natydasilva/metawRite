@@ -25,6 +25,6 @@ MTCpairs <- pairwise(list(treat1, treat2, treat3),
                 data = MTCdata,
                 sm = "RR")
 MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
-pairwise_metafor(MTCpairs,  method = "REML")
+pairwise_metafor(MTCpairs,  method  = "REML")
 }
 

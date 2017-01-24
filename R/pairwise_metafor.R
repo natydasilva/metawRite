@@ -15,18 +15,18 @@
 #'                 data = MTCdata,
 #'                 sm = "RR")
 #'MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
-#' pairwise_metafor(MTCpairs,  method = "REML")
+#' pairwise_metafor(MTCpairs,  method  = "REML")
 
 
 pairwise_metafor <- function(dataini, ... ) {
 
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
-  MTCpairs2 <- dataini %>% mutate_if(is.factor, as.character) %>%
-    mutate(id = 1:nrow(dataini), vi = seTE^2) %>%
-    ddply( .(id), function(x){
-      aux <-   str_sort(x[1,] %>%select(treat1,treat2))
+  MTCpairs2 <- dataini %>% dplyr::mutate_if(is.factor, as.character) %>%
+    dplyr::mutate(id = 1:nrow(dataini), vi = seTE^2) %>%
+    plyr::ddply( plyr::.(id), function(x){
+      aux <-   stringr::str_sort(x[1,] %>% dplyr::select(treat1,treat2))
 
-      mutate(x, trt.pair = str_c(aux[1],aux[2],sep ="-"))
+      dplyr::mutate(x, trt.pair =  stringr::str_c(aux[1],aux[2],sep ="-"))
 
     }
     )
@@ -35,16 +35,16 @@ pairwise_metafor <- function(dataini, ... ) {
 
 
 
-update<- MTCpairs2 %>% filter(up%in%"1")%>%
-  dlply(.(trt.pair), function(x)
+update<- MTCpairs2 %>% dplyr::filter(up%in%"1")%>%
+  plyr::dlply(plyr::.(trt.pair), function(x)
 
     list(x,rma( yi = TE, vi = vi, data = x))
 
   )
 
   update <- list()
-for(i in 1:length(unique(up))){
-update<- MTCpairs2  %>% filter(up<=i) %>% dlply(.(trt.pair), function(x)
+for(i in 1:length(unique(MTCpairs2$up))){
+update<- MTCpairs2  %>% dplyr::filter(up<=i) %>% plyr::dlply(plyr::.(trt.pair), function(x)
 
   list(x, rma(yi = TE, vi = vi,data=x))
 

@@ -14,9 +14,9 @@ Imports:
     knitr,
     magrittr,
     dplyr,
+    plotly,
     ggplot2,
-    geomnet,
-    plotly
+    geomnet
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)
