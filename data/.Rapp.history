@@ -1,0 +1,5 @@
+load("/Users/natydasilva/Documents/meta-shiny/metapkg/data/MTCdata.Rdata")
+head(MTCdata)
+ls
+ls()
+head(MTCredu)
