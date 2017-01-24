@@ -2,9 +2,9 @@
 #'
 #'\code{pairwise_metafor} implements .....
 #' @usage pairwise_metafor(dataini, ...)
-#' @param dataini Data frame with .....define... pairwise data info using pair function}
+#' @param dataini Data frame in an arm-based format (e.g. input format for WinBUGS)
 #' @param ... optional argument to functions, you can include any parameter to run rma function from metafor pkg
-#' @return return a list with information needed for metapairwise
+#' @return returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
@@ -52,7 +52,6 @@ update<- MTCpairs2  %>% filter(up<=i) %>% dlply(.(trt.pair), function(x)
 pair_result <- list(update, update)
 }
 
-#pair_result <- list(update, update)
 
 save(pair_result, file = "./data/pair_result.Rdata")
 

@@ -8,9 +8,9 @@ metaupdate(datapair, pair_result,trt.pair, treat1, treat2, id)
 }
 \arguments{
 \item{datapair}{Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
-and trt.pair with the string name for the pairwise comparison in alphabetic order.}
+and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder}
 
-\item{pair_result}{list with the pairwise meta-analysis models}
+\item{pair_result}{list with the pairwise meta-analysis models generated using pairwise_metafor in data folder}
 
 \item{trt.pair}{variable name with the pairwise treatment names}
 

@@ -7,10 +7,12 @@
 pairwise_metafor(dataini, ...)
 }
 \arguments{
+\item{dataini}{Data frame in an arm-based format (e.g. input format for WinBUGS)}
+
 \item{...}{optional argument to functions, you can include any parameter to run rma function from metafor pkg}
 }
 \value{
-return a list with information needed for metapairwise
+returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 }
 \description{
 \code{pairwise_metafor} implements .....
