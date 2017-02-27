@@ -19,7 +19,15 @@
 
 
 pairwise_metafor <- function(dataini, ... ) {
-
+  seTE <- NULL
+  id <-  NULL
+  treat1 <- NULL
+  treat2 <- NULL
+  up  <- NULL
+  trt.pair <- NULL
+  rma <- NULL
+  TE <- NULL
+  vi <- NULL
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
   MTCpairs2 <- dataini %>% dplyr::mutate_if(is.factor, as.character) %>%
     dplyr::mutate(id = 1:nrow(dataini), vi = seTE^2) %>%

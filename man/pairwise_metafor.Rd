@@ -17,4 +17,3 @@ returns to .Rdata one with tde data set in contrast-based format and the second 
 \description{
 \code{pairwise_metafor} implements .....
 }
-

@@ -3,9 +3,7 @@ Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: person("META-TEAM",  email = "ndasilva@iastate.edu", role = c("aut", "cre"))
 Depends:
-    R (>= 3.3.2),
-    metafor,
-    netmeta
+    R (>= 3.3.2)
 License: LGPL-2.1
 Encoding: UTF-8
 LazyData: yes
@@ -13,12 +11,16 @@ Imports:
     shiny,
     knitr,
     magrittr,
+    plyr,
     dplyr,
     plotly,
     ggplot2,
-    geomnet
+    geomnet,
+     metafor,
+    netmeta,
+    stringr
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -26,4 +26,3 @@ shiny app.
 \description{
 \code{metaupdate} implements .....
 }
-

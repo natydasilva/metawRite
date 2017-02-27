@@ -26,4 +26,3 @@ data(MTCpairs2)
 }
 }
 \keyword{datasets}
-
