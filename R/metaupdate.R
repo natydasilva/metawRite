@@ -13,8 +13,8 @@
 #' @importFrom magrittr %>%
 #' @export
 # @examples
-# load("./data/pair_result.Rdata")
-# load("./data/MTCpairs2.Rdata")
+#load("./data/pair_result.rda")
+#load("./data/MTCpairs2.rda")
 # metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
 metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
 

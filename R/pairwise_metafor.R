@@ -39,7 +39,7 @@ pairwise_metafor <- function(dataini, ... ) {
     }
     )
 
-  save(MTCpairs2, file ="./data/MTCpairs2.Rdata")
+  save(MTCpairs2, file ="./data/MTCpairs2.rda")
 
 
 
@@ -61,6 +61,6 @@ pair_result <- list(update, update)
 }
 
 
-save(pair_result, file = "./data/pair_result.Rdata")
+save(pair_result, file = "./data/pair_result.rda")
 
 }
