@@ -16,7 +16,7 @@ Imports:
     plotly,
     ggplot2,
     geomnet,
-     metafor,
+    metafor,
     netmeta,
     stringr
 Description: Shiny app to explore and update meta-analysis results.

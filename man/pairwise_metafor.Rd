@@ -15,5 +15,5 @@ pairwise_metafor(dataini, ...)
 returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 }
 \description{
-\code{pairwise_metafor} implements .....
+Restruscture data and pairwise meta-analysis model results using metafor package
 }
