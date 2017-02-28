@@ -24,5 +24,5 @@ and trt.pair with the string name for the pairwise comparison in alphabetic orde
 shiny app.
 }
 \description{
-\code{metaupdate} implements .....
+Meta-analysis shiny app
 }

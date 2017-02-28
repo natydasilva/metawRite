@@ -1,6 +1,5 @@
 #' Meta-analysis shiny app
 #'
-#'\code{metaupdate} implements .....
 #' @usage metaupdate(datapair, pair_result,trt.pair, treat1, treat2, id)
 #' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder
@@ -13,8 +12,6 @@
 #' @importFrom magrittr %>%
 #' @export
 # @examples
-#load("./data/pair_result.rda")
-#load("./data/MTCpairs2.rda")
 # metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
 metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
 
