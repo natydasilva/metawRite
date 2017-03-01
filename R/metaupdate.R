@@ -13,7 +13,7 @@
 #' @export
 # @examples
 # metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
-metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
+metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
 
   ui = shiny::fluidPage(
     theme = "bootstrap.css",
@@ -173,6 +173,15 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
             )
           ),
           shiny::fluidRow(shiny::column(
+            width =  6, shiny::plotOutput("forest")
+          ),shiny::column(
+            width =  6, shiny::plotOutput("funel")
+          )
+          # ,shiny::column(
+          #   width =  6, shiny::plotOutput("labbe")
+          # )
+          ),
+          shiny::fluidRow(shiny::column(
             width =  8, shiny::verbatimTextOutput("summary")
           )),
           shiny::fluidRow(
@@ -219,6 +228,26 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
       contentType = 'inst/application/pdf'
     )
 
+    output$forest <- shiny::renderPlot({
+      pair <- names(pair_result[[input$update]]) %in% input$pair
+      npair <- 1:length(pair)
+      metafor::forest(pair_result[[input$update]][[npair[pair]]][[2]])
+
+      })
+
+    output$funel <- shiny::renderPlot({
+      pair <- names(pair_result[[input$update]]) %in% input$pair
+      npair <- 1:length(pair)
+      metafor::funnel(pair_result[[input$update]][[npair[pair]]][[2]])
+
+    })
+
+    output$labbe <- shiny::renderPlot({
+      pair <- names(pair_result[[input$update]]) %in% input$pair
+      npair <- 1:length(pair)
+      metafor::labbe(pair_result[[input$update]][[npair[pair]]][[2]])
+
+    })
     output$summary <- shiny::renderPrint({
       pair <- names(pair_result[[input$update]]) %in% input$pair
 
@@ -226,9 +255,6 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
 
       return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
     })
-
-
-
 
     rv <- shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
 
@@ -264,11 +290,6 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id) {
 
   }
 
-
-
-
-
   shiny::shinyApp(ui, server )
-
 
 }
