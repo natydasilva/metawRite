@@ -182,7 +182,7 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
           # )
           ),
           shiny::fluidRow(shiny::column(
-            width =  8, shiny::verbatimTextOutput("summary")
+            width =  10, shiny::verbatimTextOutput("summary")
           )),
           shiny::fluidRow(
             shiny::column(

@@ -17,3 +17,4 @@ returns to .Rdata one with tde data set in contrast-based format and the second 
 \description{
 Restruscture data and pairwise meta-analysis model results using metafor package
 }
+
