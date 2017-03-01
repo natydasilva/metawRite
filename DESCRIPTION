@@ -13,9 +13,9 @@ Imports:
     magrittr,
     plyr,
     dplyr,
+    plotly,
     ggplot2,
     geomnet,
-    plotly,
     metafor,
     netmeta,
     stringr

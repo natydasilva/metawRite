@@ -8,14 +8,14 @@
 #' @export
 # @examples
 # load("./data/MTCdata.rda")
-# MTCpairs <- metafor::pairwise(list(treat1, treat2, treat3),
+# MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 #                 list(event1, event2, event3),
 #               list(n1, n2, n3),
 #                 data = MTCdata,
 #                 sm = "RR")
-#Include study updates id
+# #Include study updates id
 # MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
-# pairwise_metafor(MTCpairs,  method  = "REML")
+# pairwise_metafor(MTCpairs,  method  = "REML",measure="RR")
 
 pairwise_metafor <- function(dataini, ... ) {
   seTE <- NULL

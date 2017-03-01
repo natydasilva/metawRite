@@ -14,7 +14,7 @@
 # @examples
 # metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
 metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
-
+  library(plotly)
   ui = shiny::fluidPage(
     theme = "bootstrap.css",
     shiny::titlePanel("Meta-analysis app"),
