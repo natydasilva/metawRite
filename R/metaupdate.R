@@ -214,6 +214,9 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
       filename = 'myreport.pdf',
 
       content = function(file) {
+        tempReport <- file.path(tempdir(), "inst/input.Rnw")
+        file.copy("inst/input.Rnw", tempReport, overwrite = TRUE)
+
         writeLines(input$title, con = "inst/_title.Rnw")
         writeLines(input$abstract, con = "inst/_abstract.Rnw")
         writeLines(input$introduction, con = "inst/_introduction.Rnw")

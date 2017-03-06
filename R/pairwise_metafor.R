@@ -43,7 +43,7 @@ pairwise_metafor <- function(dataini, ... ) {
 update <- MTCpairs2 %>% dplyr::filter(up%in%"1")%>%
   plyr::dlply(plyr::.(trt.pair), function(x)
 
-    list(x,rma( yi = TE, vi = vi, data = x))
+    list(x,rma( yi = TE, vi = vi, data = x, measure="RR"))
 
   )
 
@@ -51,7 +51,7 @@ update <- MTCpairs2 %>% dplyr::filter(up%in%"1")%>%
 for(i in 1:length(unique(MTCpairs2$up))){
 update<- MTCpairs2  %>% dplyr::filter(up<=i) %>% plyr::dlply(plyr::.(trt.pair), function(x)
 
-  list(x, rma(yi = TE, vi = vi,data=x))
+  list(x, rma(yi = TE, vi = vi,data=x, measure="RR"))
 
   )
 pair_result <- list(update, update)
