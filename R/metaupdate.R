@@ -1,4 +1,3 @@
-times <- 0
 
 #' Meta-analysis shiny app
 #'
@@ -246,9 +245,14 @@ metaupdate <-
         filename = 'myreport.pdf',
 
         content = function(file) {
-          tmp <- tempdir()
-          tempReport <- file.path(tmp, "input.Rnw")
-          file.copy(file.path(dir, "title.Rnw"), tempReport, overwrite = TRUE)
+
+     #     browser()
+     #     tmp <- tempdir()
+          tmp <- system.file(package="metaupdate")
+          tempReport <- file.path(tmp, "input2.Rnw")
+          file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
+          dir <- system.file(package="metaupdate")
+
 
           dir <- system.file(package="metaupdate")
           writeLines(input$title, con = file.path(dir, "_title.Rnw"))
