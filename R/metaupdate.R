@@ -167,8 +167,8 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
               shiny::selectInput(
                 'pair',
                 'Pairwise treatment:',
-                unique(datapair$trt.pair),
-                selected = unique(datapair$trt.pair)[1]
+                datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique(),
+                selected = datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique()[1]
               )
             )
           ),

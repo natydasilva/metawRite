@@ -40,12 +40,12 @@ pairwise_metafor <- function(dataini, ... ) {
 
   save(MTCpairs2, file ="./data/MTCpairs2.rda")
 
-update <- MTCpairs2 %>% dplyr::filter(up%in%"1")%>%
-  plyr::dlply(plyr::.(trt.pair), function(x)
-
-    list(x,rma( yi = TE, vi = vi, data = x, measure="RR"))
-
-  )
+# update <- MTCpairs2 %>% dplyr::filter(up%in%"1")%>%
+#   plyr::dlply(plyr::.(trt.pair), function(x)
+#
+#     list(x,rma( yi = TE, vi = vi, data = x, measure="RR"))
+#
+#   )
 
   update <- list()
 for(i in 1:length(unique(MTCpairs2$up))){
