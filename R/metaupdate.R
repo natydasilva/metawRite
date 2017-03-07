@@ -248,9 +248,9 @@ metaupdate <-
         content = function(file) {
           tmp <- tempdir()
           tempReport <- file.path(tmp, "input.Rnw")
-          dir <- system.file(package="metaupdate")
-          file.copy(file.path(dir, "input.Rnw"), tempReport, overwrite = TRUE)
+          file.copy(file.path(dir, "title.Rnw"), tempReport, overwrite = TRUE)
 
+          dir <- system.file(package="metaupdate")
           writeLines(input$title, con = file.path(dir, "_title.Rnw"))
           writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
           writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
