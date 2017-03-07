@@ -1,3 +1,5 @@
+times <- 0
+
 #' Meta-analysis shiny app
 #'
 #' @usage metaupdate(datapair, pair_result,trt.pair, treat1, treat2, id)
@@ -27,7 +29,7 @@ metaupdate <-
       shiny::mainPanel(
         shiny::tabsetPanel(
           shiny::tabPanel(
-            "Publication",
+            "LSR-report",
             shiny::titlePanel("PRISMA Checklist"),
             shiny::fluidRow(shiny::column(
               width = 4,
@@ -198,7 +200,8 @@ metaupdate <-
 
           shiny::tabPanel(
             "Pair2" ,
-            shiny::fluidRow(shiny::uiOutput("myListup") ,
+            shiny::fluidRow(shiny::numericInput("updatelab", "Update:", value=1,  min = 1,
+                                         max = length(pair_result)),
                             shiny::uiOutput("mytreat")),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
@@ -243,18 +246,20 @@ metaupdate <-
         filename = 'myreport.pdf',
 
         content = function(file) {
-          tempReport <- file.path(tempdir(), "inst/input.Rnw")
-          file.copy("inst/input.Rnw", tempReport, overwrite = TRUE)
+          tmp <- tempdir()
+          tempReport <- file.path(tmp, "input.Rnw")
+          dir <- system.file(package="metaupdate")
+          file.copy(file.path(dir, "input.Rnw"), tempReport, overwrite = TRUE)
 
-          writeLines(input$title, con = "inst/_title.Rnw")
-          writeLines(input$abstract, con = "inst/_abstract.Rnw")
-          writeLines(input$introduction, con = "inst/_introduction.Rnw")
-          writeLines(input$method, con = "inst/_methods.Rnw")
-          writeLines(input$result, con = "inst/_results.Rnw")
-          writeLines(input$discussion, con = "inst/_discussion.Rnw")
-          writeLines(input$funding, con = "inst/_funding.Rnw")
-          out = knitr::knit2pdf(input = 'inst/input.Rnw',
-                                output = "inst/input.tex",
+          writeLines(input$title, con = file.path(dir, "_title.Rnw"))
+          writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
+          writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
+          writeLines(input$method, con = file.path(dir, "_methods.Rnw"))
+          writeLines(input$result, con = file.path(dir, "_results.Rnw"))
+          writeLines(input$discussion, con = file.path(dir, "_discussion.Rnw"))
+          writeLines(input$funding, con = file.path(dir, "_funding.Rnw"))
+          out = knitr::knit2pdf(input = tempReport,
+                                output = file.path(tmp, "input.tex"),
                                 clean = TRUE)
           file.rename(out, file) # move pdf to file for downloading
         },
@@ -263,38 +268,50 @@ metaupdate <-
       )
 
 
-      output$myListup <- shiny::renderUI({
-        shiny::selectInput("updatelab", "Update:",  unique(datapair$up))
-      })
+#      output$myListup <- shiny::renderUI({
+#        shiny::numericInput("updatelab", "Update:", value=1,  min = 1,
+#                            max = length(pair_result))
+#      })
 
       output$mytreat <- shiny::renderUI({
+
+        browser()
         shiny::selectInput(
           "treatpair",
           "Pairwise comparison:",
           datapair %>% filter(up == input$updatelab) %>% select(trt.pair) %>% unique()
-        )
+          )
       })
 
       output$forest2 <- shiny::renderPlot({
+        if(length(pair_result) < as.numeric(input$updatelab))
+          return(NULL)
+
         pair <-
-          names(pair_result[[as.numeric(input$updatelab)]]) %in% input$treatpair
+          names(pair_result[[input$updatelab]]) %in% input$treatpair
         npair <- 1:length(pair)
 
-        metafor::forest(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]])
+        metafor::forest(pair_result[[input$updatelab]][[npair[pair]]][[2]])
 
       })
 
       output$funel2 <- shiny::renderPlot({
+        if(length(pair_result) < as.numeric(input$updatelab))
+          return(NULL)
+
         pair <-
-          names(pair_result[[as.numeric(input$updatelab)]]) %in% input$treatpair
+          names(pair_result[[input$updatelab]]) %in% input$treatpair
         npair <- 1:length(pair)
-        metafor::funnel(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]])
+        metafor::funnel(pair_result[[input$updatelab]][[npair[pair]]][[2]])
 
       })
 
 
 
       output$forest <- shiny::renderPlot({
+        if(length(pair_result) < as.numeric(input$update))
+          return(NULL)
+
         pair <- names(pair_result[[input$update]]) %in% input$pair
         npair <- 1:length(pair)
         metafor::forest(pair_result[[input$update]][[npair[pair]]][[2]])
@@ -302,6 +319,9 @@ metaupdate <-
       })
 
       output$funel <- shiny::renderPlot({
+        if(length(pair_result) < as.numeric(input$update))
+          return(NULL)
+
         pair <- names(pair_result[[input$update]]) %in% input$pair
         npair <- 1:length(pair)
         metafor::funnel(pair_result[[input$update]][[npair[pair]]][[2]])
@@ -309,12 +329,16 @@ metaupdate <-
       })
 
       output$labbe <- shiny::renderPlot({
+        if(length(pair_result) < as.numeric(input$update))
+          return(NULL)
         pair <- names(pair_result[[input$update]]) %in% input$pair
         npair <- 1:length(pair)
         metafor::labbe(pair_result[[input$update]][[npair[pair]]][[2]])
 
       })
       output$summary <- shiny::renderPrint({
+        if(length(pair_result) < as.numeric(input$update))
+          return(NULL)
         pair <- names(pair_result[[input$update]]) %in% input$pair
 
         npair <- 1:length(pair)
@@ -324,12 +348,15 @@ metaupdate <-
 
 
       output$summary2 <- shiny::renderPrint({
+        if(length(pair_result) >= as.numeric(input$updatelab)) {
         pair <-
           names(pair_result[[as.numeric(input$updatelab)]]) %in% input$treatpair
 
         npair <- 1:length(pair)
 
         return(print(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]]))
+        }
+        print("pair_result too short")
       })
 
       rv <-
