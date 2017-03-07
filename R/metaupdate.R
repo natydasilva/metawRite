@@ -154,6 +154,7 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
           shiny::fluidRow(
             shiny::column(
               width = 3,
+             # uiOutput("update2")
               shiny::numericInput(
                 'update',
                 'Update:',
@@ -164,13 +165,14 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
             ),
             shiny::column(
               width = 6,
+              #uiOutput("pair2")
               shiny::selectInput(
                 'pair',
                 'Pairwise treatment:',
                 unique(datapair$trt.pair),
-                selected =  unique(datapair$trt.pair)[1]
-                #datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique(),
-                #selected = datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique()[1]
+                selected =   unique(datapair$trt.pair)[1]
+              #datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique(),
+              #selected = datapair%>%filter(up==input$update)%>%select(trt.pair) %>%unique()[1]
               )
             )
           ),
@@ -196,6 +198,24 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
         ),
 
         shiny::tabPanel(
+          "Pair2" ,
+          shiny::fluidRow(
+
+          shiny::uiOutput("myListup") ,
+          shiny::uiOutput("mytreat")
+),
+      shiny::fluidRow(shiny::column(
+        width =  6, shiny::plotOutput("forest2")
+       ),shiny::column(
+        width =  6, shiny::plotOutput("funel2")
+      )
+
+      ),
+shiny::fluidRow(shiny::column(
+  width =  10, shiny::verbatimTextOutput("summary2")
+))
+    ),
+        shiny::tabPanel(
           "Network" ,
 
 
@@ -204,7 +224,14 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
           shiny::fluidRow(shiny::column(width = 12 ,shiny::verbatimTextOutput("click")))
 
 
+        ),
+        shiny::tabPanel(
+          "Paper search",
+          shiny::column(5, "In this tab we can include possible search for new papers, next update material")
+
+
         )
+
             )
           )
       )
@@ -233,12 +260,38 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
       contentType = 'inst/application/pdf'
     )
 
+
+    output$myListup <- shiny::renderUI({
+      shiny::selectInput("updatelab", "Update:",  unique(datapair$up))
+    })
+
+    output$mytreat <- shiny::renderUI({
+      shiny::selectInput("treatpair", "Pairwise comparison:", datapair%>%filter(up==input$updatelab)%>%select(trt.pair) %>%unique())
+    })
+
+    output$forest2 <- shiny::renderPlot({
+      pair <- names(pair_result[[as.numeric(input$updatelab)]])%in%input$treatpair
+      npair <- 1:length(pair)
+
+      metafor::forest(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]])
+
+      })
+
+    output$funel2 <- shiny::renderPlot({
+      pair <- names(pair_result[[as.numeric(input$updatelab)]]) %in%input$treatpair
+      npair <- 1:length(pair)
+      metafor::funnel(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]])
+
+    })
+
+
+
     output$forest <- shiny::renderPlot({
       pair <- names(pair_result[[input$update]]) %in% input$pair
       npair <- 1:length(pair)
       metafor::forest(pair_result[[input$update]][[npair[pair]]][[2]])
 
-      })
+    })
 
     output$funel <- shiny::renderPlot({
       pair <- names(pair_result[[input$update]]) %in% input$pair
@@ -259,6 +312,15 @@ metaupdate <- function(datapair, pair_result, trt.pair, treat1, treat2, id){
       npair <- 1:length(pair)
 
       return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
+    })
+
+
+    output$summary2 <- shiny::renderPrint({
+      pair <- names(pair_result[[as.numeric(input$update)]]) %in% input$pair
+
+      npair <- 1:length(pair)
+
+      return(print(pair_result[[as.numeric(input$update)]][[npair[pair]]][[2]]))
     })
 
     rv <- shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
