@@ -14,7 +14,7 @@
 #                 data = MTCdata,
 #                 sm = "RR")
 #Include study updates id
-MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
+#MTCpairs <- data.frame(up = c(rep(1, 109), rep(2, 5)), MTCpairs)
 # pairwise_metafor(MTCpairs,  method  = "REML",measure="RR")
 
 pairwise_metafor <- function(dataini, ... ) {
