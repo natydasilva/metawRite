@@ -316,11 +316,11 @@ shiny::fluidRow(shiny::column(
 
 
     output$summary2 <- shiny::renderPrint({
-      pair <- names(pair_result[[as.numeric(input$update)]]) %in% input$pair
+      pair <- names(pair_result[[as.numeric(input$updatelab)]]) %in% input$treatpair
 
       npair <- 1:length(pair)
 
-      return(print(pair_result[[as.numeric(input$update)]][[npair[pair]]][[2]]))
+      return(print(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]]))
     })
 
     rv <- shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
