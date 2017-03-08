@@ -150,56 +150,56 @@ metaupdate <-
             shiny::fluidRow(align = "center", shiny::downloadButton('report'))
             ),
 
-          shiny::tabPanel(
-            "Pairwise",
-            shiny::fluidRow(shiny::column(
-              width = 3,
-              shiny::a(href = "http://www.metafor-project.org/doku.php/metafor", "metafor package help", target =
-                         "_blank")
-            )),
-            shiny::fluidRow(
-              shiny::column(
-                width = 3,
-                shiny::numericInput(
-                  'update',
-                  'Update:',
-                  1,
-                  min = 1,
-                  max = length(pair_result)
-                )
-              ),
-              shiny::column(
-                width = 6,
-                shiny::selectInput(
-                  'pair',
-                  'Pairwise treatment:',
-                  unique(datapair$trt.pair),
-                  selected =   unique(datapair$trt.pair)[1]
-                )
-              )
-            ),
-            shiny::fluidRow(
-              shiny::column(width =  6, shiny::plotOutput("forest")),
-              shiny::column(width =  6, shiny::plotOutput("funel"))
-              # ,shiny::column(
-              #   width =  6, shiny::plotOutput("labbe")
-              # )
-            ),
-            shiny::fluidRow(shiny::column(
-              width =  10, shiny::verbatimTextOutput("summary")
-            )),
-            shiny::fluidRow(
-              shiny::column(
-                width = 6,
-                align = "center",
-                shiny::tableOutput('tablerank')
-              )
-            )
-          ),
+          # shiny::tabPanel(
+          #   "Pairwise",
+          #   shiny::fluidRow(shiny::column(
+          #     width = 3,
+          #     shiny::a(href = "http://www.metafor-project.org/doku.php/metafor", "metafor package help", target =
+          #                "_blank")
+          #   )),
+          #   shiny::fluidRow(
+          #     shiny::column(
+          #       width = 3,
+          #       shiny::numericInput(
+          #         'update',
+          #         'Update:',
+          #         1,
+          #         min = 1,
+          #         max = length(pair_result)
+          #       )
+          #     ),
+          #     shiny::column(
+          #       width = 6,
+          #       shiny::selectInput(
+          #         'pair',
+          #         'Pairwise treatment:',
+          #         unique(datapair$trt.pair),
+          #         selected =   unique(datapair$trt.pair)[1]
+          #       )
+          #     )
+          #   ),
+          #   shiny::fluidRow(
+          #     shiny::column(width =  6, shiny::plotOutput("forest")),
+          #     shiny::column(width =  6, shiny::plotOutput("funel"))
+          #     # ,shiny::column(
+          #     #   width =  6, shiny::plotOutput("labbe")
+          #     # )
+          #   ),
+          #   shiny::fluidRow(shiny::column(
+          #     width =  10, shiny::verbatimTextOutput("summary")
+          #   )),
+          #   shiny::fluidRow(
+          #     shiny::column(
+          #       width = 6,
+          #       align = "center",
+          #       shiny::tableOutput('tablerank')
+          #     )
+          #   )
+          # ),
 
           shiny::tabPanel(
-            "Pair2" ,
-            shiny::fluidRow(shiny::numericInput("updatelab", "Update:", value=1,  min = 1,
+            "Pairwise" ,
+            shiny::fluidRow(shiny:: numericInput("updatelab", "Update:", value=1,  min = 1,
                                          max = length(pair_result)),
                             shiny::uiOutput("mytreat")),
             shiny::fluidRow(
@@ -272,95 +272,104 @@ metaupdate <-
       )
 
 
-#      output$myListup <- shiny::renderUI({
-#        shiny::numericInput("updatelab", "Update:", value=1,  min = 1,
-#                            max = length(pair_result))
-#      })
+     # output$myListup <- shiny::renderUI({
+     #   shiny::numericInput("updatelab", "Update:", value=1,  min = 1,
+     #                       max = length(pair_result))
+     # })
 
       output$mytreat <- shiny::renderUI({
 
-        browser()
+        #browser()
         shiny::selectInput(
           "treatpair",
           "Pairwise comparison:",
-          datapair %>% filter(up == input$updatelab) %>% select(trt.pair) %>% unique()
+          datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
           )
       })
 
-      output$forest2 <- shiny::renderPlot({
-        if(length(pair_result) < as.numeric(input$updatelab))
-          return(NULL)
 
-        pair <-
-          names(pair_result[[input$updatelab]]) %in% input$treatpair
+      output$forest2 <- shiny::renderPlot({
+         #autoInvalidate <- reactiveTimer(4000)
+        # if(length(pair_result) <as.numeric(input$updatelab))
+        #   return(NULL)
+
+        # if(autoInvalidate()<4000)
+        # return(NULL)
+         pardat <- pair_result[[as.numeric(input$updatelab)]]
+        pair <- names(pardat) %in% input$treatpair
         npair <- 1:length(pair)
 
-        metafor::forest(pair_result[[input$updatelab]][[npair[pair]]][[2]])
+        metafor::forest(pardat[[npair[pair]]][[2]])
+        })
 
-      })
+
+
+
 
       output$funel2 <- shiny::renderPlot({
-        if(length(pair_result) < as.numeric(input$updatelab))
-          return(NULL)
+        # if(length(pair_result) < as.numeric(input$updatelab))
+        #   return(NULL)
+
+        pardat <- pair_result[[as.numeric(input$updatelab)]]
 
         pair <-
-          names(pair_result[[input$updatelab]]) %in% input$treatpair
+          names(pardat) %in% input$treatpair
         npair <- 1:length(pair)
-        metafor::funnel(pair_result[[input$updatelab]][[npair[pair]]][[2]])
+        metafor::funnel(pardat[[npair[pair]]][[2]])
 
       })
 
 
 
-      output$forest <- shiny::renderPlot({
-        if(length(pair_result) < as.numeric(input$update))
-          return(NULL)
+      # output$forest <- shiny::renderPlot({
+      #   if(length(pair_result) < as.numeric(input$update))
+      #     return(NULL)
+      #   pair <- names(pair_result[[input$update]]) %in% input$pair
+      #   npair <- 1:length(pair)
+      #   metafor::forest(pair_result[[input$update]][[npair[pair]]][[2]])
+      #
+      # })
 
-        pair <- names(pair_result[[input$update]]) %in% input$pair
-        npair <- 1:length(pair)
-        metafor::forest(pair_result[[input$update]][[npair[pair]]][[2]])
+      # output$funel <- shiny::renderPlot({
+      #   # if(length(pair_result) < as.numeric(input$update))
+      #   #   return(NULL)
+      #
+      #   pair <- names(pair_result[[input$update]]) %in% input$pair
+      #   npair <- 1:length(pair)
+      #   metafor::funnel(pair_result[[input$update]][[npair[pair]]][[2]])
+      #
+      # })
 
-      })
-
-      output$funel <- shiny::renderPlot({
-        if(length(pair_result) < as.numeric(input$update))
-          return(NULL)
-
-        pair <- names(pair_result[[input$update]]) %in% input$pair
-        npair <- 1:length(pair)
-        metafor::funnel(pair_result[[input$update]][[npair[pair]]][[2]])
-
-      })
-
-      output$labbe <- shiny::renderPlot({
-        if(length(pair_result) < as.numeric(input$update))
-          return(NULL)
-        pair <- names(pair_result[[input$update]]) %in% input$pair
-        npair <- 1:length(pair)
-        metafor::labbe(pair_result[[input$update]][[npair[pair]]][[2]])
-
-      })
-      output$summary <- shiny::renderPrint({
-        if(length(pair_result) < as.numeric(input$update))
-          return(NULL)
-        pair <- names(pair_result[[input$update]]) %in% input$pair
-
-        npair <- 1:length(pair)
-
-        return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
-      })
+      # output$labbe <- shiny::renderPlot({
+      #   # if(length(pair_result) < as.numeric(input$update))
+      #   #   return(NULL)
+      #   pair <- names(pair_result[[input$update]]) %in% input$pair
+      #   npair <- 1:length(pair)
+      #   metafor::labbe(pair_result[[input$update]][[npair[pair]]][[2]])
+      #
+      # })
+      # output$summary <- shiny::renderPrint({
+      #   # if(length(pair_result) < as.numeric(input$update))
+      #   #   return(NULL)
+      #   pair <- names(pair_result[[input$update]]) %in% input$pair
+      #
+      #   npair <- 1:length(pair)
+      #
+      #   return(print(pair_result[[input$update]][[npair[pair]]][[2]]))
+      # })
 
 
       output$summary2 <- shiny::renderPrint({
-        if(length(pair_result) >= as.numeric(input$updatelab)) {
+
+        pardat <- pair_result[[as.numeric(input$updatelab)]]
+
         pair <-
-          names(pair_result[[as.numeric(input$updatelab)]]) %in% input$treatpair
+          names(pardat) %in% input$treatpair
 
         npair <- 1:length(pair)
 
-        return(print(pair_result[[as.numeric(input$updatelab)]][[npair[pair]]][[2]]))
-        }
-        print("pair_result too short")
+        return(print(pardat[[npair[pair]]][[2]]))
+
       })
 
       rv <-
