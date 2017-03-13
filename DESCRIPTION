@@ -18,6 +18,7 @@ Imports:
     geomnet,
     metafor,
     netmeta,
+    plotly,
     stringr
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:

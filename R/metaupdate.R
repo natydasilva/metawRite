@@ -21,7 +21,6 @@ metaupdate <-
            treat1,
            treat2,
            id) {
-    library(plotly)
     ui = shiny::fluidPage(
       theme = "bootstrap.css",
       shiny::titlePanel("Meta-analysis app"),
