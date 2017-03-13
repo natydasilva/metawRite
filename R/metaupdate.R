@@ -199,9 +199,9 @@ metaupdate <-
 
           shiny::tabPanel(
             "Pairwise" ,
-            shiny::fluidRow(shiny:: numericInput("updatelab", "Update:", value=1,  min = 1,
+            shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
                                          max = length(pair_result)),
-                            shiny::uiOutput("mytreat")),
+                            shiny::uiOutput("mytreat"), actionButton("goButton", "Initial selection!")),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
               shiny::column(width =  6, shiny::plotOutput("funel2"))
@@ -277,21 +277,35 @@ metaupdate <-
      #                       max = length(pair_result))
      # })
 
+      selectedData <- reactive({
+        input$goButton
+
+      })
+
+      sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
       output$mytreat <- shiny::renderUI({
 
+choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
         #browser()
         shiny::selectInput(
           "treatpair",
-          "Pairwise comparison:",
-          datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
+          "Pairwise comparison:", choices = choi
+
           )
       })
 
+     #  sel <-  reactive({
+     #  pardat <- pair_result[[as.numeric(input$updatelab)]]
+     # pair <- names(pardat) %in% input$treatpair
+     # npair <- 1:length(pair)
+     # sele <- pardat[[npair[pair]]]
+     # isolate(sele)
+     #   })
 
-      output$forest2 <- shiny::renderPlot({
+    output$forest2 <- shiny::renderPlot({
          #autoInvalidate <- reactiveTimer(4000)
-        # if(length(pair_result) <as.numeric(input$updatelab))
-        #   return(NULL)
+        if(selectedData()){
+
 
         # if(autoInvalidate()<4000)
         # return(NULL)
@@ -300,6 +314,9 @@ metaupdate <-
         npair <- 1:length(pair)
 
         metafor::forest(pardat[[npair[pair]]][[2]])
+        }else{
+          return(NULL)
+        }
         })
 
 
@@ -309,14 +326,16 @@ metaupdate <-
       output$funel2 <- shiny::renderPlot({
         # if(length(pair_result) < as.numeric(input$updatelab))
         #   return(NULL)
-
+        if(selectedData()){
         pardat <- pair_result[[as.numeric(input$updatelab)]]
 
         pair <-
           names(pardat) %in% input$treatpair
         npair <- 1:length(pair)
         metafor::funnel(pardat[[npair[pair]]][[2]])
-
+        }else{
+  return(NULL)
+}
       })
 
 
@@ -360,7 +379,7 @@ metaupdate <-
 
 
       output$summary2 <- shiny::renderPrint({
-
+        if(selectedData()){
         pardat <- pair_result[[as.numeric(input$updatelab)]]
 
         pair <-
@@ -369,7 +388,9 @@ metaupdate <-
         npair <- 1:length(pair)
 
         return(print(pardat[[npair[pair]]][[2]]))
-
+        }else{
+  return(NULL)
+}
       })
 
       rv <-
