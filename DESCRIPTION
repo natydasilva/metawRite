@@ -13,12 +13,11 @@ Imports:
     magrittr,
     plyr,
     dplyr,
-    plotly,
     ggplot2,
     geomnet,
+    plotly,
     metafor,
     netmeta,
-    plotly,
     stringr
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:

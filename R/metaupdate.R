@@ -21,6 +21,7 @@ metaupdate <-
            treat1,
            treat2,
            id) {
+    library(plotly)
     ui = shiny::fluidPage(
       theme = "bootstrap.css",
       shiny::titlePanel("Meta-analysis app"),
@@ -153,7 +154,7 @@ metaupdate <-
             "Pairwise" ,
             shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
                                          max = length(pair_result)),
-                            shiny::uiOutput("mytreat"), actionButton("goButton", "Initial selection!")),
+                            shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
               shiny::column(width =  6, shiny::plotOutput("funel2"))
@@ -224,11 +225,11 @@ metaupdate <-
       )
 
 
-      selectedData <- reactive({
+      selectedData <- shiny::reactive({
         input$goButton
 
       })
-
+up <- NULL
       sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
       output$mytreat <- shiny::renderUI({
 
