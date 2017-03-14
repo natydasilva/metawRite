@@ -180,7 +180,7 @@ metaupdate <-
           shiny::tabPanel(
             "Paper search",
             shiny::column(
-              5,
+              8,
               "In this tab we can include possible search for new papers, next update material"
             )
 
@@ -329,3 +329,5 @@ choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt
     shiny::shinyApp(ui, server)
 
   }
+
+
