@@ -24,6 +24,8 @@ metaupdate <-
     library(plotly)
     ui = shiny::fluidPage(
       theme = "bootstrap.css",
+      shinyjs::useShinyjs(),
+      #shinyjs::inlineCSS(appCSS),
       shiny::titlePanel("Meta-analysis app"),
       shiny::mainPanel(
         shiny::tabsetPanel(
@@ -95,7 +97,7 @@ metaupdate <-
                 Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.
                 '
               )
-              )),
+            )),
 
             shiny::fluidRow(shiny::column(
               8,
@@ -114,7 +116,7 @@ metaupdate <-
                 Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).
                 '
               )
-              )),
+            )),
 
             shiny::fluidRow(shiny::column(
               8,
@@ -129,7 +131,7 @@ metaupdate <-
                 Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.
                 '
               )
-              )),
+            )),
             shiny::fluidRow(
               shiny::column(
                 8,
@@ -145,15 +147,48 @@ metaupdate <-
                   type = 'text/css',
                   "#introduction { height: 100px; width: 100%; display: block;}"
                 )
-                )
-              ),
-            shiny::fluidRow(align = "center", shiny::downloadButton('report'))
+              )
             ),
+            shiny::fluidRow(align = "center", shiny::downloadButton('report'))
+          ),
+          shiny::tabPanel("LSR-savefile",
+                          shinyjs::hidden(
+                            shiny::div(
+                              id = "repo",
+                              shiny::selectInput("update", "Update report",reportnames)
 
+                            )
+                          ),
+                          shiny::div(
+                            id = "form",
+
+                            shiny::fluidRow(shiny::column(
+                              8,
+                              shiny::textAreaInput('title2', 'Title', width = "900px", value = 'Title: Identify the report as a systematic review, meta-analysis, or both'))),
+                            shiny::fluidRow(shiny::column(
+                              8,
+                              shiny::textAreaInput(
+                                'abstract2',
+                                'Abstract',
+                                rows = 4,
+                                width = "900px",
+                                value = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.'
+                              )
+                            )),
+                            shiny::actionButton("submit", "Submit", class = "btn-primary")
+                          ),shinyjs::hidden(
+                            shiny::div(
+                              id = "thankyou_msg",
+                              shiny::h3("Thanks, your report was submitted successfully!"),
+                              shiny::actionLink("submit_another", "Submit another report")
+                            )
+                          )
+
+          ),
           shiny::tabPanel(
             "Pairwise" ,
             shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
-                                         max = length(pair_result)),
+                                                 max = length(pair_result)),
                             shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
@@ -176,31 +211,37 @@ metaupdate <-
             ))
 
 
-          ),
-          shiny::tabPanel(
-            "Paper search",
-            shiny::column(
-              8,
-              "In this tab we can include possible search for new papers, next update material"
-            )
-
-
           )
+          #,
+          # shiny::tabPanel(
+          #   "Paper search",
+          #   shiny::column(
+          #     8,
+          #     "In this tab we can include possible search for new papers, next update material"
+          #   )
+          #
+          #
+          # )
 
-              )
-            )
         )
+      )
+    )
 
 
 
     server = function(input, output) {
+
+      ###############
+      #   TAB 1     #
+      ###############
+
       output$report = shiny::downloadHandler(
         filename = 'myreport.pdf',
 
         content = function(file) {
 
-     #     browser()
-     #     tmp <- tempdir()
+          #     browser()
+          #     tmp <- tempdir()
           tmp <- system.file(package="metaupdate")
           tempReport <- file.path(tmp, "input2.Rnw")
           file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
@@ -227,32 +268,86 @@ metaupdate <-
         input$goButton
 
       })
-up <- NULL
+
+      ###############
+      #   TAB 2     #
+      ###############
+      filenames<- dir("Responses")
+      reportnames <- NULL
+      reportnames <- substr(filenames, 1,15)
+
+      fieldsAll <- c("title2", "abstract2")
+      responsesDir <- file.path("Responses")
+
+
+      formData <- shiny::reactive({
+        data <- sapply(fieldsAll, function(x) input[[x]])
+        data <- t(data)
+        data
+      })
+
+      saveData <- function(data) {
+        fileName <- sprintf("Responses/%s_%s.Rnw",
+                            Timereport(),
+                            digest::digest(data))
+
+        fileConn<-file(  fileName)
+        #dir <- system.file(package="metaupdate")
+
+        writeLines(data, fileConn)
+        close(fileConn)
+
+
+      }
+      # action to take when submit button is pressed
+      # observeEvent(input$submit, {
+      #   saveData(formData())
+      # })
+      Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+
+      shiny::observeEvent(input$submit, {
+        saveData(formData())
+        shinyjs::reset("form")
+        shinyjs::hide("form")
+        shinyjs::show("thankyou_msg")
+      })
+
+      shiny::observeEvent(input$submit_another, {
+        shinyjs::show("form")
+        shinyjs::show("repo")
+        shinyjs::hide("thankyou_msg")
+      })
+
+      ###############
+      #   TAB 3     #
+      ###############
+
+      up <- NULL
       sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
       output$mytreat <- shiny::renderUI({
 
-choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
+        choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
         #browser()
         shiny::selectInput(
           "treatpair",
           "Pairwise comparison:", choices = choi
 
-          )
+        )
       })
 
-    output$forest2 <- shiny::renderPlot({
+      output$forest2 <- shiny::renderPlot({
 
         if(selectedData()){
 
-         pardat <- pair_result[[as.numeric(input$updatelab)]]
-        pair <- names(pardat) %in% input$treatpair
-        npair <- 1:length(pair)
+          pardat <- pair_result[[as.numeric(input$updatelab)]]
+          pair <- names(pardat) %in% input$treatpair
+          npair <- 1:length(pair)
 
-        metafor::forest(pardat[[npair[pair]]][[2]])
+          metafor::forest(pardat[[npair[pair]]][[2]])
         }else{
           return(NULL)
         }
-        })
+      })
 
 
 
@@ -261,33 +356,36 @@ choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt
       output$funel2 <- shiny::renderPlot({
 
         if(selectedData()){
-        pardat <- pair_result[[as.numeric(input$updatelab)]]
+          pardat <- pair_result[[as.numeric(input$updatelab)]]
 
-        pair <-
-          names(pardat) %in% input$treatpair
-        npair <- 1:length(pair)
-        metafor::funnel(pardat[[npair[pair]]][[2]])
+          pair <-
+            names(pardat) %in% input$treatpair
+          npair <- 1:length(pair)
+          metafor::funnel(pardat[[npair[pair]]][[2]])
         }else{
-  return(NULL)
-}
+          return(NULL)
+        }
       })
 
 
       output$summary2 <- shiny::renderPrint({
         if(selectedData()){
-        pardat <- pair_result[[as.numeric(input$updatelab)]]
+          pardat <- pair_result[[as.numeric(input$updatelab)]]
 
-        pair <-
-          names(pardat) %in% input$treatpair
+          pair <-
+            names(pardat) %in% input$treatpair
 
-        npair <- 1:length(pair)
+          npair <- 1:length(pair)
 
-        return(print(pardat[[npair[pair]]][[2]]))
+          return(print(pardat[[npair[pair]]][[2]]))
         }else{
-  return(NULL)
-}
+          return(NULL)
+        }
       })
 
+      ###############
+      #   TAB 4     #
+      ###############
       rv <-
         shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
 
@@ -321,6 +419,10 @@ choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt
           d
         }
       })
+
+
+
+
 
     }
 
