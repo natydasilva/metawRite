@@ -9,6 +9,9 @@ Encoding: UTF-8
 LazyData: yes
 Imports:
     shiny,
+    DT,
+    shinyjs,
+    htmltools,
     knitr,
     magrittr,
     plyr,

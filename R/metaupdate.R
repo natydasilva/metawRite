@@ -206,8 +206,6 @@ metaupdate <-
           file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
           dir <- system.file(package="metaupdate")
 
-
-          dir <- system.file(package="metaupdate")
           writeLines(input$title, con = file.path(dir, "_title.Rnw"))
           writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
           writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
