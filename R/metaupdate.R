@@ -22,6 +22,9 @@ metaupdate <-
            treat2,
            id) {
     library(plotly)
+    filenames<- dir("Responses")
+    reportnames <- NULL
+    reportnames <- substr(filenames, 1,15)
     ui = shiny::fluidPage(
       theme = "bootstrap.css",
       shinyjs::useShinyjs(),
@@ -32,19 +35,19 @@ metaupdate <-
           shiny::tabPanel(
             "LSR-report",
             shiny::titlePanel("PRISMA Checklist"),
-            shiny::fluidRow(shiny::column(
-              width = 4,
-              shiny::a(href = "http://www.sciencedirect.com/science/article/pii/S0167587712004023", "Version 1 June 2013", target =
-                         "_blank")
-            )),
-            shiny::fluidRow(shiny::column(
-              width = 4,
-              shiny::a(
-                href = "http://www.sciencedirect.com/science/article/pii/S016758771630191X",
-                "Version 2 September 2016",
-                target = "_blank"
-              )
-            )),
+            # shiny::fluidRow(shiny::column(
+            #   width = 4,
+            #   shiny::a(href = "http://www.sciencedirect.com/science/article/pii/S0167587712004023", "Version 1 June 2013", target =
+            #              "_blank")
+            # )),
+            # shiny::fluidRow(shiny::column(
+            #   width = 4,
+            #   shiny::a(
+            #     href = "http://www.sciencedirect.com/science/article/pii/S016758771630191X",
+            #     "Version 2 September 2016",
+            #     target = "_blank"
+            #   )
+            # )),
 
             shiny::fluidRow(shiny::column(
               8,
@@ -151,6 +154,7 @@ metaupdate <-
             ),
             shiny::fluidRow(align = "center", shiny::downloadButton('report'))
           ),
+#########################
           shiny::tabPanel("LSR-savefile",
                           shinyjs::hidden(
                             shiny::div(
@@ -185,7 +189,9 @@ metaupdate <-
                           )
 
           ),
-          shiny::tabPanel(
+###################
+
+           shiny::tabPanel(
             "Pairwise" ,
             shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
                                                  max = length(pair_result)),
@@ -272,9 +278,7 @@ metaupdate <-
       ###############
       #   TAB 2     #
       ###############
-      filenames<- dir("Responses")
-      reportnames <- NULL
-      reportnames <- substr(filenames, 1,15)
+
 
       fieldsAll <- c("title2", "abstract2")
       responsesDir <- file.path("Responses")
