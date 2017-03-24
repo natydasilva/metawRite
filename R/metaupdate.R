@@ -25,6 +25,7 @@ metaupdate <-
     filenames<- dir("Responses")
     reportnames <- NULL
     reportnames <- substr(filenames, 1,15)
+    lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both')
     ui = shiny::fluidPage(
       theme = "bootstrap.css",
       shinyjs::useShinyjs(),
@@ -168,7 +169,7 @@ metaupdate <-
 
                             shiny::fluidRow(shiny::column(
                               8,
-                              shiny::textAreaInput('title2', 'Title', width = "900px", value = 'Title: Identify the report as a systematic review, meta-analysis, or both'))),
+                              shiny::textAreaInput('title2', 'Title', width = "900px", value = lsr$title))),
                             shiny::fluidRow(shiny::column(
                               8,
                               shiny::textAreaInput(
@@ -311,7 +312,7 @@ metaupdate <-
 
       shiny::observeEvent(input$submit, {
         saveData(formData())
-        shinyjs::reset("form")
+        #shinyjs::reset("form")
         shinyjs::hide("form")
         shinyjs::show("thankyou_msg")
       })
