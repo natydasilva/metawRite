@@ -25,69 +25,10 @@ metaupdate <-
     filenames<- dir("Responses")
     reportnames <- NULL
     reportnames <- substr(filenames, 1,15)
-    lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both')
-    ui = shiny::fluidPage(
-      theme = "bootstrap.css",
-      shinyjs::useShinyjs(),
-      #shinyjs::inlineCSS(appCSS),
-      shiny::titlePanel("Meta-analysis app"),
-      shiny::mainPanel(
-        shiny::tabsetPanel(
-          shiny::tabPanel(
-            "LSR-report",
-            shiny::titlePanel("PRISMA Checklist"),
-            # shiny::fluidRow(shiny::column(
-            #   width = 4,
-            #   shiny::a(href = "http://www.sciencedirect.com/science/article/pii/S0167587712004023", "Version 1 June 2013", target =
-            #              "_blank")
-            # )),
-            # shiny::fluidRow(shiny::column(
-            #   width = 4,
-            #   shiny::a(
-            #     href = "http://www.sciencedirect.com/science/article/pii/S016758771630191X",
-            #     "Version 2 September 2016",
-            #     target = "_blank"
-            #   )
-            # )),
-
-            shiny::fluidRow(shiny::column(
-              8,
-              shiny::textAreaInput('title', 'Title', width = "900px", value = 'Title: Identify the report as a systematic review, meta-analysis, or both')
-            )) ,
-
-            shiny::fluidRow(shiny::column(
-              8,
-              shiny::textAreaInput(
-                'abstract',
-                'Abstract',
-                rows = 4,
-                width = "900px",
-                value = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.'
-              )
-
-
-            )),
-
-            shiny::fluidRow(shiny::column(
-              8,
-              shiny::textAreaInput(
-                'introduction',
-                'Introduction',
-                rows = 4,
-                width = "900px",
-                value = 'Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).'
-              )
-
-            )),
-            shiny::fluidRow(shiny::column(
-              8,
-              shiny::textAreaInput(
-                'method',
-                'Methods',
-                rows = 15,
-                width = "900px",
-                value = '
-                Protocol and registration: Indicate if a review protocol exists, if and where it can be accessed (e.g., Web address), and, if available, provide registration information including registration number.
+    lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
+                abstract = "Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.",
+                introduction = "Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).",
+                method = "Protocol and registration: Indicate if a review protocol exists, if and where it can be accessed (e.g., Web address), and, if available, provide registration information including registration number.
                 Eligibility criteria: Specify study characteristics (e.g., PICOS, length of follow-up) and report characteristics (e.g., years considered, language, publication status) used as criteria for eligibility, giving rationale.
                 Information sources: Describe all information sources (e.g., databases with dates of coverage, contact with study authors to identify additional studies) in the search and date last searched.
                 Search: Present full electronic search strategy for at least one database, including any limits used, such that it could be repeated.
@@ -98,9 +39,61 @@ metaupdate <-
                 Summary measures:
                 Synthesis of results: Describe the methods of handling data and combining results of studies, if done, including measures of consistency (e.g., I2) for each meta-analysis.
                 Risk of bias across studies:Specify any assessment of risk of bias that may affect the cumulative evidence (e.g., publication bias, selective reporting within studies).
-                Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.
-                '
-              )
+                Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.",
+                result = " Study selection: Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram.
+                Study characteristics: For each study, present characteristics for which data were extracted (e.g., study size, PICOS, follow-up period) and provide the citations.
+                Risk of bias within studies: Present data on risk of bias of each study and, if available, any outcome level assessment (see item 12).
+                Results of individual studies: For all outcomes considered (benefits or harms), present, for each study: (a) simple summary data for each intervention group (b) effect estimates and confidence intervals, ideally with a forest plot.
+                Synthesis of results: Present results of each meta-analysis done, including confidence intervals and measures of consistency.
+                Risk of bias across studies: Present results of any assessment of risk of bias across studies (see Item 15).
+                Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).",
+                discussion = "   Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
+                Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
+                Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
+                funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
+                  ")
+
+    ui = shiny::fluidPage(
+      theme = "bootstrap.css",
+      shinyjs::useShinyjs(),
+      #shinyjs::inlineCSS(appCSS),
+      shiny::titlePanel("Meta-analysis app"),
+      shiny::mainPanel(
+        shiny::tabsetPanel(
+          shiny::tabPanel(
+            "LSR-report",
+            shiny::titlePanel("PRISMA Checklist"),
+            shiny::fluidRow(shiny::column(
+              8,
+              shiny::textAreaInput('title', 'Title', width = "900px", value = lsr$title)
+            )),
+            shiny::fluidRow(shiny::column(
+              8,
+              shiny::textAreaInput(
+                'abstract',
+                'Abstract',
+                rows = 4,
+                width = "900px",
+                value = lsr$abstract)
+              )),
+
+            shiny::fluidRow(shiny::column(
+              8,
+              shiny::textAreaInput(
+                'introduction',
+                'Introduction',
+                rows = 4,
+                width = "900px",
+                value = lsr$introduction )
+              )),
+            shiny::fluidRow(shiny::column(
+              8,
+              shiny::textAreaInput(
+                'method',
+                'Methods',
+                rows = 15,
+                width = "900px",
+                value = lsr$method)
             )),
 
             shiny::fluidRow(shiny::column(
@@ -110,16 +103,7 @@ metaupdate <-
                 'Results',
                 rows = 7,
                 width = "900px",
-                value = '
-                Study selection: Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram.
-                Study characteristics: For each study, present characteristics for which data were extracted (e.g., study size, PICOS, follow-up period) and provide the citations.
-                Risk of bias within studies: Present data on risk of bias of each study and, if available, any outcome level assessment (see item 12).
-                Results of individual studies: For all outcomes considered (benefits or harms), present, for each study: (a) simple summary data for each intervention group (b) effect estimates and confidence intervals, ideally with a forest plot.
-                Synthesis of results: Present results of each meta-analysis done, including confidence intervals and measures of consistency.
-                Risk of bias across studies: Present results of any assessment of risk of bias across studies (see Item 15).
-                Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).
-                '
-              )
+                value = lsr$result)
             )),
 
             shiny::fluidRow(shiny::column(
@@ -129,12 +113,7 @@ metaupdate <-
                 'Discussion',
                 rows = 4,
                 width = "900px",
-                value = '
-                Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
-                Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
-                Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.
-                '
-              )
+                value = lsr$discussion)
             )),
             shiny::fluidRow(
               shiny::column(
@@ -144,8 +123,7 @@ metaupdate <-
                   'Funding',
                   rows = 2,
                   width = "900px",
-                  value = 'Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
-                  '
+                  value = lsr$funding
                 ),
                 shiny::tags$style(
                   type = 'text/css',
@@ -291,6 +269,7 @@ metaupdate <-
         data
       })
 
+
       saveData <- function(data) {
         fileName <- sprintf("Responses/%s_%s.Rnw",
                             Timereport(),
@@ -312,7 +291,7 @@ metaupdate <-
 
       shiny::observeEvent(input$submit, {
         saveData(formData())
-        #shinyjs::reset("form")
+        shinyjs::reset("form")
         shinyjs::hide("form")
         shinyjs::show("thankyou_msg")
       })
