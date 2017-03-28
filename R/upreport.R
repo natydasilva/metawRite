@@ -1,0 +1,308 @@
+
+#' Meta-analysis reportshiny app
+#'
+#' @usage upreport(datapair, pair_result,trt.pair, treat1, treat2, id)
+#' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
+#' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder
+#' @param pair_result  list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
+#' @param trt.pair variable name with the pairwise treatment names
+#' @param treat1 variable name with the treatment 1 in datapair
+#' @param treat2 variable name with the treatment 2 in datapair
+#' @param id variable with id information in datapair
+#' @return shiny app.
+#' @importFrom magrittr %>%
+#' @export
+
+
+lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
+            abstract = "Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.",
+            introduction = "Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).",
+            method = "Protocol and registration: Indicate if a review protocol exists, if and where it can be accessed (e.g., Web address), and, if available, provide registration information including registration number.
+            Eligibility criteria: Specify study characteristics (e.g., PICOS, length of follow-up) and report characteristics (e.g., years considered, language, publication status) used as criteria for eligibility, giving rationale.
+            Information sources: Describe all information sources (e.g., databases with dates of coverage, contact with study authors to identify additional studies) in the search and date last searched.
+            Search: Present full electronic search strategy for at least one database, including any limits used, such that it could be repeated.
+            Study selection: State the process for selecting studies (i.e., screening, eligibility, included in systematic review, and, if applicable, included in the meta-analysis).
+            Data collection process: Describe method of data extraction from reports (e.g., piloted forms, independently, in duplicate) and any processes for obtaining and confirming data from investigators.
+            Data items: List and define all variables for which data were sought (e.g., PICOS, funding sources) and any assumptions and simplifications made.
+            Risk of bias in individual studies: Describe methods used for assessing risk of bias of individual studies (including specification of whether this was done at the study or outcome level), and how this information is to be used in any data synthesis.
+            Summary measures:
+            Synthesis of results: Describe the methods of handling data and combining results of studies, if done, including measures of consistency (e.g., I2) for each meta-analysis.
+            Risk of bias across studies:Specify any assessment of risk of bias that may affect the cumulative evidence (e.g., publication bias, selective reporting within studies).
+            Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.",
+            result = " Study selection: Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram.
+            Study characteristics: For each study, present characteristics for which data were extracted (e.g., study size, PICOS, follow-up period) and provide the citations.
+            Risk of bias within studies: Present data on risk of bias of each study and, if available, any outcome level assessment (see item 12).
+            Results of individual studies: For all outcomes considered (benefits or harms), present, for each study: (a) simple summary data for each intervention group (b) effect estimates and confidence intervals, ideally with a forest plot.
+            Synthesis of results: Present results of each meta-analysis done, including confidence intervals and measures of consistency.
+            Risk of bias across studies: Present results of any assessment of risk of bias across studies (see Item 15).
+            Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).",
+            discussion = "   Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
+            Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
+            Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
+            funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
+            ")
+
+
+
+ui = shiny::fluidPage(
+  shinyjs::useShinyjs(),
+  #shinyjs::inlineCSS(appCSS),
+  shiny::titlePanel("Review, write and update meta-analysis results"),
+  shinyjs::hidden(
+    shiny::div(
+      id = "reportupdate",
+      #selectInput("update", "Update report",filenames)
+      uiOutput("update")
+    )
+  ),
+
+  shiny::div(
+    id = "form",
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'report',
+        'Title',rows = 1, width = "900px", value = lsr$title))),
+
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'abstract',
+        'Abstract',
+        rows = 4,
+        width = "900px",
+        value = lsr$abstract, resize ="vertical")
+    )),
+
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'introduction',
+        'Introduction',
+        rows = 4,
+        width = "900px",
+        value = lsr$introduction,  resize ="vertical" )
+    )),
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'method',
+        'Methods',
+        rows = 8,
+        width = "900px",
+        value = lsr$method, resize ="vertical")
+    )),
+
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'result',
+        'Results',
+        rows = 8,
+        width = "900px",
+        value = lsr$result, resize ="vertical")
+    )),
+
+    shiny::fluidRow(shiny::column(
+      8,
+      shiny::textAreaInput(
+        'discussion',
+        'Discussion',
+        rows = 4,
+        width = "900px",
+        value = lsr$discussion, resize ="vertical")
+    )),
+    shiny::fluidRow(
+      shiny::column(
+        8,
+        shiny::textAreaInput(
+          'funding',
+          'Funding',
+          rows = 2,
+          width = "900px",
+          value = lsr$funding, resize ="vertical"
+        )
+      )
+    ),
+
+
+    shiny::actionButton("submit", "Submit", class = "btn-primary"),
+    shiny::downloadButton('download')
+  ), shiny::fluidRow(shiny::column(
+    8,
+    HTML("<div style='height: 150px;'>"),
+
+    HTML("</div>")
+    )),
+  shinyjs::hidden(
+    shiny::div(
+      id = "thankyou_msg",
+      h3("Thanks, your report was submitted successfully!"),
+      actionLink("submit_another", "Submit another report")
+    )
+  )
+
+)
+
+
+server = function(input, output, session) {
+
+
+  output$download = shiny::downloadHandler(
+  #observeEvent(input$download, {shiny::downloadHandler(
+  filename = 'myreport.pdf',
+
+    content = function(file) {
+
+          # browser()
+          # tmp <- tempdir()
+      tmp <- system.file(package="metaupdate")
+      tempReport <- file.path(tmp, "input22.Rnw")
+      file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
+      dir <- system.file(package="metaupdate")
+
+      writeLines(input$report, con = file.path(dir, "_report.Rnw"))
+      writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
+      writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
+      writeLines(input$method, con = file.path(dir, "_methods.Rnw"))
+      writeLines(input$result, con = file.path(dir, "_results.Rnw"))
+      writeLines(input$discussion, con = file.path(dir, "_discussion.Rnw"))
+      writeLines(input$funding, con = file.path(dir, "_funding.Rnw"))
+      out = knitr::knit2pdf(input = tempReport,
+                            output = file.path(tmp, "input.tex"),
+                            clean = TRUE)
+      file.rename(out, file) # move pdf to file for downloading
+    }
+
+  )
+  #})
+
+
+
+  responsesDir <- file.path("Responses")
+
+  #Dynamic UI with updated information of the files in Responses file
+  output$update <- renderUI({
+    filenames <- sort(dir("Responses"),TRUE)
+    reportnames <- unique(substr(filenames, 1,15))
+    selectInput("update", "Update report", reportnames)
+  })
+
+  #Make reactive the new information in the report
+
+  # formData <- reactive({
+  #   data <- input$report
+  # })
+
+  report <- reactive({
+    list("report",input$report)
+  })
+    abstract <- reactive({
+      list("abstract", input$abstract)
+      })
+    introduction <- reactive({
+      list("introduction", input$introduction)
+    })
+
+    method <- reactive({
+      list("method", input$method)
+    })
+
+    result <- reactive({
+
+      list("result", input$result)
+    })
+
+    discussion <- reactive({
+      list("discussion", input$discussion)
+    })
+
+    funding <- reactive({
+      list("funding", input$funding)
+    })
+
+
+  # Save the new information in  the report  in a txt with name = date and time
+
+  Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+ccaux <- list("report", "abstract", "introduction", "method", "result", "discussion", "funding")
+  saveData <- function(data,cc) {
+if(length(data[[2]] > 0)){
+    fileName <- paste("Responses/",Timereport(),data[[1]],".txt", sep="")
+    fileConn <- file(fileName)
+    writeLines(data[[2]], fileConn)
+    close(fileConn)
+}else{
+  fileName <- paste("Responses/",Timereport(),cc,".txt", sep="")
+  fileConn <- file(fileName)
+  writeLines(input$noquote(cc), fileConn)
+  close(fileConn)
+
+}
+
+  }
+
+
+
+  # action to take when submit button is pressed
+
+  observeEvent(input$submit, {
+    saveData(report(), ccaux[[1]])
+    saveData(abstract(), ccaux[[2]])
+    saveData(introduction(), ccaux[[3]])
+    saveData(method(), ccaux[[4]])
+    saveData(result(), ccaux[[5]])
+    saveData(discussion(), ccaux[[6]])
+    saveData(funding(), ccaux[[7]])
+    shinyjs::reset("form")
+    shinyjs::hide("form")
+    shinyjs::show("thankyou_msg")
+  })
+
+
+  observeEvent(input$update,{
+    x <- input$update
+    reportPath <- file.path(paste("Responses/",x,ccaux[[1]],".txt", sep=""))
+    abstractPath <- file.path(paste("Responses/",x,ccaux[[2]],".txt", sep=""))
+    introductionPath <- file.path(paste("Responses/",x,ccaux[[3]],".txt", sep=""))
+    methodPath <- file.path(paste("Responses/",x,ccaux[[4]],".txt", sep=""))
+    resultPath <- file.path(paste("Responses/",x,ccaux[[5]],".txt", sep=""))
+    discussionPath <- file.path(paste("Responses/",x,ccaux[[6]],".txt", sep=""))
+    fundingPath <- file.path(paste("Responses/",x,ccaux[[7]],".txt", sep=""))
+
+    reportUpdate <-readLines(reportPath)
+    abstractUpdate <-readLines(abstractPath)
+    introductionUpdate <-readLines(introductionPath)
+    methodUpdate <-readLines(methodPath)
+    resultUpdate <-readLines(resultPath)
+    discussionUpdate <-readLines(discussionPath)
+    fundingUpdate <-readLines(fundingPath)
+
+    updateTextAreaInput(session, "report", value = reportUpdate)
+    updateTextAreaInput(session, "abstract", value = abstractUpdate)
+    updateTextAreaInput(session, "introduction", value = introductionUpdate)
+    updateTextAreaInput(session, "method", value = methodUpdate)
+    updateTextAreaInput(session, "result", value = resultUpdate)
+    updateTextAreaInput(session, "discussion", value = discussionUpdate)
+    updateTextAreaInput(session, "funding", value = fundingUpdate)
+
+  })
+
+
+
+  # action to take when a submit another button is pressed
+
+  observeEvent(input$submit_another, {
+    shinyjs::show("reportupdate")
+    shinyjs::show("form")
+    shinyjs::hide("thankyou_msg")
+  })
+
+
+
+
+}
+
+
+shiny::shinyApp(ui,server)
+

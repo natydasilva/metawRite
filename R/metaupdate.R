@@ -227,6 +227,7 @@ metaupdate <-
 
           #     browser()
           #     tmp <- tempdir()
+
           tmp <- system.file(package="metaupdate")
           tempReport <- file.path(tmp, "input2.Rnw")
           file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
