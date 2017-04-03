@@ -1,0 +1,10 @@
+\documentclass{article}
+
+\begin{document}
+
+
+
+<<report, child='_report.Rnw'>>=
+@
+
+\end{document}
