@@ -21,7 +21,8 @@ metaupdate <-
            treat1,
            treat2,
            id) {
-    filenames<- dir("Responses")
+
+    filenames<- dir("tools")
     reportnames <- NULL
     reportnames <- substr(filenames, 1,15)
     lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
@@ -51,6 +52,7 @@ metaupdate <-
                 Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                   ")
+
 
     ui <- shiny::fluidPage(
       theme = "bootstrap.css",
@@ -260,7 +262,7 @@ metaupdate <-
 
 
       fieldsAll <- c("title2", "abstract2")
-      responsesDir <- file.path("Responses")
+      responsesDir <- file.path("tools")
 
 
       formData <- shiny::reactive({
@@ -271,7 +273,7 @@ metaupdate <-
 
 
       saveData <- function(data) {
-        fileName <- sprintf("Responses/%s_%s.Rnw",
+        fileName <- sprintf("tools/%s_%s.Rnw",
                             Timereport(),
                             digest::digest(data))
 
@@ -389,7 +391,8 @@ metaupdate <-
             ggplot2::aes(col = treat1, key = datapair$id),
             labelon = TRUE
           ) +
-          geomnet::theme_net() + ggplot2::theme(legend.position = "none") + ggplot2::scale_colour_brewer(palette = "Set3")
+          geomnet::theme_net() + ggplot2::theme(legend.position = "none")
+        #+ ggplot2::scale_colour_brewer(palette = "Set3")
 
         plotly::ggplotly(p2) %>% plotly::layout(dragmode = "select")
 

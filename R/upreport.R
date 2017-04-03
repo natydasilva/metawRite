@@ -12,7 +12,8 @@
 #' @return shiny app.
 #' @importFrom magrittr %>%
 #' @export
-
+# @examples
+# \dontrun{upreport(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
 upreport <-
   function(datapair,
            pair_result,
@@ -185,11 +186,11 @@ server = function(input, output, session) {
 
 
 
-  responsesDir <- file.path("Responses")
+  responsesDir <- file.path("tools")
 
   #Dynamic UI with updated information of the files in Responses folder
   output$update <- shiny::renderUI({
-    filenames <- sort(dir("Responses"),TRUE)
+    filenames <- sort(dir("tools"),TRUE)
     reportnames <- unique(substr(filenames, 1,15))
     shiny::selectInput("update", "Update report", reportnames)
   })
@@ -234,12 +235,12 @@ server = function(input, output, session) {
 ccaux <- list("report", "abstract", "introduction", "method", "result", "discussion", "funding")
   saveData <- function(data,cc) {
 if(length(data[[2]] > 0)){
-    fileName <- paste("Responses/",Timereport(),data[[1]],".txt", sep="")
+    fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
     fileConn <- file(fileName)
     writeLines(data[[2]], fileConn)
     close(fileConn)
 }else{
-  fileName <- paste("Responses/",Timereport(),cc,".txt", sep="")
+  fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
   fileConn <- file(fileName)
   writeLines(input$noquote(cc), fileConn)
   close(fileConn)
@@ -270,13 +271,13 @@ if(length(data[[2]] > 0)){
 
   shiny::observeEvent(input$update,{
     x <- input$update
-    reportPath <- file.path(paste("Responses/",x,ccaux[[1]],".txt", sep=""))
-    abstractPath <- file.path(paste("Responses/",x,ccaux[[2]],".txt", sep=""))
-    introductionPath <- file.path(paste("Responses/",x,ccaux[[3]],".txt", sep=""))
-    methodPath <- file.path(paste("Responses/",x,ccaux[[4]],".txt", sep=""))
-    resultPath <- file.path(paste("Responses/",x,ccaux[[5]],".txt", sep=""))
-    discussionPath <- file.path(paste("Responses/",x,ccaux[[6]],".txt", sep=""))
-    fundingPath <- file.path(paste("Responses/",x,ccaux[[7]],".txt", sep=""))
+    reportPath <- file.path(paste("tools/",x,ccaux[[1]],".txt", sep=""))
+    abstractPath <- file.path(paste("tools/",x,ccaux[[2]],".txt", sep=""))
+    introductionPath <- file.path(paste("tools/",x,ccaux[[3]],".txt", sep=""))
+    methodPath <- file.path(paste("tools/",x,ccaux[[4]],".txt", sep=""))
+    resultPath <- file.path(paste("tools/",x,ccaux[[5]],".txt", sep=""))
+    discussionPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
+    fundingPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
 
     reportUpdate <- readLines(reportPath)
     abstractUpdate <- readLines(abstractPath)
