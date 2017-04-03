@@ -13,7 +13,7 @@
 #' @importFrom magrittr %>%
 #' @export
 # @examples
-# metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)
+# \dontrun{metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
 metaupdate <-
   function(datapair,
            pair_result,
@@ -21,7 +21,6 @@ metaupdate <-
            treat1,
            treat2,
            id) {
-    library(plotly)
     filenames<- dir("Responses")
     reportnames <- NULL
     reportnames <- substr(filenames, 1,15)
@@ -53,11 +52,11 @@ metaupdate <-
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                   ")
 
-    ui = shiny::fluidPage(
+    ui <- shiny::fluidPage(
       theme = "bootstrap.css",
       shinyjs::useShinyjs(),
       #shinyjs::inlineCSS(appCSS),
-      shiny::titlePanel("Meta-analysis app"),
+      shiny::titlePanel(" metawRite: Meta analysis update package, LSR (Living systematic review)"),
       shiny::mainPanel(
         shiny::tabsetPanel(
           shiny::tabPanel(
@@ -134,40 +133,40 @@ metaupdate <-
             shiny::fluidRow(align = "center", shiny::downloadButton('report'))
           ),
 #########################
-          shiny::tabPanel("LSR-savefile",
-                          shinyjs::hidden(
-                            shiny::div(
-                              id = "repo",
-                              shiny::selectInput("update", "Update report",reportnames)
-
-                            )
-                          ),
-                          shiny::div(
-                            id = "form",
-
-                            shiny::fluidRow(shiny::column(
-                              8,
-                              shiny::textAreaInput('title2', 'Title', width = "900px", value = lsr$title))),
-                            shiny::fluidRow(shiny::column(
-                              8,
-                              shiny::textAreaInput(
-                                'abstract2',
-                                'Abstract',
-                                rows = 4,
-                                width = "900px",
-                                value = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.'
-                              )
-                            )),
-                            shiny::actionButton("submit", "Submit", class = "btn-primary")
-                          ),shinyjs::hidden(
-                            shiny::div(
-                              id = "thankyou_msg",
-                              shiny::h3("Thanks, your report was submitted successfully!"),
-                              shiny::actionLink("submit_another", "Submit another report")
-                            )
-                          )
-
-          ),
+          # shiny::tabPanel("LSR-savefile",
+          #                 shinyjs::hidden(
+          #                   shiny::div(
+          #                     id = "repo",
+          #                     shiny::selectInput("update", "Update report",reportnames)
+          #
+          #                   )
+          #                 ),
+          #                 shiny::div(
+          #                   id = "form",
+          #
+          #                   shiny::fluidRow(shiny::column(
+          #                     8,
+          #                     shiny::textAreaInput('title2', 'Title', width = "900px", value = lsr$title))),
+          #                   shiny::fluidRow(shiny::column(
+          #                     8,
+          #                     shiny::textAreaInput(
+          #                       'abstract2',
+          #                       'Abstract',
+          #                       rows = 4,
+          #                       width = "900px",
+          #                       value = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.'
+          #                     )
+          #                   )),
+          #                   shiny::actionButton("submit", "Submit", class = "btn-primary")
+          #                 ),shinyjs::hidden(
+          #                   shiny::div(
+          #                     id = "thankyou_msg",
+          #                     shiny::h3("Thanks, your report was submitted successfully!"),
+          #                     shiny::actionLink("submit_another", "Submit another report")
+          #                   )
+          #                 )
+          #
+          # ),
 ###################
 
            shiny::tabPanel(
@@ -214,7 +213,7 @@ metaupdate <-
 
 
 
-    server = function(input, output) {
+    server <- function(input, output) {
 
       ###############
       #   TAB 1     #
@@ -411,7 +410,7 @@ metaupdate <-
 
     }
 
-    shiny::shinyApp(ui, server)
+    shiny::shinyApp(ui= ui , server = server)
 
   }
 

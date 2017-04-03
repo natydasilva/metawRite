@@ -13,7 +13,13 @@
 #' @importFrom magrittr %>%
 #' @export
 
-
+upreport <-
+  function(datapair,
+           pair_result,
+           trt.pair,
+           treat1,
+           treat2,
+           id) {
 lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
             abstract = "Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.",
             introduction = "Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).",
@@ -52,7 +58,7 @@ ui = shiny::fluidPage(
     shiny::div(
       id = "reportupdate",
       #selectInput("update", "Update report",filenames)
-      uiOutput("update")
+      shiny::uiOutput("update")
     )
   ),
 
@@ -130,15 +136,15 @@ ui = shiny::fluidPage(
     shiny::downloadButton('download')
   ), shiny::fluidRow(shiny::column(
     8,
-    HTML("<div style='height: 150px;'>"),
+    shiny::HTML("<div style='height: 150px;'>"),
 
-    HTML("</div>")
+    shiny::HTML("</div>")
     )),
   shinyjs::hidden(
     shiny::div(
       id = "thankyou_msg",
-      h3("Thanks, your report was submitted successfully!"),
-      actionLink("submit_another", "Submit another report")
+      shiny::h3("Thanks, your report was submitted successfully!"),
+      shiny::actionLink("submit_another", "Submit another report")
     )
   )
 
@@ -181,11 +187,11 @@ server = function(input, output, session) {
 
   responsesDir <- file.path("Responses")
 
-  #Dynamic UI with updated information of the files in Responses file
-  output$update <- renderUI({
+  #Dynamic UI with updated information of the files in Responses folder
+  output$update <- shiny::renderUI({
     filenames <- sort(dir("Responses"),TRUE)
     reportnames <- unique(substr(filenames, 1,15))
-    selectInput("update", "Update report", reportnames)
+    shiny::selectInput("update", "Update report", reportnames)
   })
 
   #Make reactive the new information in the report
@@ -194,30 +200,30 @@ server = function(input, output, session) {
   #   data <- input$report
   # })
 
-  report <- reactive({
+  report <- shiny::reactive({
     list("report",input$report)
   })
-    abstract <- reactive({
+    abstract <- shiny::reactive({
       list("abstract", input$abstract)
       })
-    introduction <- reactive({
+    introduction <- shiny::reactive({
       list("introduction", input$introduction)
     })
 
-    method <- reactive({
+    method <- shiny::reactive({
       list("method", input$method)
     })
 
-    result <- reactive({
+    result <- shiny::reactive({
 
       list("result", input$result)
     })
 
-    discussion <- reactive({
+    discussion <- shiny::reactive({
       list("discussion", input$discussion)
     })
 
-    funding <- reactive({
+    funding <- shiny::reactive({
       list("funding", input$funding)
     })
 
@@ -246,7 +252,7 @@ if(length(data[[2]] > 0)){
 
   # action to take when submit button is pressed
 
-  observeEvent(input$submit, {
+  shiny::observeEvent(input$submit, {
     saveData(report(), ccaux[[1]])
     saveData(abstract(), ccaux[[2]])
     saveData(introduction(), ccaux[[3]])
@@ -260,7 +266,9 @@ if(length(data[[2]] > 0)){
   })
 
 
-  observeEvent(input$update,{
+  # action to take when write new report in each textAreaInput
+
+  shiny::observeEvent(input$update,{
     x <- input$update
     reportPath <- file.path(paste("Responses/",x,ccaux[[1]],".txt", sep=""))
     abstractPath <- file.path(paste("Responses/",x,ccaux[[2]],".txt", sep=""))
@@ -270,21 +278,21 @@ if(length(data[[2]] > 0)){
     discussionPath <- file.path(paste("Responses/",x,ccaux[[6]],".txt", sep=""))
     fundingPath <- file.path(paste("Responses/",x,ccaux[[7]],".txt", sep=""))
 
-    reportUpdate <-readLines(reportPath)
-    abstractUpdate <-readLines(abstractPath)
-    introductionUpdate <-readLines(introductionPath)
-    methodUpdate <-readLines(methodPath)
-    resultUpdate <-readLines(resultPath)
-    discussionUpdate <-readLines(discussionPath)
-    fundingUpdate <-readLines(fundingPath)
+    reportUpdate <- readLines(reportPath)
+    abstractUpdate <- readLines(abstractPath)
+    introductionUpdate <- readLines(introductionPath)
+    methodUpdate <- readLines(methodPath)
+    resultUpdate <- readLines(resultPath)
+    discussionUpdate <- readLines(discussionPath)
+    fundingUpdate <- readLines(fundingPath)
 
-    updateTextAreaInput(session, "report", value = reportUpdate)
-    updateTextAreaInput(session, "abstract", value = abstractUpdate)
-    updateTextAreaInput(session, "introduction", value = introductionUpdate)
-    updateTextAreaInput(session, "method", value = methodUpdate)
-    updateTextAreaInput(session, "result", value = resultUpdate)
-    updateTextAreaInput(session, "discussion", value = discussionUpdate)
-    updateTextAreaInput(session, "funding", value = fundingUpdate)
+    shiny::updateTextAreaInput(session, "report", value = reportUpdate)
+    shiny::updateTextAreaInput(session, "abstract", value = abstractUpdate)
+    shiny::updateTextAreaInput(session, "introduction", value = introductionUpdate)
+    shiny::updateTextAreaInput(session, "method", value = methodUpdate)
+    shiny::updateTextAreaInput(session, "result", value = resultUpdate)
+    shiny::updateTextAreaInput(session, "discussion", value = discussionUpdate)
+    shiny::updateTextAreaInput(session, "funding", value = fundingUpdate)
 
   })
 
@@ -292,7 +300,7 @@ if(length(data[[2]] > 0)){
 
   # action to take when a submit another button is pressed
 
-  observeEvent(input$submit_another, {
+  shiny::observeEvent(input$submit_another, {
     shinyjs::show("reportupdate")
     shinyjs::show("form")
     shinyjs::hide("thankyou_msg")
@@ -306,3 +314,4 @@ if(length(data[[2]] > 0)){
 
 shiny::shinyApp(ui,server)
 
+}

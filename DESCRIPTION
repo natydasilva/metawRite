@@ -8,17 +8,19 @@ License: LGPL-2.1
 Encoding: UTF-8
 LazyData: yes
 Imports:
+  plyr,
+   dplyr,
+    ggplot2,
+    tidyr,
     shiny,
+    plotly (>= 4.5.6),
+    ggthemes,
     shinyjs,
     digest,
     htmltools,
     knitr,
     magrittr,
-    plyr,
-    dplyr,
-    ggplot2,
     geomnet,
-    plotly,
     metafor,
     netmeta,
     stringr
