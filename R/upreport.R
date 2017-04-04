@@ -1,5 +1,5 @@
 
-#' Meta-analysis reportshiny app
+#' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
 #' @usage upreport(datapair, pair_result,trt.pair, treat1, treat2, id)
 #' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
@@ -184,16 +184,15 @@ server = function(input, output, session) {
   )
   #})
 
-
-
   responsesDir <- file.path("tools")
 
-  #Dynamic UI with updated information of the files in Responses folder
-  output$update <- shiny::renderUI({
-    filenames <- sort(dir("tools"),TRUE)
-    reportnames <- unique(substr(filenames, 1,15))
-    shiny::selectInput("update", "Update report", reportnames)
-  })
+  #Dynamic UI with updated information of the files in tools folder
+  # output$update <- shiny::renderUI({
+  #  # reactiveFileReader(1000,)
+  #   filenames <- sort(dir("tools"),TRUE)
+  #   reportnames <- unique(substr(filenames, 1,15))
+  #   shiny::selectInput("update", "Update report", reportnames)
+  # })
 
   #Make reactive the new information in the report
 
@@ -228,32 +227,31 @@ server = function(input, output, session) {
       list("funding", input$funding)
     })
 
+    Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+    ccaux <- list("report", "abstract", "introduction", "method", "result", "discussion", "funding")
 
-  # Save the new information in  the report  in a txt with name = date and time
+    saveData <- function(data,cc) {
+      if(length(data[[2]] > 0)){
 
-  Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-ccaux <- list("report", "abstract", "introduction", "method", "result", "discussion", "funding")
-  saveData <- function(data,cc) {
-if(length(data[[2]] > 0)){
-    fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
-    fileConn <- file(fileName)
-    writeLines(data[[2]], fileConn)
-    close(fileConn)
-}else{
-  fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
-  fileConn <- file(fileName)
-  writeLines(input$noquote(cc), fileConn)
-  close(fileConn)
+        fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
+        fileConn <- file(fileName)
+        writeLines(data[[2]], fileConn)
+        close(fileConn)
+      }else{
+        fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
+        fileConn <- file(fileName)
+        writeLines(input$noquote(cc), fileConn)
+        close(fileConn)
 
-}
+      }
 
-  }
-
-
+    }
 
   # action to take when submit button is pressed
 
   shiny::observeEvent(input$submit, {
+
+    # Save the new information in  the report  in a txt with name = date and time
     saveData(report(), ccaux[[1]])
     saveData(abstract(), ccaux[[2]])
     saveData(introduction(), ccaux[[3]])
@@ -261,6 +259,7 @@ if(length(data[[2]] > 0)){
     saveData(result(), ccaux[[5]])
     saveData(discussion(), ccaux[[6]])
     saveData(funding(), ccaux[[7]])
+
     shinyjs::reset("form")
     shinyjs::hide("form")
     shinyjs::show("thankyou_msg")
@@ -302,12 +301,19 @@ if(length(data[[2]] > 0)){
   # action to take when a submit another button is pressed
 
   shiny::observeEvent(input$submit_another, {
+
     shinyjs::show("reportupdate")
     shinyjs::show("form")
     shinyjs::hide("thankyou_msg")
+
+    output$update <- shiny::renderUI({
+      # reactiveFileReader(1000,)
+      filenames <- sort(dir("tools"),TRUE)
+      reportnames <- unique(substr(filenames, 1,15))
+      shiny::selectInput("update", "Update report", reportnames)
+    })
+
   })
-
-
 
 
 }
