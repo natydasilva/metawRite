@@ -21,40 +21,44 @@ upreport <-
            treat1,
            treat2,
            id) {
-lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
-            abstract = "Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.",
-            introduction = "Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).",
-            method = "Protocol and registration: Indicate if a review protocol exists, if and where it can be accessed (e.g., Web address), and, if available, provide registration information including registration number.
-            Eligibility criteria: Specify study characteristics (e.g., PICOS, length of follow-up) and report characteristics (e.g., years considered, language, publication status) used as criteria for eligibility, giving rationale.
-            Information sources: Describe all information sources (e.g., databases with dates of coverage, contact with study authors to identify additional studies) in the search and date last searched.
-            Search: Present full electronic search strategy for at least one database, including any limits used, such that it could be repeated.
-            Study selection: State the process for selecting studies (i.e., screening, eligibility, included in systematic review, and, if applicable, included in the meta-analysis).
-            Data collection process: Describe method of data extraction from reports (e.g., piloted forms, independently, in duplicate) and any processes for obtaining and confirming data from investigators.
-            Data items: List and define all variables for which data were sought (e.g., PICOS, funding sources) and any assumptions and simplifications made.
-            Risk of bias in individual studies: Describe methods used for assessing risk of bias of individual studies (including specification of whether this was done at the study or outcome level), and how this information is to be used in any data synthesis.
-            Summary measures:
-            Synthesis of results: Describe the methods of handling data and combining results of studies, if done, including measures of consistency (e.g., I2) for each meta-analysis.
-            Risk of bias across studies:Specify any assessment of risk of bias that may affect the cumulative evidence (e.g., publication bias, selective reporting within studies).
-            Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.",
-            result = " Study selection: Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram.
-            Study characteristics: For each study, present characteristics for which data were extracted (e.g., study size, PICOS, follow-up period) and provide the citations.
-            Risk of bias within studies: Present data on risk of bias of each study and, if available, any outcome level assessment (see item 12).
-            Results of individual studies: For all outcomes considered (benefits or harms), present, for each study: (a) simple summary data for each intervention group (b) effect estimates and confidence intervals, ideally with a forest plot.
-            Synthesis of results: Present results of each meta-analysis done, including confidence intervals and measures of consistency.
-            Risk of bias across studies: Present results of any assessment of risk of bias across studies (see Item 15).
-            Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).",
-            discussion = "   Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
-            Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
-            Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
-            funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
-            ")
+    lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
+                abstract = "Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.",
+                introduction = "Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).",
+                method = "Protocol and registration: Indicate if a review protocol exists, if and where it can be accessed (e.g., Web address), and, if available, provide registration information including registration number.
+                Eligibility criteria: Specify study characteristics (e.g., PICOS, length of follow-up) and report characteristics (e.g., years considered, language, publication status) used as criteria for eligibility, giving rationale.
+                Information sources: Describe all information sources (e.g., databases with dates of coverage, contact with study authors to identify additional studies) in the search and date last searched.
+                Search: Present full electronic search strategy for at least one database, including any limits used, such that it could be repeated.
+                Study selection: State the process for selecting studies (i.e., screening, eligibility, included in systematic review, and, if applicable, included in the meta-analysis).
+                Data collection process: Describe method of data extraction from reports (e.g., piloted forms, independently, in duplicate) and any processes for obtaining and confirming data from investigators.
+                Data items: List and define all variables for which data were sought (e.g., PICOS, funding sources) and any assumptions and simplifications made.
+                Risk of bias in individual studies: Describe methods used for assessing risk of bias of individual studies (including specification of whether this was done at the study or outcome level), and how this information is to be used in any data synthesis.
+                Summary measures:
+                Synthesis of results: Describe the methods of handling data and combining results of studies, if done, including measures of consistency (e.g., I2) for each meta-analysis.
+                Risk of bias across studies:Specify any assessment of risk of bias that may affect the cumulative evidence (e.g., publication bias, selective reporting within studies).
+                Additional analyses:Describe methods of additional analyses (e.g., sensitivity or subgroup analyses, meta-regression), if done, indicating which were pre-specified.",
+                result = " Study selection: Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram.
+                Study characteristics: For each study, present characteristics for which data were extracted (e.g., study size, PICOS, follow-up period) and provide the citations.
+                Risk of bias within studies: Present data on risk of bias of each study and, if available, any outcome level assessment (see item 12).
+                Results of individual studies: For all outcomes considered (benefits or harms), present, for each study: (a) simple summary data for each intervention group (b) effect estimates and confidence intervals, ideally with a forest plot.
+                Synthesis of results: Present results of each meta-analysis done, including confidence intervals and measures of consistency.
+                Risk of bias across studies: Present results of any assessment of risk of bias across studies (see Item 15).
+                Additional analysis:Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression [see Item 16]).",
+                discussion = "   Summary of evidence: Summarize the main findings including the strength of evidence for each main outcome; consider their relevance to key groups (e.g., healthcare providers, users, and policy makers).
+                Limitations: Discuss limitations at study and outcome level (e.g., risk of bias), and at review-level (e.g., incomplete retrieval of identified research, reporting bias).
+                Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
+                funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
+                ")
 
-
+library(plotly)
 
 ui = shiny::fluidPage(
   shinyjs::useShinyjs(),
   #shinyjs::inlineCSS(appCSS),
   shiny::titlePanel("Review, write and update meta-analysis results"),
+  shiny::mainPanel(
+    shiny::tabsetPanel(
+  shiny::tabPanel(
+    "LSR-report",
   shinyjs::hidden(
     shiny::div(
       id = "reportupdate",
@@ -68,8 +72,11 @@ ui = shiny::fluidPage(
     shiny::fluidRow(shiny::column(
       8,
       shiny::textAreaInput(
-        'report',
-        'Title',rows = 1, width = "900px", value = lsr$title))),
+        'title',
+        'Title',
+        width = "900px",
+        value = lsr$title, resize ="vertical")
+      )),
 
     shiny::fluidRow(shiny::column(
       8,
@@ -146,29 +153,57 @@ ui = shiny::fluidPage(
       id = "thankyou_msg",
       shiny::h3("Thanks, your report was submitted successfully!"),
       shiny::actionLink("submit_another", "Submit another report")
+      )
     )
+  ),        shiny::tabPanel(
+    "Pairwise" ,
+    shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
+                                         max = length(pair_result)),
+                    shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
+    shiny::fluidRow(
+      shiny::column(width =  6, shiny::plotOutput("forest2")),
+      shiny::column(width =  6, shiny::plotOutput("funel2"))
+
+    ),
+    shiny::fluidRow(shiny::column(
+      width =  10, shiny::verbatimTextOutput("summary2")
+    ))
+  ),
+
+  shiny::tabPanel(
+    "Network" ,
+    shiny::fluidRow(shiny::column(
+      width = 6,
+      plotly::plotlyOutput("netply")
+    )),
+    shiny::fluidRow(shiny::column(
+      width = 12 , shiny::verbatimTextOutput("click")
+    ))
+
+
   )
-
-)
-
+  )
+))
 
 server = function(input, output, session) {
 
 
   output$download = shiny::downloadHandler(
-  #observeEvent(input$download, {shiny::downloadHandler(
+    #output$download <- observeEvent(input$download, {shiny::downloadHandler(
   filename = 'myreport.pdf',
 
     content = function(file) {
 
-          # browser()
-          # tmp <- tempdir()
+           # browser()
+           # tmp <- tempdir()
+
       tmp <- system.file(package="metaupdate")
-      tempReport <- file.path(tmp, "input22.Rnw")
+      tempReport <- file.path(tmp,"input2.Rnw")
       file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
       dir <- system.file(package="metaupdate")
 
-      writeLines(input$report, con = file.path(dir, "_report.Rnw"))
+
+      writeLines(input$title, con = file.path(dir, "_title.Rnw"))
       writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
       writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
       writeLines(input$method, con = file.path(dir, "_methods.Rnw"))
@@ -182,7 +217,9 @@ server = function(input, output, session) {
     }
 
   )
-  #})
+
+ # })
+
 
   responsesDir <- file.path("tools")
 
@@ -196,12 +233,9 @@ server = function(input, output, session) {
 
   #Make reactive the new information in the report
 
-  # formData <- reactive({
-  #   data <- input$report
-  # })
 
-  report <- shiny::reactive({
-    list("report",input$report)
+  title <- shiny::reactive({
+    list("title",input$title)
   })
     abstract <- shiny::reactive({
       list("abstract", input$abstract)
@@ -228,7 +262,7 @@ server = function(input, output, session) {
     })
 
     Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-    ccaux <- list("report", "abstract", "introduction", "method", "result", "discussion", "funding")
+    ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
 
     saveData <- function(data,cc) {
       if(length(data[[2]] > 0)){
@@ -252,7 +286,7 @@ server = function(input, output, session) {
   shiny::observeEvent(input$submit, {
 
     # Save the new information in  the report  in a txt with name = date and time
-    saveData(report(), ccaux[[1]])
+    saveData(title(), ccaux[[1]])
     saveData(abstract(), ccaux[[2]])
     saveData(introduction(), ccaux[[3]])
     saveData(method(), ccaux[[4]])
@@ -270,7 +304,7 @@ server = function(input, output, session) {
 
   shiny::observeEvent(input$update,{
     x <- input$update
-    reportPath <- file.path(paste("tools/",x,ccaux[[1]],".txt", sep=""))
+    titlePath <- file.path(paste("tools/",x,ccaux[[1]],".txt", sep=""))
     abstractPath <- file.path(paste("tools/",x,ccaux[[2]],".txt", sep=""))
     introductionPath <- file.path(paste("tools/",x,ccaux[[3]],".txt", sep=""))
     methodPath <- file.path(paste("tools/",x,ccaux[[4]],".txt", sep=""))
@@ -278,7 +312,7 @@ server = function(input, output, session) {
     discussionPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
     fundingPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
 
-    reportUpdate <- readLines(reportPath)
+    titleUpdate <- readLines(titlePath)
     abstractUpdate <- readLines(abstractPath)
     introductionUpdate <- readLines(introductionPath)
     methodUpdate <- readLines(methodPath)
@@ -286,7 +320,7 @@ server = function(input, output, session) {
     discussionUpdate <- readLines(discussionPath)
     fundingUpdate <- readLines(fundingPath)
 
-    shiny::updateTextAreaInput(session, "report", value = reportUpdate)
+    shiny::updateTextAreaInput(session, "title", value = titleUpdate)
     shiny::updateTextAreaInput(session, "abstract", value = abstractUpdate)
     shiny::updateTextAreaInput(session, "introduction", value = introductionUpdate)
     shiny::updateTextAreaInput(session, "method", value = methodUpdate)
@@ -316,7 +350,124 @@ server = function(input, output, session) {
   })
 
 
+  ###############
+  #   TAB 2     #
+  ###############
+
+  selectedData <- shiny::reactive({
+    input$goButton
+
+  })
+
+
+  up <- NULL
+  sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
+  output$mytreat <- shiny::renderUI({
+
+    choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
+    #browser()
+    shiny::selectInput(
+      "treatpair",
+      "Pairwise comparison:", choices = choi
+
+    )
+  })
+
+  output$forest2 <- shiny::renderPlot({
+
+    if(selectedData()){
+
+      pardat <- pair_result[[as.numeric(input$updatelab)]]
+      pair <- names(pardat) %in% input$treatpair
+      npair <- 1:length(pair)
+
+      metafor::forest(pardat[[npair[pair]]][[2]])
+    }else{
+      return(NULL)
+    }
+  })
+
+
+
+
+
+  output$funel2 <- shiny::renderPlot({
+
+    if(selectedData()){
+      pardat <- pair_result[[as.numeric(input$updatelab)]]
+
+      pair <-
+        names(pardat) %in% input$treatpair
+      npair <- 1:length(pair)
+      metafor::funnel(pardat[[npair[pair]]][[2]])
+    }else{
+      return(NULL)
+    }
+  })
+
+
+  output$summary2 <- shiny::renderPrint({
+    if(selectedData()){
+      pardat <- pair_result[[as.numeric(input$updatelab)]]
+
+      pair <-
+        names(pardat) %in% input$treatpair
+
+      npair <- 1:length(pair)
+
+      return(print(pardat[[npair[pair]]][[2]]))
+    }else{
+      return(NULL)
+    }
+  })
+
+  ###############
+  #   TAB 3     #
+  ###############
+  rv <-
+    shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
+
+  output$netply <- plotly::renderPlotly({
+    p <-
+      ggplot2::ggplot(data = datapair,
+                      ggplot2::aes(
+                        from_id = treat1,
+                        to_id = treat2,
+                        key = id
+                      ))
+
+    p2 <-
+      p + geomnet::geom_net(
+        layout.alg = "circle",
+        size = 3,
+        ggplot2::aes(col = treat1, key = datapair$id),
+        labelon = TRUE
+      ) +
+      geomnet::theme_net() + ggplot2::theme(legend.position = "none")
+    #+ ggplot2::scale_colour_brewer(palette = "Set3")
+
+    plotly::ggplotly(p2) %>% plotly::layout(dragmode = "select")
+
+  })
+
+  output$click <- shiny::renderPrint({
+    d <- plotly::event_data("plotly_click")
+    if (is.null(d)) {
+      "Click events appear here (double-click to clear)"
+    } else{
+      d
+    }
+  })
+
+
+
+
+
+
+
 }
+
+
 
 
 shiny::shinyApp(ui,server)

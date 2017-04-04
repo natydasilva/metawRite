@@ -53,7 +53,7 @@ metaupdate <-
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                   ")
 
-
+library(plotly)
     ui <- shiny::fluidPage(
       theme = "bootstrap.css",
       shinyjs::useShinyjs(),
@@ -66,7 +66,10 @@ metaupdate <-
             shiny::titlePanel("PRISMA Checklist"),
             shiny::fluidRow(shiny::column(
               8,
-              shiny::textAreaInput('title', 'Title', width = "900px", value = lsr$title)
+              shiny::textAreaInput(
+                'title',
+                'Title',
+                width = "900px", value = lsr$title)
             )),
             shiny::fluidRow(shiny::column(
               8,
