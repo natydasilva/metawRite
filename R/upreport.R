@@ -266,6 +266,7 @@ server = function(input, output, session) {
 
     saveData <- function(data,cc) {
       if(length(data[[2]] > 0)){
+        if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
 
         fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
         fileConn <- file(fileName)
