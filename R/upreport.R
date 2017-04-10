@@ -48,8 +48,8 @@ upreport <-
                 Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                 ")
-
-library(plotly)
+#
+# library(plotly)
 
 ui = shiny::fluidPage(
   shinyjs::useShinyjs(),
