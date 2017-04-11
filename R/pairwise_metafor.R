@@ -1,6 +1,6 @@
 #' Restruscture data and pairwise meta-analysis model results using metafor package
 #'
-#' @usage pairwise_metafor(dataini,nupdate = 1, nobs = NULL, yi, vi, sei, ... )
+#' @usage pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE, nobs = NULL, yi, vi, sei, ... )
 #' @param dataini Data frame in contrast based format, if you have the data in arm-based you can use
 #' pairwise function from netmeta package. The column names 
 #' @param nupdate number of updates
@@ -22,7 +22,7 @@
 #' 
 #' modstr <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR") }
 
-pairwise_metafor <- function(dataini, nupdate = 1, nobs = NULL, yi, vi, sei, ... ) {
+pairwise_metafor <- function(dataini, nupdate = 1,treat1, treat2,seTE, nobs = NULL, yi, vi, sei, ... ) {
   seTE <- NULL
   id <-  NULL
   treat1 <- NULL
@@ -50,7 +50,7 @@ update <- list()
 for(i in 1:length(unique(MTCpairs2$up))){
 update<- MTCpairs2  %>% dplyr::filter(up<=i) %>% plyr::dlply(plyr::.(trt.pair), function(x)
 
-  list(x, rma(yi = TE, vi = vi,data=x))
+  list(x, rma(yi = TE, vi = vi,data = x))
 
   )
 pair_result <- list(update, update)
