@@ -4,10 +4,21 @@
 \alias{pairwise_metafor}
 \title{Restruscture data and pairwise meta-analysis model results using metafor package}
 \usage{
-pairwise_metafor(dataini, ...)
+pairwise_metafor(dataini,nupdate = 1, nobs = NULL, yi, vi, sei, ... )
 }
 \arguments{
-\item{dataini}{Data frame in an arm-based format (e.g. input format for WinBUGS)}
+\item{dataini}{Data frame in contrast based format, if you have the data in arm-based you can use
+pairwise function from netmeta package. The column names}
+
+\item{nupdate}{number of updates}
+
+\item{nobs}{a vector with the number of observations for each update}
+
+\item{yi}{vector of length k with the observed effect sizes or outcomes. See ‘Details’ in rma function fom metafor package.}
+
+\item{vi}{vector of length k with the corresponding sampling variances. See ‘Details’ in rma function fom metafor package.}
+
+\item{sei}{vector of length k with the corresponding standard errors (only relevant when not using vi). See ‘Details’in rma function fom metafor package.}
 
 \item{...}{optional argument to functions, you can include any parameter to run rma function from metafor pkg}
 }
@@ -16,4 +27,14 @@ returns to .Rdata one with tde data set in contrast-based format and the second 
 }
 \description{
 Restruscture data and pairwise meta-analysis model results using metafor package
+}
+\examples{
+\dontrun{load("./data/MTCdata.rda")
+MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
+                list(event1, event2, event3),
+              list(n1, n2, n3),
+                data = MTCdata,
+                sm = "RR")
+
+modstr <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR") }
 }

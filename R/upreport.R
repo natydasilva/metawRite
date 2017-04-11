@@ -12,8 +12,15 @@
 #' @return shiny app.
 #' @importFrom magrittr %>%
 #' @export
-# @examples
-# \dontrun{upreport(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
+#' @examples
+#'\dontrun{load("./data/MTCdata.rda")
+#' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
+#'                 list(event1, event2, event3),
+#'               list(n1, n2, n3),
+#'                 data = MTCdata,
+#'                 sm = "RR")
+#' data <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR")
+#' upreport(data[[1]], pair_result, trt.pair, treat1, treat2, id)}
 upreport <-
   function(datapair,
            pair_result,
