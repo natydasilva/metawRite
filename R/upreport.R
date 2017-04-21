@@ -20,7 +20,10 @@
 #'                 data = MTCdata,
 #'                 sm = "RR")
 #' data <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR")
-#' upreport(data[[1]], pair_result, trt.pair, treat1, treat2, id)}
+#' upreport(data[[1]], pair_result, trt.pair, treat1, treat2, id)
+#' }
+#' 
+#' 
 upreport <-
   function(datapair,
            pair_result,
