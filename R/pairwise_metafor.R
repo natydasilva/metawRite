@@ -30,6 +30,7 @@
 #'  }
 
 pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = NULL, yi, vi, sei, ... ) {
+  
   seTE <- NULL
   id <-  NULL
   treat1 <- NULL

@@ -15,7 +15,7 @@
 # @examples
 # \dontrun{metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
 
-# metaupdate(MTCpairs2, modstr[[2]], trt.pair, treat1, treat2, id)
+# metaupdate(modstr[[1]], modstr[[2]], trt.pair, treat1, treat2, id)
 # metaupdate(MTCpairs2, modstr, trt.pair, treat1, treat2, id)
 # 
 # metaupdate(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
@@ -183,7 +183,7 @@ metaupdate <-
            shiny::tabPanel(
             "Pairwise" ,
             shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
-                                                 max = length(pair_result)),
+                                                 max = length(unique(datapair$up))),
                             shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
@@ -329,37 +329,32 @@ metaupdate <-
 
         )
       })
+      if( length( unique(datapair$up) ) > 1 ){
+        pardat <- pair_result[[as.numeric(input$updatelab)]]
+      }else{
+        pardat <- pair_result
+      }
 
       output$forest2 <- shiny::renderPlot({
-
+   
         if( selectedData() ){
-          if(length(pair_result)>1){
-
-          pardat <- pair_result[[as.numeric(input$updatelab)]]
+         
           pair <- names(pardat) %in% input$treatpair
           npair <- 1:length(pair)
 
           metafor::forest(pardat[[npair[pair]]][[2]])
-          }else{
-            pardat <- pair_result
-            pair <- names(pardat) %in% input$treatpair
-            npair <- 1:length(pair)
-            
-            metafor::forest(pardat[[npair[pair]]][[2]]) 
-          }
+  
         }else{
           return(NULL)
         }
       })
 
 
-
-
-
       output$funel2 <- shiny::renderPlot({
 
         if(selectedData()){
-          pardat <- pair_result[[as.numeric(input$updatelab)]]
+
+          #pardat <- pair_result[[as.numeric(input$updatelab)]]
 
           pair <-
             names(pardat) %in% input$treatpair
@@ -372,8 +367,9 @@ metaupdate <-
 
 
       output$summary2 <- shiny::renderPrint({
+     
         if(selectedData()){
-          pardat <- pair_result[[as.numeric(input$updatelab)]]
+          #pardat <- pair_result[[as.numeric(input$updatelab)]]
 
           pair <-
             names(pardat) %in% input$treatpair
