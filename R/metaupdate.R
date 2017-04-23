@@ -14,6 +14,12 @@
 #' @export
 # @examples
 # \dontrun{metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
+
+# metaupdate(MTCpairs2, modstr[[2]], trt.pair, treat1, treat2, id)
+# metaupdate(MTCpairs2, modstr, trt.pair, treat1, treat2, id)
+# 
+# metaupdate(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+
 metaupdate <-
   function(datapair,
            pair_result,
@@ -326,13 +332,21 @@ metaupdate <-
 
       output$forest2 <- shiny::renderPlot({
 
-        if(selectedData()){
+        if( selectedData() ){
+          if(length(pair_result)>1){
 
           pardat <- pair_result[[as.numeric(input$updatelab)]]
           pair <- names(pardat) %in% input$treatpair
           npair <- 1:length(pair)
 
           metafor::forest(pardat[[npair[pair]]][[2]])
+          }else{
+            pardat <- pair_result
+            pair <- names(pardat) %in% input$treatpair
+            npair <- 1:length(pair)
+            
+            metafor::forest(pardat[[npair[pair]]][[2]]) 
+          }
         }else{
           return(NULL)
         }

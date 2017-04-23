@@ -19,14 +19,14 @@
 #'               list(n1, n2, n3),
 #'                 data = MTCdata,
 #'                 sm = "RR")
-#' MTCpairs2 <- netmeta::pairwise(list(t1, t2, t3, t4),
-#'                 TE=list(y1, y2, y3,y4),
-#'               seTE=list(se1, se2, se3,se4),
+#' MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+#'                 TE = list(y1, y2, y3,y4),
+#'               seTE = list(se1, se2, se3,se4),
 #'                 data = dat_rungano,
 #'                 sm = "MD")
-#' modstr <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR")
+#' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, nobs = c(109, 5), method  = "REML", measure = "RR")
 #' 
-#' modstr2 <- pairwise_metafor(MTCpairs2, nupdate=1, nobs=29, method  = "REML",measure="GEN")
+#' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, nobs = 29, method  = "REML", measure = "GEN")
 #'  }
 
 pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = NULL, yi, vi, sei, ... ) {
@@ -41,28 +41,42 @@ pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = 
   vi <- NULL
   
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
-  MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%
+ if(nupdate > 1){
+   MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%
     dplyr::mutate_if(is.factor, as.character) %>%
     dplyr::mutate(id = 1:nrow(dataini), vi = seTE^2) %>%
     plyr::ddply( plyr::.(id), function(x){
       aux <-   stringr::str_sort(x[1,] %>% dplyr::select(treat1, treat2))
       dplyr::mutate(x, trt.pair =  stringr::str_c(aux[1] ,aux[2], sep ="-"))
-
-    }
+      }
     )
 
-
-update <- list()
-
-for(i in 1:length(unique(MTCpairs2$up))){
-update<- MTCpairs2  %>% dplyr::filter(up<=i) %>% plyr::dlply(plyr::.(trt.pair), function(x)
-
-  list(x, metafor::rma(yi = TE, vi = vi,data = x))
-
-  )
-pair_result <- list(update, update)
+   update <- list()
+   for(i in 1:length(unique(MTCpairs2$up)) ) {
+     update[[i]] <- MTCpairs2  %>% dplyr::filter(up<=i) %>% 
+       plyr::dlply(plyr::.(trt.pair), function(x) {
+         list(x, metafor::rma(yi = TE, vi = vi, data = x))
+       }
+     )
+   }
+   
+ }else{
+  
+   MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(1, nobs) ) %>% 
+     dplyr::mutate_if(is.factor, as.character) %>%
+     dplyr::mutate(id = 1:nrow(dataini), vi = seTE^2) %>%
+     plyr::ddply( plyr::.(id), function(x){
+       aux <-   stringr::str_sort( x[1,] %>% dplyr::select(treat1, treat2) )
+       dplyr::mutate(x, trt.pair =  stringr::str_c(aux[1] ,aux[2], sep ="-") )
+       
+      }
+     )   
+   update <- MTCpairs2  %>% 
+     plyr::dlply(plyr::.(trt.pair), function(x){
+       list(x, metafor::rma(yi = TE, vi = vi, data = x))
+     }
+     )
 }
-
 
 list( MTCpairs2, update)
 }
