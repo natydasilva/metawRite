@@ -10,6 +10,7 @@ LazyData: yes
 Imports:
   plyr,
    dplyr,
+   purrr,
     ggplot2,
     tidyr,
     shiny,

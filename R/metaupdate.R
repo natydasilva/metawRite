@@ -193,20 +193,21 @@ metaupdate <-
             shiny::fluidRow(shiny::column(
               width =  10, shiny::verbatimTextOutput("summary2")
             ))
-          ),
-
-          shiny::tabPanel(
-            "Network" ,
-            shiny::fluidRow(shiny::column(
-              width = 6,
-              plotly::plotlyOutput("netply")
-            )),
-            shiny::fluidRow(shiny::column(
-              width = 12 , shiny::verbatimTextOutput("click")
-            ))
-
-
           )
+#,
+
+          # shiny::tabPanel(
+          #   "Network" ,
+          #   shiny::fluidRow(shiny::column(
+          #     width = 6,
+          #     plotly::plotlyOutput("netply")
+          #   )),
+          #   shiny::fluidRow(shiny::column(
+          #     width = 12 , shiny::verbatimTextOutput("click")
+          #   ))
+          # 
+          # 
+          # )
           #,
           # shiny::tabPanel(
           #   "Paper search",
@@ -329,21 +330,24 @@ metaupdate <-
 
         )
       })
-      if( length( unique(datapair$up) ) > 1 ){
-        pardat <- pair_result[[as.numeric(input$updatelab)]]
-      }else{
-        pardat <- pair_result
-      }
-
+     # if( length( unique(datapair$up) ) > 1 ){
+     
       output$forest2 <- shiny::renderPlot({
    
         if( selectedData() ){
-         
-          pair <- names(pardat) %in% input$treatpair
+          if( length(unique(pair_result$up)) > 1 ){
+            #pardat <- pair_result[[as.numeric(input$updatelab)]]
+            pardat <- pair_result %>% dplyr::filter(up == as.numeric(input$updatelab))
+          }else{
+            pardat <- pair_result
+          }
+          
+          #pair <- names(pardat) %in% input$treatpair
+          pair <- pardat %>% dplyr::filter(trt.pair %in% input$treatpair )
           npair <- 1:length(pair)
 
-          metafor::forest(pardat[[npair[pair]]][[2]])
-  
+          #metafor::forest(pardat[[npair[pair]]][[2]])
+          metafor::forest(pair$model[[1]])
         }else{
           return(NULL)
         }
@@ -353,14 +357,23 @@ metaupdate <-
       output$funel2 <- shiny::renderPlot({
 
         if(selectedData()){
-
+          if( length(unique(pair_result$up)) > 1 ){
+            #pardat <- pair_result[[as.numeric(input$updatelab)]]
+            pardat <- pair_result %>% dplyr::filter(up == as.numeric(input$updatelab))
+          }else{
+            pardat <- pair_result
+          }
+          
+          pair <- pardat %>% dplyr::filter(trt.pair %in% input$treatpair )
+          
           #pardat <- pair_result[[as.numeric(input$updatelab)]]
 
-          pair <-
-            names(pardat) %in% input$treatpair
-          npair <- 1:length(pair)
-          metafor::funnel(pardat[[npair[pair]]][[2]])
-        }else{
+          # pair <-
+          #   names(pardat) %in% input$treatpair
+          # npair <- 1:length(pair)
+          #metafor::funnel(pardat[[npair[pair]]][[2]])
+          metafor::funnel(pair$model[[1]])
+          }else{
           return(NULL)
         }
       })
