@@ -143,48 +143,14 @@ metaupdate <-
             ),
             shiny::fluidRow(align = "center", shiny::downloadButton('report'))
           ),
-#########################
-          # shiny::tabPanel("LSR-savefile",
-          #                 shinyjs::hidden(
-          #                   shiny::div(
-          #                     id = "repo",
-          #                     shiny::selectInput("update", "Update report",reportnames)
-          #
-          #                   )
-          #                 ),
-          #                 shiny::div(
-          #                   id = "form",
-          #
-          #                   shiny::fluidRow(shiny::column(
-          #                     8,
-          #                     shiny::textAreaInput('title2', 'Title', width = "900px", value = lsr$title))),
-          #                   shiny::fluidRow(shiny::column(
-          #                     8,
-          #                     shiny::textAreaInput(
-          #                       'abstract2',
-          #                       'Abstract',
-          #                       rows = 4,
-          #                       width = "900px",
-          #                       value = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions; study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.'
-          #                     )
-          #                   )),
-          #                   shiny::actionButton("submit", "Submit", class = "btn-primary")
-          #                 ),shinyjs::hidden(
-          #                   shiny::div(
-          #                     id = "thankyou_msg",
-          #                     shiny::h3("Thanks, your report was submitted successfully!"),
-          #                     shiny::actionLink("submit_another", "Submit another report")
-          #                   )
-          #                 )
-          #
-          # ),
-###################
+
 
            shiny::tabPanel(
             "Pairwise" ,
-            shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
-                                                 max = length(unique(datapair$up))),
-                            shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
+            shiny::fluidRow(    shiny::selectInput("treatpair",
+              "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),uiOutput("updt")
+                            # shiny::actionButton("goButton", "Initial selection!")
+                            ),
             shiny::fluidRow(
               shiny::column(width =  6, shiny::plotOutput("forest2")),
               shiny::column(width =  6, shiny::plotOutput("funel2"))
@@ -193,21 +159,18 @@ metaupdate <-
             shiny::fluidRow(shiny::column(
               width =  10, shiny::verbatimTextOutput("summary2")
             ))
-          )
-#,
+          ),
 
-          # shiny::tabPanel(
-          #   "Network" ,
-          #   shiny::fluidRow(shiny::column(
-          #     width = 6,
-          #     plotly::plotlyOutput("netply")
-          #   )),
-          #   shiny::fluidRow(shiny::column(
-          #     width = 12 , shiny::verbatimTextOutput("click")
-          #   ))
-          # 
-          # 
-          # )
+          shiny::tabPanel(
+            "Network" ,
+            shiny::fluidRow(shiny::column(
+              width = 6,
+              plotly::plotlyOutput("netply")
+            )),
+            shiny::fluidRow(shiny::column(
+              width = 12 , shiny::verbatimTextOutput("click")
+            ))
+          )
           #,
           # shiny::tabPanel(
           #   "Paper search",
@@ -224,9 +187,13 @@ metaupdate <-
     )
 
 
-
     server <- function(input, output) {
-
+      
+      # selectedData <- shiny::reactive({
+      #   input$goButton
+      #   
+      # })
+      
       ###############
       #   TAB 1     #
       ###############
@@ -261,10 +228,6 @@ metaupdate <-
       )
 
 
-      selectedData <- shiny::reactive({
-        input$goButton
-
-      })
 
       ###############
       #   TAB 2     #
@@ -295,10 +258,7 @@ metaupdate <-
 
 
       }
-      # action to take when submit button is pressed
-      # observeEvent(input$submit, {
-      #   saveData(formData())
-      # })
+ 
       Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
 
       shiny::observeEvent(input$submit, {
@@ -320,79 +280,43 @@ metaupdate <-
 
       up <- NULL
       sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
-      output$mytreat <- shiny::renderUI({
-
-        choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
-        #browser()
-        shiny::selectInput(
-          "treatpair",
-          "Pairwise comparison:", choices = choi
-
-        )
-      })
-     # if( length( unique(datapair$up) ) > 1 ){
+       output$updt <- shiny::renderUI({
      
-      output$forest2 <- shiny::renderPlot({
+      choi <- datapair %>% dplyr::filter(trt.pair %in% input$treatpair)  %>%  select(up) %>% unique()
+    
+      shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
+                           max = choi)
+       })
    
-        if( selectedData() ){
-          if( length(unique(pair_result$up)) > 1 ){
-            #pardat <- pair_result[[as.numeric(input$updatelab)]]
-            pardat <- pair_result %>% dplyr::filter(up == as.numeric(input$updatelab))
-          }else{
-            pardat <- pair_result
-          }
-          
-          #pair <- names(pardat) %in% input$treatpair
-          pair <- pardat %>% dplyr::filter(trt.pair %in% input$treatpair )
-          npair <- 1:length(pair)
-
-          #metafor::forest(pardat[[npair[pair]]][[2]])
-          metafor::forest(pair$model[[1]])
-        }else{
-          return(NULL)
-        }
+     
+    
+      output$forest2 <- shiny::renderPlot({
+    
+          pardat <- pair_result %>% 
+            dplyr::filter(trt.pair %in% input$treatpair)
+      
+          metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+    
       })
+     
 
-
+  
       output$funel2 <- shiny::renderPlot({
-
-        if(selectedData()){
-          if( length(unique(pair_result$up)) > 1 ){
-            #pardat <- pair_result[[as.numeric(input$updatelab)]]
-            pardat <- pair_result %>% dplyr::filter(up == as.numeric(input$updatelab))
-          }else{
-            pardat <- pair_result
-          }
+  
+        pardat <- pair_result %>%
+          dplyr::filter(trt.pair %in% input$treatpair)
+        
+        metafor::funnel( pardat[[1, 'model']][[as.numeric(input$updatelab)]] )
           
-          pair <- pardat %>% dplyr::filter(trt.pair %in% input$treatpair )
-          
-          #pardat <- pair_result[[as.numeric(input$updatelab)]]
-
-          # pair <-
-          #   names(pardat) %in% input$treatpair
-          # npair <- 1:length(pair)
-          #metafor::funnel(pardat[[npair[pair]]][[2]])
-          metafor::funnel(pair$model[[1]])
-          }else{
-          return(NULL)
-        }
+      
       })
-
 
       output$summary2 <- shiny::renderPrint({
+          pardat <- pair_result %>% 
+            dplyr::filter( trt.pair %in% input$treatpair)
+          
+          return(print(pardat[[1, 'model']][[ as.numeric( input$updatelab )]]))
      
-        if(selectedData()){
-          #pardat <- pair_result[[as.numeric(input$updatelab)]]
-
-          pair <-
-            names(pardat) %in% input$treatpair
-
-          npair <- 1:length(pair)
-
-          return(print(pardat[[npair[pair]]][[2]]))
-        }else{
-          return(NULL)
-        }
       })
 
       ###############

@@ -62,10 +62,24 @@ pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = 
    #   )
    # }
    
+   # update <- MTCpairs2  %>% dplyr::group_by(trt.pair ) %>%
+   #   tidyr::nest() %>%
+   # 
+   #   dplyr::mutate(model= purrr::map(data, function(x) metafor::rma(yi = TE, vi = vi, data = x)))
+   # 
+   # 
+   
    update <- MTCpairs2  %>% dplyr::group_by(trt.pair ) %>%
-     tidyr::nest() %>%
-     dplyr::mutate(model= purrr::map(data, function(x) metafor::rma(yi = TE, vi = vi, data = x)))
+     tidyr::nest() %>% 
+     mutate(model = purrr::map(data, function(d) {
+       purrr::map(.x = sort(unique(d$up)),  .f = function(x) metafor::rma(yi = TE, vi = vi, data = filter(d, up <= x) ) )
+     }))
+              
+              
 
+
+    # dplyr::mutate(model= purrr::map(data, function(x) metafor::rma(yi = TE, vi = vi, data = x)))
+   
    
    #  xx <- update$data[[21]] 
    #  
@@ -74,8 +88,8 @@ pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = 
    #      aver[[i]] <- metafor::rma(yi = TE, vi = vi, data = filter(xx, up <= i)) 
    #    }
    # 
-   # map(.x = 1:length(unique(xx$up)), .f = function(x) metafor::rma(yi = TE, vi = vi, data = filter(xx, up <= x) ) )  
-   # 
+   #map(.x = 1:length(unique(xx$up)), .f = function(x) metafor::rma(yi = TE, vi = vi, data = filter(xx, up <= x) ) )
+
 # }else{
   
 #    MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(1, nobs) ) %>% 
