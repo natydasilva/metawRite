@@ -19,10 +19,16 @@ and trt.pair with the string name for the pairwise comparison in alphabetic orde
 \item{treat2}{variable name with the treatment 2 in datapair}
 
 \item{id}{variable with id information in datapair}
+
+\item{...}{optional argument to functions, you can include any parameter to run rma function from metafor pkg}
 }
 \value{
 shiny app.
 }
 \description{
 Meta-analysis shiny app
+}
+\examples{
+\dontrun{metaupdate(modstr[[1]], modstr[[2]], trt.pair, treat1, treat2, id)
+metaupdate(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)}
 }

@@ -9,16 +9,13 @@
 #' @param treat1 variable name with the treatment 1 in datapair
 #' @param treat2 variable name with the treatment 2 in datapair
 #' @param id variable with id information in datapair
+#' @param ... optional argument to functions, you can include any parameter to run rma function from metafor pkg
 #' @return shiny app.
 #' @importFrom magrittr %>%
 #' @export
-# @examples
-# \dontrun{metaupdate(MTCpairs2, pair_result, trt.pair, treat1, treat2, id)}
-
-# metaupdate(modstr[[1]], modstr[[2]], trt.pair, treat1, treat2, id)
-# metaupdate(MTCpairs2, modstr, trt.pair, treat1, treat2, id)
-# 
-# metaupdate(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+#' @examples
+#' \dontrun{metaupdate(modstr[[1]], modstr[[2]], trt.pair, treat1, treat2, id)
+#' metaupdate(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)}
 
 metaupdate <-
   function(datapair,
@@ -148,7 +145,7 @@ metaupdate <-
            shiny::tabPanel(
             "Pairwise" ,
             shiny::fluidRow(    shiny::selectInput("treatpair",
-              "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),uiOutput("updt")
+              "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),shiny::uiOutput("updt")
                             # shiny::actionButton("goButton", "Initial selection!")
                             ),
             shiny::fluidRow(
@@ -282,7 +279,7 @@ metaupdate <-
       sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
        output$updt <- shiny::renderUI({
      
-      choi <- datapair %>% dplyr::filter(trt.pair %in% input$treatpair)  %>%  select(up) %>% unique()
+      choi <- datapair %>% dplyr::filter(trt.pair %in% input$treatpair)  %>%  dplyr::select(up) %>% unique()
     
       shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
                            max = choi)
