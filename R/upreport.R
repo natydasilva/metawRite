@@ -14,13 +14,25 @@
 #' @export
 #' @examples
 #'\dontrun{load("./data/MTCdata.rda")
+#' load("./data/dat_rungano.rda")
 #' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 #'                 list(event1, event2, event3),
 #'               list(n1, n2, n3),
 #'                 data = MTCdata,
 #'                 sm = "RR")
-#' data <- pairwise_metafor(MTCpairs, nupdate=2, nobs=c(109, 5), method  = "REML",measure="RR")
-#' upreport(data[[1]], pair_result, trt.pair, treat1, treat2, id)
+#' MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+#'                 TE = list(y1, y2, y3,y4),
+#'               seTE = list(se1, se2, se3,se4),
+#'                 data = dat_rungano,
+#'                 sm = "MD")
+#' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
+#' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
+#' 
+#' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
+#' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
+#' upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+#' upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+#' 
 #' }
 #' 
 #' 
@@ -165,11 +177,18 @@ ui = shiny::fluidPage(
       shiny::actionLink("submit_another", "Submit another report")
       )
     )
-  ),        shiny::tabPanel(
+  ),  
+  shiny::tabPanel(
     "Pairwise" ,
-    shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
-                                         max = length(pair_result)),
-                    shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
+    shiny::fluidRow(    shiny::selectInput("treatpair",
+                                           "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),shiny::uiOutput("updt")
+                        # shiny::actionButton("goButton", "Initial selection!")
+    ),
+  # shiny::tabPanel(
+  #   "Pairwise" ,
+  #   shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
+  #                                        max = length(pair_result)),
+  #                   shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
     shiny::fluidRow(
       shiny::column(width =  6, shiny::plotOutput("forest2")),
       shiny::column(width =  6, shiny::plotOutput("funel2"))
@@ -364,73 +383,115 @@ server = function(input, output, session) {
   ###############
   #   TAB 2     #
   ###############
+# 
+#   selectedData <- shiny::reactive({
+#     input$goButton
+# 
+#   })
 
-  selectedData <- shiny::reactive({
-    input$goButton
-
-  })
-
-
+# 
+#   up <- NULL
+#   sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
+#   output$mytreat <- shiny::renderUI({
+# 
+#     choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
+#     #browser()
+#     shiny::selectInput(
+#       "treatpair",
+#       "Pairwise comparison:", choices = choi
+# 
+#     )
+#   })
+# 
+#   output$forest2 <- shiny::renderPlot({
+# 
+#     if(selectedData()){
+# 
+#       pardat <- pair_result[[as.numeric(input$updatelab)]]
+#       pair <- names(pardat) %in% input$treatpair
+#       npair <- 1:length(pair)
+# 
+#       metafor::forest(pardat[[npair[pair]]][[2]])
+#     }else{
+#       return(NULL)
+#     }
+#   })
+# 
+# 
+# 
+# 
+# 
+#   output$funel2 <- shiny::renderPlot({
+# 
+#     if(selectedData()){
+#       pardat <- pair_result[[as.numeric(input$updatelab)]]
+# 
+#       pair <-
+#         names(pardat) %in% input$treatpair
+#       npair <- 1:length(pair)
+#       metafor::funnel(pardat[[npair[pair]]][[2]])
+#     }else{
+#       return(NULL)
+#     }
+#   })
+# 
+# 
+#   output$summary2 <- shiny::renderPrint({
+#     if(selectedData()){
+#       pardat <- pair_result[[as.numeric(input$updatelab)]]
+# 
+#       pair <-
+#         names(pardat) %in% input$treatpair
+# 
+#       npair <- 1:length(pair)
+# 
+#       return(print(pardat[[npair[pair]]][[2]]))
+#     }else{
+#       return(NULL)
+#     }
+#   })
+  
   up <- NULL
   sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
-  output$mytreat <- shiny::renderUI({
-
-    choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
-    #browser()
-    shiny::selectInput(
-      "treatpair",
-      "Pairwise comparison:", choices = choi
-
-    )
+  output$updt <- shiny::renderUI({
+    
+    choi <- datapair %>% dplyr::filter(trt.pair %in% input$treatpair)  %>%  dplyr::select(up) %>% unique()
+    
+    shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
+                         max = choi)
   })
-
+  
+  
+  
   output$forest2 <- shiny::renderPlot({
-
-    if(selectedData()){
-
-      pardat <- pair_result[[as.numeric(input$updatelab)]]
-      pair <- names(pardat) %in% input$treatpair
-      npair <- 1:length(pair)
-
-      metafor::forest(pardat[[npair[pair]]][[2]])
-    }else{
-      return(NULL)
-    }
+    
+    pardat <- pair_result %>% 
+      dplyr::filter(trt.pair %in% input$treatpair)
+    
+    metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+    
   })
-
-
-
-
-
+  
+  
+  
   output$funel2 <- shiny::renderPlot({
-
-    if(selectedData()){
-      pardat <- pair_result[[as.numeric(input$updatelab)]]
-
-      pair <-
-        names(pardat) %in% input$treatpair
-      npair <- 1:length(pair)
-      metafor::funnel(pardat[[npair[pair]]][[2]])
-    }else{
-      return(NULL)
-    }
+    
+    pardat <- pair_result %>%
+      dplyr::filter(trt.pair %in% input$treatpair)
+    
+    metafor::funnel( pardat[[1, 'model']][[as.numeric(input$updatelab)]] )
+    
+    
   })
-
-
+  
   output$summary2 <- shiny::renderPrint({
-    if(selectedData()){
-      pardat <- pair_result[[as.numeric(input$updatelab)]]
-
-      pair <-
-        names(pardat) %in% input$treatpair
-
-      npair <- 1:length(pair)
-
-      return(print(pardat[[npair[pair]]][[2]]))
-    }else{
-      return(NULL)
-    }
+    pardat <- pair_result %>% 
+      dplyr::filter( trt.pair %in% input$treatpair)
+    
+    return(print(pardat[[1, 'model']][[ as.numeric( input$updatelab )]]))
+    
   })
+  
 
   ###############
   #   TAB 3     #
