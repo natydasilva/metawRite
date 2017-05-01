@@ -16,6 +16,8 @@ pairwise function from netmeta package. The column names}
 
 \item{treat2}{variable name with the treatment 2 in datapair}
 
+\item{seTE}{effect size standard error}
+
 \item{nobs}{a vector with the number of observations for each update}
 
 \item{yi}{vector of length k with the observed effect sizes or outcomes. See ‘Details’ in rma function fom metafor package.}
@@ -48,7 +50,7 @@ MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 
-modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1,treat1 = treat1, 
+modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
  }
 }

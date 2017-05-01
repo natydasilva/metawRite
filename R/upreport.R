@@ -190,8 +190,8 @@ ui = shiny::fluidPage(
   #                                        max = length(pair_result)),
   #                   shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
     shiny::fluidRow(
-      shiny::column(width =  6, shiny::plotOutput("forest2")),
-      shiny::column(width =  6, shiny::plotOutput("funel2"))
+      shiny::column(width =  6, shiny::plotOutput("forest2" ) ),
+      shiny::column(width =  6, shiny::plotOutput("funel2" ) )
 
     ),
     shiny::fluidRow(shiny::column(
@@ -468,7 +468,7 @@ server = function(input, output, session) {
     pardat <- pair_result %>% 
       dplyr::filter(trt.pair %in% input$treatpair)
     
-    metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+    forest_metafor(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
     
   })
   
