@@ -468,7 +468,7 @@ server = function(input, output, session) {
     pardat <- pair_result %>% 
       dplyr::filter(trt.pair %in% input$treatpair)
     
-    forest_metafor(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+    metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
     
   })
   
