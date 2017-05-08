@@ -469,7 +469,7 @@ server = function(input, output, session) {
     pardat <- shiny::isolate(pair_result %>% 
       dplyr::filter(trt.pair %in% input$treatpair))
     
-metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+   metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
     
   })
   
