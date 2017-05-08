@@ -180,9 +180,9 @@ ui = shiny::fluidPage(
   ),  
   shiny::tabPanel(
     "Pairwise" ,
-    shiny::fluidRow(    shiny::selectInput("treatpair",
-                                           "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),shiny::uiOutput("updt")
-                        # shiny::actionButton("goButton", "Initial selection!")
+    shiny::fluidRow( shiny::selectInput("treatpair",
+                                           "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),shiny::uiOutput("updt"), 
+                         shiny::actionButton("goButton2", "Initial selection!")
     ),
   # shiny::tabPanel(
   #   "Pairwise" ,
@@ -461,14 +461,15 @@ server = function(input, output, session) {
                          max = choi)
   })
   
-  
+  shiny::observeEvent(input$goButton2, {
   
   output$forest2 <- shiny::renderPlot({
+   
     
-    pardat <- pair_result %>% 
-      dplyr::filter(trt.pair %in% input$treatpair)
+    pardat <- shiny::isolate(pair_result %>% 
+      dplyr::filter(trt.pair %in% input$treatpair))
     
-    metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
+metafor::forest(pardat[[1, 'model']][[as.numeric(input$updatelab)]])
     
   })
   
@@ -476,22 +477,22 @@ server = function(input, output, session) {
   
   output$funel2 <- shiny::renderPlot({
     
-    pardat <- pair_result %>%
-      dplyr::filter(trt.pair %in% input$treatpair)
+    pardat <- shiny::isolate(pair_result %>%
+      dplyr::filter(trt.pair %in% input$treatpair))
     
-    metafor::funnel( pardat[[1, 'model']][[as.numeric(input$updatelab)]] )
+ metafor::funnel( pardat[[1, 'model']][[as.numeric(input$updatelab)]] )
     
     
   })
   
   output$summary2 <- shiny::renderPrint({
-    pardat <- pair_result %>% 
-      dplyr::filter( trt.pair %in% input$treatpair)
+    pardat <- shiny::isolate(pair_result %>% 
+      dplyr::filter( trt.pair %in% input$treatpair))
     
     return(print(pardat[[1, 'model']][[ as.numeric( input$updatelab )]]))
     
   })
-  
+  })
 
   ###############
   #   TAB 3     #
