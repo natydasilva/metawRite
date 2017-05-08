@@ -1102,7 +1102,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
             x = xlim[2],
             y = c(rows, -1),
             label = annotext
-          ))
+          ), position = ggplot2::position_dodge(3))
         
         #text(x=xlim[2], c(rows,-1), labels=annotext, pos=2, cex=cex, ...)
       } else {
