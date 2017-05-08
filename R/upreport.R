@@ -190,7 +190,7 @@ ui = shiny::fluidPage(
   #                                        max = length(pair_result)),
   #                   shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
     shiny::fluidRow(
-      shiny::column(width =  6, shiny::plotOutput("forest2" ) ),
+      shiny::column(width =  10, shiny::plotOutput("forest2" ) ),
       shiny::column(width =  6, shiny::plotOutput("funel2" ) )
 
     ),
