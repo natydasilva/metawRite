@@ -180,17 +180,18 @@ ui = shiny::fluidPage(
   ),  
   shiny::tabPanel(
     "Pairwise" ,
-    shiny::fluidRow( shiny::selectInput("treatpair",
-                                           "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique()),shiny::uiOutput("updt"), 
-                         shiny::actionButton("goButton2", "Initial selection!")
-    ),
+    shiny::fluidRow( shiny::column(6, shiny::selectInput("treatpair",
+                                           "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique() ) ), 
+                     shiny::column(3, shiny::uiOutput("updt"))), 
+                         shiny::actionButton("goButton2", "Initial selection!"),
+    
   # shiny::tabPanel(
   #   "Pairwise" ,
   #   shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
   #                                        max = length(pair_result)),
   #                   shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
     shiny::fluidRow(
-      shiny::column(width =  10, shiny::plotOutput("forest2" ) ),
+      shiny::column(width =  6, shiny::plotOutput("forest2" ) ),
       shiny::column(width =  6, shiny::plotOutput("funel2" ) )
 
     ),
