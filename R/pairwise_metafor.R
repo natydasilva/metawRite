@@ -58,7 +58,7 @@ pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = 
      #   dplyr::mutate(x, trt.pair =  stringr::str_c(aux[1] ,aux[2], sep ="-"))
      # }
      # )
-      group_by(id) %>%   tidyr::nest() %>% mutate(trt.pair = purrr::map(data,function(x){
+      dplyr::group_by(id) %>%   tidyr::nest() %>% dplyr::mutate(trt.pair = purrr::map(data,function(x){
       aux <-   stringr::str_sort(x[1,] %>% dplyr::select(treat1, treat2))
         stringr::str_c(aux[1] ,aux[2], sep ="-")}))%>% tidyr::unnest()
     
