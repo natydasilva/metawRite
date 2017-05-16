@@ -71,6 +71,29 @@ upreport <-
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                 ")
     
+    protocol <- list(title ="Identification: Identify the report as a protocol of a systematic review,  update: if the protocol is for an update of a previous systematic review, identify as such,
+                     contact: Provide name, institutional affiliation, e-mail address of all protocol authors; provide physical mailing address of corresponding author, contributions: Describe contributions of protocol authors and identify the guarantor of the review,
+                     Amendments: If the protocol represents an amendment of a previously completed or published protocol, identify as such and list changes; otherwise, state plan for documenting important protocol amendments,
+                     Support: Indicate sources of financial or other support for the review, Sponsors:Provide name for the review funder and/or sponsor,
+                     Role of sponsor or funder: Describe roles of funder(s), sponsor(s), and/or institution(s), if any, in developing the protocol",
+                     introduction="Rationale:Describe the rationale for the review in the context of what is already known,
+                     Objective: Provide an explicit statement of the question(s) the review will address with reference to participants, interventions, comparators, and outcomes (PICO)", 
+                     methods= "Eligibility criterio: Specify the study characteristics (such as PICO, study design, setting, time frame) and report characteristics (such as years considered, language, publication status) to be used as criteria for eligibility for the review,
+                     Information source: Describe all intended information sources (such as electronic databases, contact with study authors, trial registers or other grey literature sources) with planned dates of coverage,
+                     Search strategy: Present draft of search strategy to be used for at least one electronic database, including planned limits, such that it could be repeated,
+                     Study records: Describe the mechanism(s) that will be used to manage records and data throughout the review,
+                     Selection process: State the process that will be used for selecting studies (such as two independent reviewers) through each phase of the review (that is, screening, eligibility and inclusion in meta-analysis),
+                     Data collection process: Describe planned method of extracting data from reports (such as piloting forms, done independently, in duplicate), any processes for obtaining and confirming data from investigators,
+                     Data items: List and define all variables for which data will be sought (such as PICO items, funding sources), any pre-planned data assumptions and simplifications,
+                     Outcomes and priorization: List and define all outcomes for which data will be sought, including prioritization of main and additional outcomes, with rationale,
+                     Risk of Bias: Describe anticipated methods for assessing risk of bias of individual studies, including whether this will be done at the outcome or study level, or both; state how this information will be used in data synthesis,
+                     Data synthesis: Describe criteria under which study data will be quantitatively synthesised
+                    If data are appropriate for quantitative synthesis, describe planned summary measures, methods of handling data and
+                     methods of combining data from studies, including any planned exploration of consistency (such as I2, Kendall’s τ) 
+                    Describe any proposed additional analyses (such as sensitivity or subgroup analyses, meta-regression)
+                    If quantitative synthesis is not appropriate, describe the type of summary planned,
+                     Meta-bias(es): Specify any planned assessment of meta-bias(es) (such as publication bias across studies, selective reporting within studies),
+                     Confidence in cumulative evidence: Describe how the strength of the body of evidence will be assessed (such as GRADE)")
 #
 # library(plotly)
 
@@ -80,6 +103,57 @@ ui = shiny::fluidPage(
   shiny::titlePanel("Review, write and update meta-analysis results"),
   shiny::mainPanel(
     shiny::tabsetPanel(
+      shiny::tabPanel(
+        "Protocol",
+        shiny::div(
+          id = "form",
+          shiny::fluidRow(shiny::column(
+            8,
+            shiny::textAreaInput(
+              'title',
+              'Title',
+              width = "900px",
+              value = lsr$title, resize ="vertical")
+          )),
+        shiny::fluidRow(shiny::column(
+          8,
+          shiny::textAreaInput(
+            'introproto',
+            'Introduction',
+            rows = 4,
+            width = "900px",
+            value = protocol$introduction, resize ="vertical")
+        )),
+        shiny::fluidRow(shiny::column(
+          8,
+          shiny::textAreaInput(
+            'methoproto',
+            'methods',
+            rows = 4,
+            width = "900px",
+            value = protocol$methods, resize ="vertical")
+        ))
+        
+      )),
+      shiny::tabPanel(
+        "Paper search",
+        shiny::sidebarLayout(
+          shiny::sidebarPanel(
+            shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
+            shiny::textInput("text", label = shiny::h3("Keyord(s)"), value = "pinkeye in cows"),
+            shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
+            shiny::textInput("date1", label = shiny::h3("From"),value="2016/01/01"),
+            shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
+            shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
+            shiny::actionButton("wordButton","WORDS")),
+          
+          shiny::mainPanel(
+            shiny::tableOutput("authList")
+            
+          )
+        )), 
+     
+      
   shiny::tabPanel(
     "LSR-report",
   shinyjs::hidden(
@@ -212,7 +286,7 @@ ui = shiny::fluidPage(
     ))
 
 
-  )#,
+  )
   # shiny::tabPanel(
   #   "Paper search",
   #   shiny::fluidRow(shiny::column(
@@ -226,23 +300,7 @@ ui = shiny::fluidPage(
   #     value = "pinkeye", resize ="vertical"
   #   ) )
   # )
-  # shiny::tabPanel(
-  #   "Paper search",
-  #   shiny::sidebarLayout(
-  # shiny::sidebarPanel(
-  #   shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
-  #   shiny::textInput("text", label = h3("Keyord(s)"), value = "pinkeye in cows"),
-  #   shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
-  #   shiny::textInput("date1", label = h3("From"),value="2016/01/01"),
-  #   shiny::textInput("date2", label = h3("To"),  value = "2017/01/01"),
-  #   shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
-  #   shiny::actionButton("wordButton","WORDS")),
-  # 
-  # shiny::mainPanel(
-  #   shiny::tableOutput("authList")
-  #   
-  # )
-  # ))
+
   )
   
 ))
