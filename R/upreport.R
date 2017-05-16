@@ -1,4 +1,3 @@
-
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
 #' @usage upreport(datapair, pair_result,trt.pair, treat1, treat2, id)
