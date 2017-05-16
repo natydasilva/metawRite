@@ -4,7 +4,8 @@
 \alias{pairwise_metafor}
 \title{Restruscture data and pairwise meta-analysis model results using metafor package}
 \usage{
-pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE, nobs = NULL, yi, vi, sei, ... )
+pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE,
+ nobs = NULL, yi, vi, sei, ... )
 }
 \arguments{
 \item{dataini}{Data frame in contrast based format, if you have the data in arm-based you can use

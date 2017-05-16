@@ -1,5 +1,52 @@
 # Note: Works with "robust.rma" objects.
-
+#' Forest plot from metafor package translate to ggplot2
+#'
+#' @usage forest_metafor(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, 
+#' showweights = FALSE, xlim, alim, clim, ylim, at, steps = 5, level = x$level,
+#'  refline = 0, digits = 2L, width, xlab, slab, mlab, ilab, ilab.xpos, ilab.pos,
+#'   order, transf, atransf, targs, rows, efac = 1, pch = 15,psize, col, border,
+#'    lty, cex, cex.lab, cex.axis, ...)
+#' @param x 
+#' @param annotate
+#' @param taddfit
+#' @param addcred
+#' @param showweights
+#' @param xlim
+#' @param alim
+#' @param clim
+#' @param ylim
+#' @param at
+#' @param steps
+#' @param level
+#' @param refline
+#' @param digits
+#' @param width
+#' @param width
+#' @param xlab
+#' @param slab
+#' @param mlab
+#' @param ilab
+#' @param ilab.xpos
+#' @param ilab.pos
+#' @param  order
+#' @param transf
+#' @param  atransf
+#' @param  targs
+#' @param rows
+#' @param efac 
+#' @param  pch 
+#' @param psize
+#' @param  col
+#' @param  border
+#' @param lty
+#' @param  cex
+#' @param cex.lab
+#' @param  cex.axis
+#' @param ... optional argument to ..
+#' @return returns to 
+#' @importFrom magrittr %>%
+#' @export
+#' @examples
 
 forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, showweights = FALSE, xlim,
            alim, clim, ylim, at, steps = 5, level = x$level, refline = 0, digits = 2L, width, xlab, slab,

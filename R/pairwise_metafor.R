@@ -1,6 +1,7 @@
 #' Restruscture data and pairwise meta-analysis model results using metafor package
 #'
-#' @usage pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE, nobs = NULL, yi, vi, sei, ... )
+#' @usage pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE,
+#'  nobs = NULL, yi, vi, sei, ... )
 #' @param dataini Data frame in contrast based format, if you have the data in arm-based you can use
 #' pairwise function from netmeta package. The column names 
 #' @param nupdate number of updates
