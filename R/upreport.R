@@ -212,7 +212,7 @@ ui = shiny::fluidPage(
     ))
 
 
-  ),
+  )#,
   # shiny::tabPanel(
   #   "Paper search",
   #   shiny::fluidRow(shiny::column(
@@ -226,23 +226,25 @@ ui = shiny::fluidPage(
   #     value = "pinkeye", resize ="vertical"
   #   ) )
   # )
-  shiny::tabPanel(
-    "Paper search",
-    shiny::sidebarLayout(
-  shiny::sidebarPanel(
-    shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
-    shiny::textInput("text", label = h3("Keyord(s)"), value = "pinkeye in cows"),
-    shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
-    shiny::textInput("date1", label = h3("From"),value="2016/01/01"),
-    shiny::textInput("date2", label = h3("To"),  value = "2017/01/01"),
-    shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
-    shiny::actionButton("wordButton","WORDS")),
-  
-  shiny::mainPanel(
-    shiny::tableOutput("authList")
-    
+  # shiny::tabPanel(
+  #   "Paper search",
+  #   shiny::sidebarLayout(
+  # shiny::sidebarPanel(
+  #   shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
+  #   shiny::textInput("text", label = h3("Keyord(s)"), value = "pinkeye in cows"),
+  #   shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
+  #   shiny::textInput("date1", label = h3("From"),value="2016/01/01"),
+  #   shiny::textInput("date2", label = h3("To"),  value = "2017/01/01"),
+  #   shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
+  #   shiny::actionButton("wordButton","WORDS")),
+  # 
+  # shiny::mainPanel(
+  #   shiny::tableOutput("authList")
+  #   
+  # )
+  # ))
   )
-  )))
+  
 ))
 
 server = function(input, output, session) {
