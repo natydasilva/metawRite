@@ -16,7 +16,7 @@ Imports:
     shiny,
     ggrepel,
     RISmed,
-    plotly (>= 4.5.6),
+    plotly,
     ggthemes,
     shinyjs,
     digest,
