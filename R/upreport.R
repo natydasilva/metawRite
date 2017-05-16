@@ -70,6 +70,7 @@ upreport <-
                 Conclusions: Provide a general interpretation of the results in the context of other evidence, and implications for future research.",
                 funding = "Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
                 ")
+    
 #
 # library(plotly)
 
@@ -211,7 +212,21 @@ ui = shiny::fluidPage(
     ))
 
 
+  ),
+  shiny::tabPanel(
+    "Paper search",
+    shiny::fluidRow(shiny::column(
+      width = 12,
+      "In this tab we can include possible search for new papers, next update material")),
+    shiny::fluidRow(shiny::textAreaInput(
+      'search',
+      'Search',
+      rows = 2,
+      width = "900px",
+      value = "pinkeye", resize ="vertical"
+    ) )
   )
+  
   )
 ))
 

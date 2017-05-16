@@ -168,16 +168,16 @@ metaupdate <-
               width = 12 , shiny::verbatimTextOutput("click")
             ))
           )
-          #,
-          # shiny::tabPanel(
-          #   "Paper search",
-          #   shiny::column(
-          #     8,
-          #     "In this tab we can include possible search for new papers, next update material"
-          #   )
-          #
-          #
-          # )
+          ,
+          shiny::tabPanel(
+            "Paper search",
+            shiny::column(
+              8,
+              "In this tab we can include possible search for new papers, next update material"
+            )
+
+
+          )
 
         )
       )
