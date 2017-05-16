@@ -1,0 +1,105 @@
+refid,author,year,outcome,timepoint,sample size arm 1,events arm 1,sem arm 1,sd arm 1,sample size arm 2,events arm 2,sem arm 2,sd arm 2,arm 1,route arm 1,dose arm 1,location arm 1,arm 2,route arm 2,dose arm 2,location arm 2,blinding,random,stratification,sponsorhip
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 5,50,26,,,49,48,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 9,49,0,,,49,45,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 13,49,0,,,49,37,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 17,49,0,,,49,8,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 21,49,0,,,49,6,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 5,50,35,,,49,45,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 9,50,25,,,49,38,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 13,50,16,,,49,39,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 17,50,11,,,49,30,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+4860,FOI Summary NADA 141-244,2007,unhealed ulcers,day 21,50,10,,,49,31,,,tulathromycin,SC,2.5 mg/kg,non-ocular,non active,,,,no,yes,severity,yes
+7606,Zielinski et al,2002,unhealed ulcers,day 21,20,16,,,19,13,,,oxytetracycline,S-CONJUNC,300 mg,ocular,non active,,,,yes,yes,severity,yes
+7606,Zielinski et al,2002,unhealed ulcers,day 21,20,9,,,19,13,,,tilmicosin,SC,2.5 mg/kg,non-ocular,non active,,,,yes,yes,severity,yes
+7606,Zielinski et al,2002,unhealed ulcers,day 21,21,9,,,19,13,,,tilmicosin,SC,5 mg/kg,non-ocular,non active,,,,yes,yes,severity,yes
+7606,Zielinski et al,2002,unhealed ulcers,day 21,20,9,,,19,13,,,tilmicosin,SC,10 mg/kg,non-ocular,non active,,,,yes,yes,severity,yes
+7606,Zielinski et al,2002,unhealed ulcers,day 21,19,8,,,19,13,,,tilmicosin,S-CONJUNC,300 mg,ocular,non active,,,,yes,yes,severity,yes
+7552,Starke et al,2007,healing time,,29,14.65,2.292,12.345,27,13.45,1.671,8.683,oxytetracycline,S-CONJUNC,200 mg/2 ml,ocular,oxytetracycline,IM,20 mg/kg,non-ocular,no,yes,severity,no
+7558,Senturk et al,2007,clinical score,day 3,18,2.27,0.1,0.424,18,1,0.1,0.424,non active,,,,clindamycin,S-CONJUNC,150 mg,ocular,no,yes,none,no
+7558,Senturk et al,2007,clinical score,day 7,18,2.19,0.1,0.424,18,0.56,0.1,0.424,non active,,,,clindamycin,S-CONJUNC,150 mg,ocular,no,yes,none,no
+7558,Senturk et al,2007,clinical score,day 15,18,1.77,0.1,0.424,18,0.23,0.1,0.424,non active,,,,clindamycin,S-CONJUNC,150 mg,ocular,no,yes,none,no
+7529,"Quesada, et al.",2010,unhealed ulcers,day 7,21,13,,,20,20,,,florfenicol,TOP-OPTHALM,126 mg/bovine/week,ocular,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,none,no
+7529,"Quesada, et al.",2010,unhealed ulcers,day 14,21,10,,,20,13,,,florfenicol,TOP-OPTHALM,126 mg/bovine/week,ocular,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,none,no
+7529,"Quesada, et al.",2010,unhealed ulcers,day 21,21,6,,,20,10,,,florfenicol,TOP-OPTHALM,126 mg/bovine/week,ocular,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,none,no
+7604,Gokce et al,2002,healing time,,15,13.14,3.39,13.129,9,18.56,6.18,18.54,florfenicol,IM,20 mg/kg,non-ocular,oxytetracycline,IM,20 mg/kg,non-ocular,no,yes,none,no
+7604,Gokce et al,2002,unhealed ulcers,day 28,15,0,,,15,6,,,florfenicol,IM,20 mg/kg,non-ocular,oxytetracycline,IM,20 mg/kg,non-ocular,no,yes,none,no
+7992,George et al,1989,clinical score,day 4,20,2.3,0.157,0.7,23,1.9,0.188,0.9,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 7,20,2.1,0.157,0.7,23,1.7,0.167,0.8,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 10,20,2,0.157,0.7,23,1.5,0.167,0.8,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 13,20,2,0.201,0.9,23,1.4,0.125,0.6,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 16,20,1.9,0.179,0.8,23,1.4,0.104,0.5,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 4,20,2.3,0.157,0.7,21,1.7,0.153,0.7,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 7,20,2.1,0.157,0.7,21,1.5,0.131,0.6,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 10,20,2,0.157,0.7,21,1.5,0.131,0.6,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 13,20,2,0.201,0.9,21,1.5,0.153,0.7,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 16,20,1.9,0.179,0.8,21,1.3,0.131,0.6,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 4,8,1.8,0.247,0.7,8,2.2,0.141,0.4,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 7,8,1.7,0.247,0.7,8,1.6,0.247,0.7,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 10,8,1.9,0.389,1.1,8,1.2,0.141,0.4,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 13,8,1.7,0.389,1.1,8,1.8,0.177,0.5,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,clinical score,day 16,8,1.8,0.389,1.1,8,1.4,0.177,0.5,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7702,George et al,1988,healing time,,52,11.8,1.539,11.1,52,7,0.943,6.8,non active,,,,oxytetracycline,IM,20 mg/kg,non-ocular,no,yes,severity,yes
+7992,George et al,1989,healing time,,23,10.5,1.084,5.2,27,8.4,0.962,5,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,severity,no
+7992,George et al,1989,healing time,,23,10.5,1.084,5.2,22,7.9,1.066,5,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,severity,no
+7992,George et al,1989,surface area,day 4,20,0.728,0.259,1.158,23,0.522,0.202,0.971,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 7,20,0.598,0.2,0.895,23,0.328,0.148,0.709,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 10,20,0.422,0.141,0.629,23,0.109,0.055,0.263,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 13,20,0.288,0.102,0.455,23,0.089,0.051,0.243,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 16,20,0.133,0.048,0.214,23,0.044,0.026,0.124,non active,,,,cloxacillin,TOP-OPTHALM,250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 4,20,0.728,0.259,1.158,21,0.436,0.179,0.819,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 7,20,0.598,0.2,0.895,21,0.242,0.112,0.515,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 10,20,0.422,0.141,0.629,21,0.156,0.084,0.387,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 13,20,0.288,0.102,0.455,21,0.114,0.051,0.234,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 16,20,0.133,0.048,0.214,21,0.057,0.037,0.171,non active,,,,cloxacillin,TOP-OPTHALM,375 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 4,8,0.679,0.408,1.153,8,0.369,0.043,0.121,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 7,8,0.605,0.385,1.089,8,0.045,0.03,0.085,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 10,8,0.614,0.388,1.097,8,0.089,0.063,0.179,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 13,8,0.286,0.189,0.535,8,0.019,0.01,0.027,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7992,George et al,1989,surface area,day 16,8,0.589,0.38,1.074,8,0.007,0.005,0.014,cloxacillin,TOP-OPTHALM,1 dose 250 mg,ocular,cloxacillin,TOP-OPTHALM,2 doses 250 mg,ocular,yes,yes,none,no
+7627,Eastman et al,1998,healing time,,38,12.4,1.9,11.865,39,4.63,0.4,2.466,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 3,38,25,,,39,34,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 4,38,11,,,39,23,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 5,38,10,,,39,20,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 6,38,4,,,39,15,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 8,38,3,,,39,12,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 11,38,2,,,39,13,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 13,38,1,,,39,13,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 15,38,0,,,39,12,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 20,38,0,,,39,11,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 21,38,0,,,39,10,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7627,Eastman et al,1998,unhealed ulcers,day 24,38,0,,,39,9,,,penicillin,S-CONJUNC,"300,000 U",ocular,non active,,,,no,yes,severity,no
+7575,Dueger et al,2004,surface area,day 3-4,40,0.278,0.056,0.354,38,0.17,0.039,0.24,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 7,40,0.269,0.061,0.386,38,0.11,0.039,0.24,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 10-11,40,0.256,0.055,0.348,38,0.096,0.043,0.265,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 14,40,0.231,0.054,0.342,36,0.079,0.041,0.246,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 17-18,38,0.189,0.061,0.376,36,0.058,0.033,0.198,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 21,38,0.102,0.034,0.21,35,0.021,0.015,0.089,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,surface area,day 3-4,26,0.041,0.017,0.087,26,0.068,0.031,0.158,non active,,,,ceftiofur,SC,6.6 mg/kg,non-ocular,yes,yes,none,no
+7575,Dueger et al,2004,unhealed ulcers,day 7,38,11,,,40,21,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7575,Dueger et al,2004,unhealed ulcers,day 14,36,5,,,40,17,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7575,Dueger et al,2004,unhealed ulcers,day 21,35,3,,,38,11,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7575,Dueger et al,2004,unhealed ulcers,day 7,26,3,,,26,2,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7575,Dueger et al,2004,unhealed ulcers,day 14,26,1,,,26,2,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7575,Dueger et al,2004,unhealed ulcers,day 21,26,0,,,26,0,,,ceftiofur,SC,6.6 mg/kg,non-ocular,non active,,,,yes,yes,none,yes
+7672,"Chadli, M.",1992,unhealed ulcers,day 5,53,48,,,53,52,,,oxytetracycline,IM,1ml/10kg,non-ocular,aureomycin,TOP-OPTHALM,1% wash,ocular,no,yes,,no
+7672,"Chadli, M.",1992,unhealed ulcers,day 10,53,30,,,53,49,,,oxytetracycline,IM,1ml/10kg,non-ocular,aureomycin,TOP-OPTHALM,1% wash,ocular,no,yes,,no
+7672,"Chadli, M.",1992,unhealed ulcers,day 15,53,4,,,53,31,,,oxytetracycline,IM,1ml/10kg,non-ocular,aureomycin,TOP-OPTHALM,1% wash,ocular,no,yes,,no
+7617,Angelos et al,2000,clinical score,day 7,52,0.98,0.114,0.82,49,0.49,0.099,0.69,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,clinical score,day 14,47,0.7,0.13,0.89,49,0.2,0.076,0.53,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,clinical score,day 21,43,0.49,0.124,0.81,49,0.06,0.03,0.21,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,clinical score,day 7,52,0.98,0.114,0.82,41,0.45,0.086,0.55,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,clinical score,day 14,47,0.7,0.13,0.89,41,0.13,0.067,0.43,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,clinical score,day 21,43,0.49,0.124,0.81,41,0.1,0.069,0.44,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,no
+7617,Angelos et al,2000,surface area,day 7,52,2.762,0.572,4.122,49,1.203,0.304,2.127,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,surface area,day 14,47,2.526,0.607,4.164,49,0.347,0.094,0.66,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,surface area,day 21,53,0.998,0.244,1.778,49,0.031,0.009,0.06,non active,,,,florfenicol,IM,20 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,surface area,day 7,52,2.762,0.572,4.122,41,0.496,0.132,0.845,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,surface area,day 14,47,2.526,0.607,4.164,41,0.271,0.083,0.531,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,surface area,day 21,53,0.998,0.244,1.778,41,0.111,0.034,0.22,non active,,,,florfenicol,SC,40 mg/kg,non-ocular,yes,yes,severity,yes
+7617,Angelos et al,2000,unhealed ulcers,day 20,49,1,,,52,19,,,florfenicol,IM,20 mg/kg,non-ocular,non active,,,,yes,yes,severity,no
+7617,Angelos et al,2000,unhealed ulcers,day 20,42,3,,,52,19,,,florfenicol,SC,40 mg/kg,non-ocular,non active,,,,yes,yes,severity,no
+7654,Allen et al,1995,healing time,,12,7.3,1.79,6.2,12,8.8,1.559,5.4,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,yes,yes,severity,no
+7654,Allen et al,1995,surface area,day 4,14,0.25,0.048,0.18,18,0.53,0.144,0.61,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,yes,yes,severity,no
+7654,Allen et al,1995,surface area,day 7,14,0.12,0.048,0.18,18,0.77,0.158,0.67,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,yes,yes,severity,no
+7654,Allen et al,1995,surface area,day 10,14,0.19,0.045,0.17,18,0.55,0.146,0.62,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,yes,yes,severity,no
+7654,Allen et al,1995,surface area,day 14,14,0.15,0.037,0.14,18,0.33,0.078,0.33,non active,,,,penicillin,S-CONJUNC,"300,000 U",ocular,yes,yes,severity,no
