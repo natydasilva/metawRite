@@ -213,21 +213,36 @@ ui = shiny::fluidPage(
 
 
   ),
+  # shiny::tabPanel(
+  #   "Paper search",
+  #   shiny::fluidRow(shiny::column(
+  #     width = 12,
+  #     "In this tab we can include possible search for new papers, next update material")),
+  #   shiny::fluidRow(shiny::textAreaInput(
+  #     'search',
+  #     'Search',
+  #     rows = 2,
+  #     width = "900px",
+  #     value = "pinkeye", resize ="vertical"
+  #   ) )
+  # )
   shiny::tabPanel(
     "Paper search",
-    shiny::fluidRow(shiny::column(
-      width = 12,
-      "In this tab we can include possible search for new papers, next update material")),
-    shiny::fluidRow(shiny::textAreaInput(
-      'search',
-      'Search',
-      rows = 2,
-      width = "900px",
-      value = "pinkeye", resize ="vertical"
-    ) )
-  )
+    sidebarLayout(
+  sidebarPanel(
+    helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
+    textInput("text", label = h3("Keyord(s)"), value = "pinkeye in cows"),
+    helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
+    textInput("date1", label = h3("From"),value="2016/01/01"),
+    textInput("date2", label = h3("To"),  value = "2017/01/01"),
+    helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
+    actionButton("wordButton","WORDS")),
   
+  mainPanel(
+    tableOutput("authList")
+    
   )
+  )))
 ))
 
 server = function(input, output, session) {
