@@ -48,6 +48,4 @@ upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 
 }
-
-
 }

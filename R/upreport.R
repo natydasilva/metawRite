@@ -33,8 +33,7 @@
 #' upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 #' 
 #' }
-#' 
-#' 
+ 
 upreport <-
   function(datapair,
            pair_result,
@@ -105,11 +104,11 @@ ui = shiny::fluidPage(
       shiny::tabPanel(
         "Protocol",
         shiny::div(
-          id = "form",
+          id = "formproto",
           shiny::fluidRow(shiny::column(
             8,
             shiny::textAreaInput(
-              'title',
+              'titleproto',
               'Title',
               width = "900px",
               value = lsr$title, resize ="vertical")
@@ -127,12 +126,26 @@ ui = shiny::fluidPage(
           8,
           shiny::textAreaInput(
             'methoproto',
-            'methods',
+            'Methods',
             rows = 4,
             width = "900px",
             value = protocol$methods, resize ="vertical")
         ))
-        
+
+      ),
+      shiny::actionButton("submitproto", "Submit", class = "btn-primary"),
+      shiny::downloadButton('download'), shiny::fluidRow(shiny::column(
+        8,
+        shiny::HTML("<div style='height: 150px;'>"),
+
+        shiny::HTML("</div>")
+      )),
+      shinyjs::hidden(
+        shiny::div(
+          id = "thankyou_msg",
+          shiny::h3("Thanks, your protocol was submitted successfully!"),
+          shiny::actionLink("submit_another", "Submit another report")
+        )
       )),
       shiny::tabPanel(
         "Paper search",
@@ -145,12 +158,12 @@ ui = shiny::fluidPage(
             shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
             shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
             shiny::actionButton("wordButton","WORDS")),
-          
+
           shiny::mainPanel(
             shiny::tableOutput("authList")
-            
+
           )
-        )), 
+        )),
      
       
   shiny::tabPanel(
@@ -306,7 +319,21 @@ ui = shiny::fluidPage(
 
 server = function(input, output, session) {
 
-
+  
+  ###############
+  #   TAB 1     #
+  ###############
+  
+  ###############
+  #   TAB 2     #
+  ###############
+  
+  
+  
+  
+  ###############
+  #   TAB 3     #
+  ###############
   output$download = shiny::downloadHandler(
     #output$download <- observeEvent(input$download, {shiny::downloadHandler(
   filename = 'myreport.pdf',
@@ -316,10 +343,10 @@ server = function(input, output, session) {
            # browser()
            # tmp <- tempdir()
 
-      tmp <- system.file(package="metaupdate")
+      tmp <- system.file(package="metawRite")
       tempReport <- file.path(tmp,"input2.Rnw")
       file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
-      dir <- system.file(package="metaupdate")
+      dir <- system.file(package="metawRite")
 
 
       writeLines(input$title, con = file.path(dir, "_title.Rnw"))
@@ -471,7 +498,7 @@ server = function(input, output, session) {
 
 
   ###############
-  #   TAB 2     #
+  #   TAB 4     #
   ###############
 # 
 #   selectedData <- shiny::reactive({
@@ -585,7 +612,7 @@ server = function(input, output, session) {
   })
 
   ###############
-  #   TAB 3     #
+  #   TAB 5     #
   ###############
   rv <-
     shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))

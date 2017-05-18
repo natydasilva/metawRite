@@ -26,7 +26,7 @@
 #'                 sm = "RR")
 #' MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3,y4),
-#'               seTE = list(se1, se2, se3,se4),
+#'               seTE = list(se1, se2, se3, se4),
 #'                 data = dat_rungano,
 #'                 sm = "MD")
 #' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
