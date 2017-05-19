@@ -28,6 +28,8 @@ Imports:
     netmeta,
     stringr,
     stringi,
+    wordcloud,
+    tm
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)

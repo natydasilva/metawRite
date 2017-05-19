@@ -169,10 +169,8 @@ ui = shiny::fluidPage(
             shiny::actionButton("wordButton","WORDS")),
 
           shiny::mainPanel(
-            shiny::tableOutput("authList")
-
-          )
-        )),
+            shiny::plotOutput("wordPlot")
+        ))),
      
       
   shiny::tabPanel(
@@ -456,7 +454,18 @@ server = function(input, output, session) {
   #   TAB 2     #
   ###############
   
+  word2<- shiny::eventReactive(input$wordButton, {input$text})
   
+  output$wordPlot<-shiny::renderPlot({
+    d1<-input$date1
+    d2<-input$date2
+    res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
+    fetch <- RISmed::EUtilsGet(res, type="efetch", db="pubmed")
+    articles<-data.frame('Abstract'=RISmed::AbstractText(fetch))
+    abstracts<-as.character(articles$Abstract)
+    abstracts<-paste(abstracts, sep="", collapse="") 
+    wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
+  })
   
   
   ###############
