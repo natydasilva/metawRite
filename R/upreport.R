@@ -69,14 +69,14 @@ upreport <-
                 funding = 'Describe sources of funding for the systematic review and other support (e.g., supply of data); role of funders for the systematic review.
 ')
     
-    protocol <- list(title ="Identification: Identify the report as a protocol of a systematic review,  update: if the protocol is for an update of a previous systematic review, identify as such,
+    protocol <- list(titleproto ="Identification: Identify the report as a protocol of a systematic review,  update: if the protocol is for an update of a previous systematic review, identify as such,
                      contact: Provide name, institutional affiliation, e-mail address of all protocol authors; provide physical mailing address of corresponding author, contributions: Describe contributions of protocol authors and identify the guarantor of the review,
                      Amendments: If the protocol represents an amendment of a previously completed or published protocol, identify as such and list changes; otherwise, state plan for documenting important protocol amendments,
                      Support: Indicate sources of financial or other support for the review, Sponsors:Provide name for the review funder and/or sponsor,
                      Role of sponsor or funder: Describe roles of funder(s), sponsor(s), and/or institution(s), if any, in developing the protocol",
-                     introduction="Rationale:Describe the rationale for the review in the context of what is already known,
+                     introproto ="Rationale:Describe the rationale for the review in the context of what is already known,
                      Objective: Provide an explicit statement of the question(s) the review will address with reference to participants, interventions, comparators, and outcomes (PICO)", 
-                     methods= "Eligibility criterio: Specify the study characteristics (such as PICO, study design, setting, time frame) and report characteristics (such as years considered, language, publication status) to be used as criteria for eligibility for the review,
+                     methodproto = "Eligibility criterio: Specify the study characteristics (such as PICO, study design, setting, time frame) and report characteristics (such as years considered, language, publication status) to be used as criteria for eligibility for the review,
                      Information source: Describe all intended information sources (such as electronic databases, contact with study authors, trial registers or other grey literature sources) with planned dates of coverage,
                      Search strategy: Present draft of search strategy to be used for at least one electronic database, including planned limits, such that it could be repeated,
                      Study records: Describe the mechanism(s) that will be used to manage records and data throughout the review,
@@ -95,6 +95,7 @@ upreport <-
     #
 # library(plotly)
 
+    
 ui = shiny::fluidPage(
   shinyjs::useShinyjs(),
   #shinyjs::inlineCSS(appCSS),
@@ -103,15 +104,23 @@ ui = shiny::fluidPage(
     shiny::tabsetPanel(
       shiny::tabPanel(
         "Protocol",
+        shinyjs::hidden(
+          shiny::div(
+          id = "updateproto",
+          shiny::uiOutput("updateproto"))
+          ),
+
         shiny::div(
           id = "formproto",
+
           shiny::fluidRow(shiny::column(
             8,
             shiny::textAreaInput(
               'titleproto',
               'Title',
+              rows = 4,
               width = "900px",
-              value = lsr$title, resize ="vertical")
+              value = protocol$titleproto, resize ="vertical")
           )),
         shiny::fluidRow(shiny::column(
           8,
@@ -120,31 +129,31 @@ ui = shiny::fluidPage(
             'Introduction',
             rows = 4,
             width = "900px",
-            value = protocol$introduction, resize ="vertical")
+            value = protocol$introproto, resize ="vertical")
         )),
         shiny::fluidRow(shiny::column(
           8,
           shiny::textAreaInput(
-            'methoproto',
+            'methodproto',
             'Methods',
-            rows = 4,
+            rows = 14,
             width = "900px",
-            value = protocol$methods, resize ="vertical")
-        ))
+            value = protocol$methodproto, resize ="vertical")
+        )),
 
-      ),
-      shiny::actionButton("submitproto", "Submit", class = "btn-primary"),
-      shiny::downloadButton('download'), shiny::fluidRow(shiny::column(
-        8,
+
+      shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
+      shiny::downloadButton('downproto')),
+      shiny::fluidRow(shiny::column(8,
         shiny::HTML("<div style='height: 150px;'>"),
 
         shiny::HTML("</div>")
       )),
       shinyjs::hidden(
         shiny::div(
-          id = "thankyou_msg",
+          id = "thankyou_msgproto",
           shiny::h3("Thanks, your protocol was submitted successfully!"),
-          shiny::actionLink("submit_another", "Submit another report")
+          shiny::actionLink("submit_anotherproto", "Submit another report")
         )
       )),
       shiny::tabPanel(
@@ -323,6 +332,125 @@ server = function(input, output, session) {
   ###############
   #   TAB 1     #
   ###############
+  responsesDir <- file.path("tools")
+  
+  output$downproto = shiny::downloadHandler(
+   filename = 'myprotocol.pdf',
+    
+    content = function(file) {
+      
+      # browser()
+      # tmp <- tempdir()
+      
+      tmp <- system.file(package="metawRite")
+      tempReport <- file.path(tmp,"inputpr2.Rnw")
+      file.copy(file.path(tmp, "inputpr.Rnw"), tempReport, overwrite = TRUE)
+      dir <- system.file(package="metawRite")
+      
+      
+      writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rnw"))
+      
+      writeLines(input$introproto, con = file.path(dir, "_introproto.Rnw"))
+      writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rnw"))
+      out = knitr::knit2pdf(input = tempReport,
+                            output = file.path(tmp, "inputpr.tex"),
+                            clean = TRUE)
+      file.rename(out, file) # move pdf to file for downloading
+    }
+    
+  )
+  
+  #Make reactive the new information in the report
+  
+  
+  titleproto <- shiny::reactive({
+    list("titleproto",input$titleproto)
+  })
+  
+  introproto <- shiny::reactive({
+    list("introproto", input$introproto)
+  })
+  
+  methodproto <- shiny::reactive({
+    list("methodproto", input$methodproto)
+  })
+  
+  Time<- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+  protoaux <- list("titleproto",  "introproto", "methodproto")
+  
+  saveData <- function(data,cc,proto=TRUE) {
+    if(length(data[[2]] > 0)){
+      if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
+      if(proto){
+      fileName <- paste("tools/","pr",Time(),data[[1]],".txt", sep="")
+      }else{
+        fileName <- paste("tools/",Time(),data[[1]],".txt", sep="")
+      }
+      fileConn <- file(fileName)
+      writeLines(data[[2]], fileConn)
+      close(fileConn)
+    }else{
+      fileName <- paste("tools/",Time(),cc,".txt", sep="")
+      fileConn <- file(fileName)
+      writeLines(input$noquote(cc), fileConn)
+      close(fileConn)
+      
+    }
+    
+  }
+  
+  # action to take when submit button is pressed
+  
+  shiny::observeEvent(input$submitproto, {
+    
+    # Save the new information in  the report  in a txt with name = date and time
+    saveData(titleproto(), protoaux[[1]], proto=TRUE)
+    saveData(introproto(), protoaux[[2]], proto = TRUE)
+    saveData(methodproto(), protoaux[[3]], proto=TRUE)
+    
+    shinyjs::reset("formproto")
+    shinyjs::hide("formproto")
+    shinyjs::show("thankyou_msgproto")
+  })
+  
+  
+  # action to take when write new report in each textAreaInput
+  
+  shiny::observeEvent(input$updateproto,{
+    x <- input$updateproto
+    titleprotoPath <- file.path(paste("tools/",x, protoaux[[1]],".txt", sep=""))
+    introprotoPath<- file.path(paste("tools/",x, protoaux[[2]],".txt", sep=""))
+    methodprotoPath<- file.path(paste("tools/",x, protoaux[[3]],".txt", sep=""))
+    
+    titleprotoUpdate <- readLines(titleprotoPath)
+    introprotoUpdate <- readLines(introprotoPath)
+    methodprotoUpdate <- readLines(methodprotoPath)
+    
+    shiny::updateTextAreaInput(session, "titleproto", value = titleprotoUpdate)
+    shiny::updateTextAreaInput(session, "introproto", value = introprotoUpdate)
+    shiny::updateTextAreaInput(session, "methodproto", value = methodprotoUpdate)
+  })
+  
+  
+  
+  # action to take when a submit another button is pressed
+  
+  shiny::observeEvent(input$submit_anotherproto, {
+    
+    shinyjs::show("updateproto")
+    shinyjs::show("formproto")
+    shinyjs::hide("thankyou_msgproto")
+    
+    output$updateproto <- shiny::renderUI({
+      # reactiveFileReader(1000,)
+      filenames <- sort(dir("tools"),TRUE)
+      #filter only with pr
+      auxpr <-substr(filenames, 1,2)=="pr"
+      reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+      shiny::selectInput("updateproto", "Update report", reportnamesproto)
+    })
+    
+  })
   
   ###############
   #   TAB 2     #
@@ -367,7 +495,7 @@ server = function(input, output, session) {
  # })
 
 
-  responsesDir <- file.path("tools")
+ 
 
   #Dynamic UI with updated information of the files in tools folder
   # output$update <- shiny::renderUI({
@@ -407,39 +535,39 @@ server = function(input, output, session) {
       list("funding", input$funding)
     })
 
-    Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+    #Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
     ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
-
-    saveData <- function(data,cc) {
-      if(length(data[[2]] > 0)){
-        if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
-
-        fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
-        fileConn <- file(fileName)
-        writeLines(data[[2]], fileConn)
-        close(fileConn)
-      }else{
-        fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
-        fileConn <- file(fileName)
-        writeLines(input$noquote(cc), fileConn)
-        close(fileConn)
-
-      }
-
-    }
+# 
+#     saveData <- function(data,cc) {
+#       if(length(data[[2]] > 0)){
+#         if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
+# 
+#         fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
+#         fileConn <- file(fileName)
+#         writeLines(data[[2]], fileConn)
+#         close(fileConn)
+#       }else{
+#         fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
+#         fileConn <- file(fileName)
+#         writeLines(input$noquote(cc), fileConn)
+#         close(fileConn)
+# 
+#       }
+# 
+#     }
 
   # action to take when submit button is pressed
 
   shiny::observeEvent(input$submit, {
 
     # Save the new information in  the report  in a txt with name = date and time
-    saveData(title(), ccaux[[1]])
-    saveData(abstract(), ccaux[[2]])
-    saveData(introduction(), ccaux[[3]])
-    saveData(method(), ccaux[[4]])
-    saveData(result(), ccaux[[5]])
-    saveData(discussion(), ccaux[[6]])
-    saveData(funding(), ccaux[[7]])
+    saveData(title(), ccaux[[1]], proto =FALSE)
+    saveData(abstract(), ccaux[[2]], proto =FALSE)
+    saveData(introduction(), ccaux[[3]], proto =FALSE)
+    saveData(method(), ccaux[[4]], proto =FALSE)
+    saveData(result(), ccaux[[5]], proto =FALSE)
+    saveData(discussion(), ccaux[[6]], proto =FALSE)
+    saveData(funding(), ccaux[[7]], proto =FALSE)
 
     shinyjs::reset("form")
     shinyjs::hide("form")
@@ -490,7 +618,8 @@ server = function(input, output, session) {
     output$update <- shiny::renderUI({
       # reactiveFileReader(1000,)
       filenames <- sort(dir("tools"),TRUE)
-      reportnames <- unique(substr(filenames, 1,15))
+      auxpr2 <-substr(filenames, 1,2)!="pr"
+      reportnames <- unique(substr(filenames, 1,15)[auxpr2])
       shiny::selectInput("update", "Update report", reportnames)
     })
 
