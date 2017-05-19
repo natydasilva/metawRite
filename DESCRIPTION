@@ -28,6 +28,7 @@ Imports:
     netmeta,
     stringr,
     stringi,
+    RColorBrewer,
     wordcloud,
     tm
 Description: Shiny app to explore and update meta-analysis results.
