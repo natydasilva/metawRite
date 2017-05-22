@@ -165,7 +165,7 @@ ui = shiny::fluidPage(
             shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
             shiny::textInput("serchtext", label = shiny::h3("Keyord(s)"), value = "pinkeye in cows"),
             shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
-            shiny::textInput("date1", label = shiny::h3("From"),value="2016/01/01"),
+            shiny::textInput("date1", label = shiny::h3("From"),value="2014/01/01"),
             shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
             shiny::helpText("Now select serch and you can see the abstracts"),
             shiny::actionButton("wordButton","Search")),
@@ -173,7 +173,7 @@ ui = shiny::fluidPage(
           shiny::mainPanel(
             shiny::HTML("<div style='height: 50px;'>"),
             shiny::HTML("</div>"),
-            shiny::textOutput("wordtext")
+            shiny::tableOutput("wordtext")
         ))),
      
       
@@ -460,7 +460,7 @@ server = function(input, output, session) {
   
   word2<- shiny::eventReactive(input$wordButton, {input$serchtext})
   
-  output$wordtext <-shiny::renderText({
+  output$wordtext <-shiny::renderTable({
     d1<-input$date1
     d2<-input$date2
     res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
@@ -469,7 +469,12 @@ server = function(input, output, session) {
     articles<-data.frame('Abstract'= RISmed::AbstractText(fetch))
     abstracts<-as.character(articles$Abstract)
     abstracts<-paste(abstracts, sep ="", collapse = "####Abstract####") 
-    abstracts
+    title <- RISmed::ArticleTitle(EUtilsGet(res))
+    year <- RISmed::YearPubmed(EUtilsGet(res))
+    author <- RISmed::Author(EUtilsGet(res))
+    lastname <- sapply(author, function(x)paste(x$LastName))
+    result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
+    result
     #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
     
   })
