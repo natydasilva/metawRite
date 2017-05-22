@@ -465,6 +465,7 @@ server = function(input, output, session) {
     d2<-input$date2
     res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
     fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
+    numb <-QueryCount(res)
     articles<-data.frame('Abstract'= RISmed::AbstractText(fetch))
     abstracts<-as.character(articles$Abstract)
     abstracts<-paste(abstracts, sep ="", collapse = "####Abstract####") 
