@@ -12,24 +12,26 @@
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
-#'\dontrun{load("./data/MTCdata.rda")
-#' load("./data/dat_rungano.rda")
+#'\dontrun{
+#' 
 #' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 #'                 list(event1, event2, event3),
 #'               list(n1, n2, n3),
 #'                 data = MTCdata,
 #'                 sm = "RR")
-#' MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+#'
+#' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
+#' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
+#' 
+#' upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+#' 
+#'  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3, y4),
 #'               seTE = list(se1, se2, se3, se4),
 #'                 data = dat_rungano,
 #'                 sm = "MD")
-#' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
-#' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
-#' 
 #' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 #' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-#' upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 #' upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 #' 
 #' }
@@ -161,15 +163,17 @@ ui = shiny::fluidPage(
         shiny::sidebarLayout(
           shiny::sidebarPanel(
             shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
-            shiny::textInput("text", label = shiny::h3("Keyord(s)"), value = "pinkeye in cows"),
+            shiny::textInput("serchtext", label = shiny::h3("Keyord(s)"), value = "pinkeye in cows"),
             shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
             shiny::textInput("date1", label = shiny::h3("From"),value="2016/01/01"),
             shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
-            shiny::helpText("Now select the output you'd like to see. You can see a barplot of articles per year, a wordcloud of the abstract texts, or a table of the top six authors"),
-            shiny::actionButton("wordButton","WORDS")),
-
+            shiny::helpText("Now select serch and you can see the abstracts"),
+            shiny::actionButton("wordButton","Search")),
+         
           shiny::mainPanel(
-            shiny::plotOutput("wordPlot")
+            shiny::HTML("<div style='height: 50px;'>"),
+            shiny::HTML("</div>"),
+            shiny::textOutput("wordtext")
         ))),
      
       
@@ -454,17 +458,19 @@ server = function(input, output, session) {
   #   TAB 2     #
   ###############
   
-  word2<- shiny::eventReactive(input$wordButton, {input$text})
+  word2<- shiny::eventReactive(input$wordButton, {input$serchtext})
   
-  output$wordPlot<-shiny::renderPlot({
+  output$wordtext <-shiny::renderText({
     d1<-input$date1
     d2<-input$date2
     res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
-    fetch <- RISmed::EUtilsGet(res, type="efetch", db="pubmed")
-    articles<-data.frame('Abstract'=RISmed::AbstractText(fetch))
+    fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
+    articles<-data.frame('Abstract'= RISmed::AbstractText(fetch))
     abstracts<-as.character(articles$Abstract)
-    abstracts<-paste(abstracts, sep="", collapse="") 
-    wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
+    abstracts<-paste(abstracts, sep ="", collapse = "####Abstract####") 
+    abstracts
+    #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
+    
   })
   
   
