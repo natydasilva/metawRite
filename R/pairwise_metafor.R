@@ -17,8 +17,7 @@
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
-#' \dontrun{load("./data/MTCdata.rda")
-#' load("./data/dat_rungano.rda")
+#' \dontrun{
 #' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 #'                 list(event1, event2, event3),
 #'               list(n1, n2, n3),

@@ -4,8 +4,7 @@
 \alias{upreport}
 \title{Meta-analysis reportshiny app, tab 1 draft version to persistent local storage}
 \usage{
-upreport(initial = TRUE, pair = FALSE, net = FALSE, data, 
-trt.pair, treat1, treat2, id)
+upreport(initial = TRUE, pair = FALSE, net = FALSE, data)
 }
 \arguments{
 \item{initial}{logic value to indicate if is the initial review, default is TRUE}
@@ -17,14 +16,6 @@ trt.pair, treat1, treat2, id)
 \item{data}{list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder}
-
-\item{trt.pair}{variable name with the pairwise treatment names}
-
-\item{treat1}{variable name with the treatment 1 in data[[1]]}
-
-\item{treat2}{variable name with the treatment 2 in datapair[[1]]}
-
-\item{id}{variable with id information in datapair}
 }
 \value{
 shiny app.
@@ -34,29 +25,7 @@ Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 }
 \examples{
 \dontrun{
-##First Example
-MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
-                list(event1, event2, event3),
-              list(n1, n2, n3),
-                data = MTCdata,
-                sm = "RR")
 
-modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
-treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
-
-upreport(initial=TRUE, pair = FALSE, net = FALSE, data =modstr,  
-trt.pair, treat1, treat2, id)
- 
-##Second example
-
- MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
-                TE = list(y1, y2, y3, y4),
-              seTE = list(se1, se2, se3, se4),
-                data = dat_rungano,
-                sm = "MD")
-modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
-treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-upreport(initial = TRUE, pair = FALSE,net=FALSE,data=modstr2, trt.pair, treat1, treat2, id)
-
+upreport(initial=TRUE, pair = FALSE, net = FALSE, data = NULL)  
 }
 }

@@ -1,58 +1,39 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, data, 
-#' trt.pair, treat1, treat2, id)
+#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, data)
 #' @param initial logic value to indicate if is the initial review, default is TRUE
 #' @param pair logic value to indicate if pairwise meta-analysis is available, default is FALSE
 #' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 #' element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
-#' @param trt.pair variable name with the pairwise treatment names
-#' @param treat1 variable name with the treatment 1 in data[[1]]
-#' @param treat2 variable name with the treatment 2 in datapair[[1]]
-#' @param id variable with id information in datapair
 #' @return shiny app.
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
 #'\dontrun{
-#' ##First Example
-#' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
-#'                 list(event1, event2, event3),
-#'               list(n1, n2, n3),
-#'                 data = MTCdata,
-#'                 sm = "RR")
-#'
-#' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
-#' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 #' 
-#' upreport(initial=TRUE, pair = FALSE, net = FALSE, data =modstr,  
-#' trt.pair, treat1, treat2, id)
-#'  
-#' ##Second example
-#' 
-#'  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
-#'                 TE = list(y1, y2, y3, y4),
-#'               seTE = list(se1, se2, se3, se4),
-#'                 data = dat_rungano,
-#'                 sm = "MD")
-#' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
-#' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-#' upreport(initial = TRUE, pair = FALSE,net=FALSE,data=modstr2, trt.pair, treat1, treat2, id)
-#' 
+#' upreport(initial=TRUE, pair = FALSE, net = FALSE, data = NULL)  
 #' }
  
 upreport <-
-  function(initial = TRUE, pair = FALSE, net = FALSE,data,trt.pair,
-           treat1,
-           treat2,
-           id) {
-  
+  function(initial = TRUE, pair = FALSE, net = FALSE, data=NULL) {
+    
+  if(is.null(data)==FALSE){
      datapair <- data[[1]]
      pair_result <- data[[2]]
-    
-    
+     trt.pair <- data[[1]]$trt.pair
+    treat1 <- data[[1]]$treat1
+    treat2 <- data[[1]]$treat2
+    id <- data[[1]]$id
+  }else{
+  datapair <-NULL
+  pair_result <- NULL
+  trt.pair <- NULL
+  treat1 <- NULL
+  treat2 <- NULL
+  id <- NULL
+}
     lsr <- list(title='Title: Identify the report as a systematic review, meta-analysis, or both',
                 abstract = 'Structured summary: Provide a structured summary including, as applicable: background; objectives; data sources; study eligibility criteria, participants, and interventions;study appraisal and synthesis methods; results; limitations; conclusions and implications of key findings; systematic review registration number.',
                 introduction = 'Rationale: Describe the rationale for the review in the context of what is already known. Objectives: Provide an explicit statement of questions being addressed with reference to participants, interventions, comparisons, outcomes, and study design (PICOS).',
@@ -701,7 +682,6 @@ server = function(input, output, session) {
 #     input$goButton
 # 
 #   })
-
 # 
 #   up <- NULL
 #   sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
