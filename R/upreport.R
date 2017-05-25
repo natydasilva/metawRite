@@ -1,8 +1,10 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(initial = TRUE, net = FALSE, datapair, pair_result,trt.pair, treat1, treat2, id)
-#' @param initial logic to indicate if is the initial review, default is TRUE
-#' @param net logic to indicate if the analysisi will include a network meta-analysis
+#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, datapair, 
+#' pair_result,trt.pair, treat1, treat2, id)
+#' @param initial logic value to indicate if is the initial review, default is TRUE
+#' @param pair logic value to indicate if pairwise meta-analysis is available, default is FALSE
+#' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
 #' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder
 #' @param pair_result  list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
@@ -15,7 +17,7 @@
 #' @export
 #' @examples
 #'\dontrun{
-#' 
+#' ##First Example
 #' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 #'                 list(event1, event2, event3),
 #'               list(n1, n2, n3),
@@ -25,7 +27,10 @@
 #' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 #' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 #' 
-#' upreport(initial=FALSE,net=FALSE,modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+#' upreport(initial=FALSE, pair = FALSE, net = FALSE, modstr[[1]],  
+#' modstr[[2]], trt.pair, treat1, treat2, id)
+#'  
+#' ##Second example
 #' 
 #'  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3, y4),
@@ -34,12 +39,13 @@
 #'                 sm = "MD")
 #' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 #' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-#' upreport(initial=TRUE,net=FALSE,modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+#' upreport(initial = TRUE, pair = FALSE,net=FALSE,modstr2[[1]], 
+#' modstr2[[2]], trt.pair, treat1, treat2, id)
 #' 
 #' }
  
 upreport <-
-  function(initial=TRUE,net=FALSE,datapair,
+  function(initial = TRUE, pair = FALSE, net = FALSE, datapair,
            pair_result,
            trt.pair,
            treat1,
@@ -281,6 +287,9 @@ ui = shiny::fluidPage(
 
   shiny::tabPanel(
     "Pairwise" ,
+    shinyjs::hidden(
+      shiny::div(
+        id = "pairupdate",
     shiny::fluidRow( shiny::column(6, shiny::selectInput("treatpair",
                                            "Pairwise comparison:", choices = datapair %>% dplyr::select(trt.pair) %>% unique() ) ), 
                      shiny::column(3, shiny::uiOutput("updt"))), 
@@ -299,7 +308,7 @@ ui = shiny::fluidPage(
     shiny::fluidRow(shiny::column(
       width =  10, shiny::verbatimTextOutput("summary2")
     ))
-  ),
+  ))),
 
   shiny::tabPanel(
     "Network" ,
@@ -753,6 +762,9 @@ server = function(input, output, session) {
 #     }
 #   })
   
+  if(pair){
+    shinyjs::show("pairupdate")
+  }
   up <- NULL
   sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
   output$updt <- shiny::renderUI({
