@@ -1,6 +1,8 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(datapair, pair_result,trt.pair, treat1, treat2, id)
+#' @usage upreport(initial = TRUE, net = FALSE, datapair, pair_result,trt.pair, treat1, treat2, id)
+#' @param initial logic to indicate if is the initial review, default is TRUE
+#' @param net logic to indicate if the analysisi will include a network meta-analysis
 #' @param datapair Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder
 #' @param pair_result  list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
@@ -23,7 +25,7 @@
 #' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 #' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 #' 
-#' upreport(initial=FALSE,modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+#' upreport(initial=FALSE,net=FALSE,modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 #' 
 #'  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3, y4),
@@ -32,12 +34,12 @@
 #'                 sm = "MD")
 #' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 #' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-#' upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+#' upreport(initial=TRUE,net=FALSE,modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 #' 
 #' }
  
 upreport <-
-  function(initial=TRUE,datapair,
+  function(initial=TRUE,net=FALSE,datapair,
            pair_result,
            trt.pair,
            treat1,
@@ -301,15 +303,21 @@ ui = shiny::fluidPage(
 
   shiny::tabPanel(
     "Network" ,
-    shiny::fluidRow(shiny::column(
-      width = 6,
-      plotly::plotlyOutput("netply")
-    )),
-    shiny::fluidRow(shiny::column(
-      width = 12 , shiny::verbatimTextOutput("click")
-    ))
+    shinyjs::hidden(
+      shiny::div(
+        id = "netupdate",
+        shiny::fluidRow(shiny::column(
+          width = 6,
+          plotly::plotlyOutput("netply")
+        )),
+        shiny::fluidRow(shiny::column(
+          width = 12 , shiny::verbatimTextOutput("click")
+        )))
+    )
+   
 
-
+      )
+    
   )
  
   # shiny::tabPanel(
@@ -328,7 +336,7 @@ ui = shiny::fluidPage(
 
   )
   
-))
+)
 
 server = function(input, output, session) {
 
@@ -792,44 +800,53 @@ server = function(input, output, session) {
   ###############
   #   TAB 5     #
   ###############
-  rv <-
-    shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
-
-  output$netply <- plotly::renderPlotly({
-    p <-
-      ggplot2::ggplot(data = datapair,
-                      ggplot2::aes(
-                        from_id = treat1,
-                        to_id = treat2,
-                        key = id
-                      ))
-
-    p2 <-
-      p + geomnet::geom_net(
-        layout.alg = "circle",
-        size = 3,
-        ggplot2::aes(col = treat1, key = datapair$id),
-        labelon = TRUE
-      ) +
-      geomnet::theme_net() + ggplot2::theme(legend.position = "none")
-    #+ ggplot2::scale_colour_brewer(palette = "Set3")
-
-    plotly::ggplotly(p2) %>% plotly::layout(dragmode = "select")
-
-  })
-
-  output$click <- shiny::renderPrint({
-    d <- plotly::event_data("plotly_click")
-    if (is.null(d)) {
-      "Click events appear here (double-click to clear)"
-    } else{
-      d
-    }
-  })
-
-
-
-
+  
+  if(net){
+    shinyjs::show("netupdate")
+  }
+    # output$netupdate <- shiny::renderUI({
+    #   
+    # 
+    # })
+    
+  
+    rv <-
+      shiny::reactiveValues(data = data.frame(datapair, fill = logical(length(datapair$id))))
+    
+    output$netply <- plotly::renderPlotly({
+      p <-
+        ggplot2::ggplot(data = datapair,
+                        ggplot2::aes(
+                          from_id = treat1,
+                          to_id = treat2,
+                          key = id
+                        ))
+      
+      p2 <-
+        p + geomnet::geom_net(
+          layout.alg = "circle",
+          size = 3,
+          ggplot2::aes(col = treat1, key = datapair$id),
+          labelon = TRUE
+        ) +
+        geomnet::theme_net() + ggplot2::theme(legend.position = "none")
+      #+ ggplot2::scale_colour_brewer(palette = "Set3")
+      
+      plotly::ggplotly(p2) %>% plotly::layout(dragmode = "select")
+      
+    })
+    
+    output$click <- shiny::renderPrint({
+      d <- plotly::event_data("plotly_click")
+      if (is.null(d)) {
+        "Click events appear here (double-click to clear)"
+      } else{
+        d
+      }
+    })
+    
+    
+   
 
 
 

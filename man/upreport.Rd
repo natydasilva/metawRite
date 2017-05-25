@@ -4,9 +4,13 @@
 \alias{upreport}
 \title{Meta-analysis reportshiny app, tab 1 draft version to persistent local storage}
 \usage{
-upreport(datapair, pair_result,trt.pair, treat1, treat2, id)
+upreport(initial = TRUE, net = FALSE, datapair, pair_result,trt.pair, treat1, treat2, id)
 }
 \arguments{
+\item{initial}{logic to indicate if is the initial review, default is TRUE}
+
+\item{net}{logic to indicate if the analysisi will include a network meta-analysis}
+
 \item{datapair}{Data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder}
 
@@ -38,7 +42,7 @@ MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
 modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 
-upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+upreport(initial=FALSE,net=FALSE,modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 
  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
                 TE = list(y1, y2, y3, y4),
@@ -47,7 +51,7 @@ upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
                 sm = "MD")
 modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
+upreport(initial=TRUE,net=FALSE,modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 
 }
 }
