@@ -27,24 +27,26 @@ shiny app.
 Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 }
 \examples{
-\dontrun{load("./data/MTCdata.rda")
-load("./data/dat_rungano.rda")
+\dontrun{
+
 MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
                 list(event1, event2, event3),
               list(n1, n2, n3),
                 data = MTCdata,
                 sm = "RR")
-MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+
+modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
+treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
+
+upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+
+ MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
                 TE = list(y1, y2, y3, y4),
               seTE = list(se1, se2, se3, se4),
                 data = dat_rungano,
                 sm = "MD")
-modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
-treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
-
 modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
-upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 upreport(modstr2[[1]], modstr2[[2]], trt.pair, treat1, treat2, id)
 
 }

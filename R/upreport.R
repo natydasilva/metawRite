@@ -23,7 +23,7 @@
 #' modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 #' treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
 #' 
-#' upreport(modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
+#' upreport(initial=FALSE,modstr[[1]],  modstr[[2]], trt.pair, treat1, treat2, id)
 #' 
 #'  MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3, y4),
@@ -37,7 +37,7 @@
 #' }
  
 upreport <-
-  function(datapair,
+  function(initial=TRUE,datapair,
            pair_result,
            trt.pair,
            treat1,
@@ -176,7 +176,7 @@ ui = shiny::fluidPage(
             shiny::tableOutput("wordtext")
         ))),
      
-      
+
   shiny::tabPanel(
     "LSR-report",
   shinyjs::hidden(
@@ -275,7 +275,8 @@ ui = shiny::fluidPage(
       shiny::actionLink("submit_another", "Submit another report")
       )
     )
-  ),  
+  ), 
+
   shiny::tabPanel(
     "Pairwise" ,
     shiny::fluidRow( shiny::column(6, shiny::selectInput("treatpair",
@@ -310,6 +311,7 @@ ui = shiny::fluidPage(
 
 
   )
+ 
   # shiny::tabPanel(
   #   "Paper search",
   #   shiny::fluidRow(shiny::column(
@@ -435,8 +437,22 @@ server = function(input, output, session) {
   
   
   
-  # action to take when a submit another button is pressed
   
+  #it is the 
+  if(initial==FALSE){
+    
+    shinyjs::show("updateproto")
+    output$updateproto <- shiny::renderUI({
+      # reactiveFileReader(1000,)
+      filenames <- sort(dir("tools"),TRUE)
+      #filter only with pr
+      auxpr <-substr(filenames, 1,2)=="pr"
+      reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+      shiny::selectInput("updateproto", "Update report", reportnamesproto)
+    })
+  }else{
+  
+  # action to take when a submit another button is pressed
   shiny::observeEvent(input$submit_anotherproto, {
     
     shinyjs::show("updateproto")
@@ -453,7 +469,7 @@ server = function(input, output, session) {
     })
     
   })
-  
+  }
   ###############
   #   TAB 2     #
   ###############
@@ -466,12 +482,12 @@ server = function(input, output, session) {
     res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
     fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
     numb <- RISmed::QueryCount(res)
-    articles<-data.frame('Abstract'= RISmed::AbstractText(fetch))
-    abstracts<-as.character(articles$Abstract)
-    abstracts<-paste(abstracts, sep ="", collapse = "####Abstract####") 
-    title <- RISmed::ArticleTitle(EUtilsGet(res))
-    year <- RISmed::YearPubmed(EUtilsGet(res))
-    author <- RISmed::Author(EUtilsGet(res))
+    articles <-data.frame('Abstract'= RISmed::AbstractText(fetch))
+    abstracts <-as.character(articles$Abstract)
+    abstracts <-paste(abstracts, sep ="", collapse = "####Abstract####") 
+    title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
+    year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
+    author <- RISmed::Author(RISmed::EUtilsGet(res))
     lastname <- sapply(author, function(x)paste(x$LastName))
     result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
     result
@@ -628,8 +644,19 @@ server = function(input, output, session) {
 
 
 
-  # action to take when a submit another button is pressed
-
+  if(initial==FALSE){
+    shinyjs::show("reportupdate")
+ 
+    output$update <- shiny::renderUI({
+      # reactiveFileReader(1000,)
+      filenames <- sort(dir("tools"),TRUE)
+      auxpr2 <-substr(filenames, 1,2)!="pr"
+      reportnames <- unique(substr(filenames, 1,15)[auxpr2])
+      shiny::selectInput("update", "Update report", reportnames)
+    })
+    }else{
+      # action to take when a submit another button is pressed
+      
   shiny::observeEvent(input$submit_another, {
 
     shinyjs::show("reportupdate")
@@ -644,7 +671,7 @@ server = function(input, output, session) {
       shiny::selectInput("update", "Update report", reportnames)
     })
 
-  })
+  })}
 
 
   ###############
@@ -727,6 +754,7 @@ server = function(input, output, session) {
     shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
                          max = choi)
   })
+  
   
   shiny::observeEvent(input$goButton2, {
   
