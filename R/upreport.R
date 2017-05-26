@@ -155,12 +155,12 @@ upreport <-
             "Paper search",
             shiny::sidebarLayout(
               shiny::sidebarPanel(
-                shiny::helpText("Type a word below and search PubMed to find documents that contain that word in the text. You can even type multiple words. You can search authors, topics, any acronym, etc."),
-                shiny::textInput("serchtext", label = shiny::h3("Keyord(s)"), value = "pinkeye in cows"),
-                shiny::helpText("You can specify the start and end dates of your search, use the format YYYY/MM/DD"),
+                shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
+                shiny::textInput("serchtext", label = shiny::h3("Keyords"), value = "pinkeye in cows"),
+                shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
                 shiny::textInput("date1", label = shiny::h3("From"),value="2014/01/01"),
                 shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
-                shiny::helpText("Now select serch and you can see the abstracts"),
+                shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
                 shiny::actionButton("wordButton","Search")),
               
               shiny::mainPanel(
@@ -251,7 +251,6 @@ upreport <-
                   )
                 )
               ),
-              
               
               shiny::actionButton("submit", "Submit", class = "btn-primary"),
               shiny::downloadButton('download')
@@ -578,6 +577,8 @@ upreport <-
         list("funding", input$funding)
       })
       
+    
+      
       #Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
       ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
       # 
@@ -612,6 +613,7 @@ upreport <-
         saveData(discussion(), ccaux[[6]], proto =FALSE)
         saveData(funding(), ccaux[[7]], proto =FALSE)
         
+        
         shinyjs::reset("form")
         shinyjs::hide("form")
         shinyjs::show("thankyou_msg")
@@ -629,6 +631,7 @@ upreport <-
         resultPath <- file.path(paste("tools/",x,ccaux[[5]],".txt", sep=""))
         discussionPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
         fundingPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
+       
         
         titleUpdate <- readLines(titlePath)
         abstractUpdate <- readLines(abstractPath)
@@ -637,6 +640,7 @@ upreport <-
         resultUpdate <- readLines(resultPath)
         discussionUpdate <- readLines(discussionPath)
         fundingUpdate <- readLines(fundingPath)
+       
         
         shiny::updateTextAreaInput(session, "title", value = titleUpdate)
         shiny::updateTextAreaInput(session, "abstract", value = abstractUpdate)
@@ -645,6 +649,7 @@ upreport <-
         shiny::updateTextAreaInput(session, "result", value = resultUpdate)
         shiny::updateTextAreaInput(session, "discussion", value = discussionUpdate)
         shiny::updateTextAreaInput(session, "funding", value = fundingUpdate)
+        
         
       })
       

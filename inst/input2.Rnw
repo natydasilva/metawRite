@@ -1,8 +1,8 @@
 \documentclass{article}
 
 \begin{document}
-
-\section{Title}
+\usepackage{natbib}
+\bibliographystyle{apa}
 
 <<title, child='_title.Rnw'>>=
 @
@@ -30,5 +30,7 @@
 \section{Funding}
 <<funding,child='_funding.Rnw'>>=
 @
+
+}
 
 \end{document}
