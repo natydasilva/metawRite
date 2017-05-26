@@ -13,7 +13,7 @@
 #' @examples
 #'\dontrun{
 #' 
-#' upreport(initial = FALSE, pair = FALSE, net = FALSE, data = NULL)  
+#' upreport(initial = FALSE, pair = TRUE, net = FALSE, data = NULL)  
 #' }
  
 upreport <-
@@ -274,12 +274,13 @@ upreport <-
             shinyjs::hidden(
               shiny::div(
                 id = "pairupdate",
-                shiny::fluidRow( shiny::column(6, shiny::selectInput("treatpair",
-                                                                     "Pairwise comparison:", choices = if(is.null(datapair)){
-                                                                       NULL
-                                                                       }else{
-                                                                         datapair %>% dplyr::select(trt.pair) %>% unique() 
-                                                                     }  )), 
+                shiny::fluidRow( shiny::column(6, shiny::selectInput("treatpair","Pairwise comparison:", choices = 
+                                                                       if(is.null(datapair)==FALSE){
+                  datapair %>% dplyr::select(trt.pair) %>% unique() 
+                  }else{
+                    choi<-NULL
+                    }
+                )), 
                                  shiny::column(3, shiny::uiOutput("updt"))), 
                 shiny::actionButton("goButton2", "Initial selection!"),
                 
@@ -455,6 +456,24 @@ upreport <-
           reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
           shiny::selectInput("updateproto", "Update report", reportnamesproto)
         })
+        
+        shiny::observeEvent(input$submit_anotherproto, {
+          
+          shinyjs::show("updateproto")
+          shinyjs::show("formproto")
+          shinyjs::hide("thankyou_msgproto")
+          
+          output$updateproto <- shiny::renderUI({
+            # reactiveFileReader(1000,)
+            filenames <- sort(dir("tools"),TRUE)
+            #filter only with pr
+            auxpr <-substr(filenames, 1,2)=="pr"
+            reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+            shiny::selectInput("updateproto", "Update report", reportnamesproto)
+          })
+          
+        })
+        
       }else{
         
         # action to take when a submit another button is pressed
@@ -665,6 +684,23 @@ upreport <-
           reportnames <- unique(substr(filenames, 1,15)[auxpr2])
           shiny::selectInput("update", "Update report", reportnames)
         })
+        
+        shiny::observeEvent(input$submit_another, {
+          
+          shinyjs::show("reportupdate")
+          shinyjs::show("form")
+          shinyjs::hide("thankyou_msg")
+          
+          output$update <- shiny::renderUI({
+            # reactiveFileReader(1000,)
+            filenames <- sort(dir("tools"),TRUE)
+            auxpr2 <-substr(filenames, 1,2)!="pr"
+            reportnames <- unique(substr(filenames, 1,15)[auxpr2])
+            shiny::selectInput("update", "Update report", reportnames)
+          })
+          
+        })
+        
       }else{
         # action to take when a submit another button is pressed
         
