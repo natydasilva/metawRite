@@ -4,7 +4,7 @@
 \alias{upreport}
 \title{Meta-analysis reportshiny app, tab 1 draft version to persistent local storage}
 \usage{
-upreport(initial = TRUE, pair = FALSE, net = FALSE, data)
+upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)
 }
 \arguments{
 \item{initial}{logic value to indicate if is the initial review, default is TRUE}

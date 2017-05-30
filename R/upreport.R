@@ -1,6 +1,6 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, data)
+#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)
 #' @param initial logic value to indicate if is the initial review, default is TRUE
 #' @param pair logic value to indicate if pairwise meta-analysis is available, default is FALSE
 #' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
@@ -10,7 +10,7 @@
 #' @return shiny app.
 #' @importFrom magrittr %>%
 #' @export
-#' @examples
+#'@examples
 #'\dontrun{
 #' 
 #' upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)  
@@ -592,7 +592,8 @@ upreport <-
         # result
         
         dat <-rvest::html(aux)
-        print(dat %>% rvest::html_text()%>%stringr::str_split("title"))
+        outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
+        print(outtxt[[1]][-c(1:2)])
         #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
         
       })
