@@ -107,7 +107,6 @@ upreport <-
             
             shiny::div(
               id = "formproto",
-              
               shiny::fluidRow(shiny::column(
                 8,
                 shiny::textAreaInput(
