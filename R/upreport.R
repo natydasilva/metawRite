@@ -1,7 +1,9 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)
-#' @param initial logic value to indicate if is the initial review, default is TRUE
+#' @usage upreport(initialprotocol = TRUE, initialreport = TRUE, 
+#' pair = FALSE, net = FALSE, data = NULL)
+#' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
+#' @param initialreport logic value to indicate if is the initial review, default is TRUE
 #' @param pair logic value to indicate if pairwise meta-analysis is available, default is FALSE
 #' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
@@ -13,11 +15,12 @@
 #'@examples
 #'\dontrun{
 #' 
-#' upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)  
+#' upreport(initialprotocol = TRUE, initialreport = TRUE, 
+#' pair = FALSE, net = FALSE, data = NULL)  
 #' }
  
 upreport <-
-  function(initial = TRUE, pair = FALSE, net = FALSE, data = NULL) {
+  function(initialprotocol = TRUE, initialreport =TRUE, pair = FALSE, net = FALSE, data = NULL) {
     
     if(is.null(data)){
       datapair <-NULL
@@ -488,10 +491,9 @@ upreport <-
       })
       
       
-      
-      
+    
       #it is the 
-      if(initial==FALSE){
+      if(initialprotocol==FALSE){
         
         shinyjs::show("updateproto")
         output$updateproto <- shiny::renderUI({
@@ -751,7 +753,7 @@ upreport <-
       
       
       
-      if(initial==FALSE){
+      if(initialreport==FALSE){
         shinyjs::show("reportupdate")
         
         output$update <- shiny::renderUI({
