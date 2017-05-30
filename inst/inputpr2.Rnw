@@ -7,8 +7,6 @@
 <<titleproto, child='_titleproto.Rnw'>>=
 @
 
-
-
 \section{Introduction}
 <<introproto,child='_introproto.Rnw'>>=
 @
@@ -16,6 +14,5 @@
 \section{Methods}
 <<methodproto,child='_methodproto.Rnw'>>=
 @
-
 
 \end{document}
