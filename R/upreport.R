@@ -13,7 +13,7 @@
 #' @examples
 #'\dontrun{
 #' 
-#' upreport(initial = FALSE, pair = TRUE, net = FALSE, data = NULL)  
+#' upreport(initial = TRUE, pair = FALSE, net = FALSE, data = NULL)  
 #' }
  
 upreport <-
@@ -156,7 +156,7 @@ upreport <-
             shiny::sidebarLayout(
               shiny::sidebarPanel(
                 shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
-                shiny::textInput("serchtext", label = shiny::h3("Keyords"), value = "pinkeye in cows"),
+                shiny::textInput("serchtext", label = shiny::h3("Keywords"), value = "pinkeye in cows"),
                 shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
                 shiny::textInput("date1", label = shiny::h3("From"),value="2014/01/01"),
                 shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
