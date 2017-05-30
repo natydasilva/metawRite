@@ -28,6 +28,7 @@ Imports:
     netmeta,
     stringr,
     stringi,
+    rvest,
     RColorBrewer,
     wordcloud,
     tm

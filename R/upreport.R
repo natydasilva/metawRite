@@ -138,7 +138,9 @@ upreport <-
               
               
               shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
-              shiny::downloadButton('downproto')),
+              shiny::downloadButton(outputId='downproto', label="Download .pdf")
+             # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
+              ),
             shiny::fluidRow(shiny::column(8,
                                           shiny::HTML("<div style='height: 150px;'>"),
                                           
@@ -152,7 +154,7 @@ upreport <-
               )
             )),
           shiny::tabPanel(
-            "Paper search",
+            "PubMed",
             shiny::sidebarLayout(
               shiny::sidebarPanel(
                 shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
@@ -167,6 +169,25 @@ upreport <-
                 shiny::HTML("<div style='height: 50px;'>"),
                 shiny::HTML("</div>"),
                 shiny::tableOutput("wordtext")
+              ))),
+          
+          
+          shiny::tabPanel(
+            " PubAg",
+            shiny::sidebarLayout(
+              shiny::sidebarPanel(
+                shiny::helpText("Type a word below to search in PubAg, you can search ...."),
+                shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
+                # shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
+                # shiny::textInput("date1ag", label = shiny::h3("From"),value="2014/01/01"),
+                # shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
+                # shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
+                shiny::actionButton("wordButtonAg","Search")),
+              
+              shiny::mainPanel(
+                shiny::HTML("<div style='height: 50px;'>"),
+                shiny::HTML("</div>"),
+                shiny::tableOutput("wordtextAg")
               ))),
           
           
@@ -370,6 +391,32 @@ upreport <-
         
       )
       
+      
+      ###See how to download Rnw file
+      
+      output$downprotornw = shiny::downloadHandler(
+        filename = 'myprotocol.Rnw',
+
+        content = function(file) {
+
+          tmp <- system.file(package="metawRite")
+          tempReport <- file.path(tmp,"inputpr2.Rnw")
+          file.copy(file.path(tmp, "inputpr.Rnw"), tempReport, overwrite = TRUE)
+          dir <- system.file(package="metawRite")
+
+          writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rnw"))
+
+          writeLines(input$introproto, con = file.path(dir, "_introproto.Rnw"))
+          writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rnw"))
+          # out = knitr::knit2pdf(input = tempReport,
+          #                       output = file.path(tmp, "inputpr.tex"),
+          #                       clean = TRUE)
+          out = tempReport
+          file.rename(out, file) # move Rnw to file for downloading
+        }
+
+      )
+       
       #Make reactive the new information in the report
       
       
@@ -519,6 +566,36 @@ upreport <-
         
       })
       
+      
+      ###############
+      #   TAB 2 2    #
+      ###############
+      
+      word2Ag<- shiny::eventReactive(input$wordButtonAg, {input$serchtextag})
+      
+      output$wordtextAg <-shiny::renderTable({
+        d1<-input$date1ag
+        d2<-input$date2ag
+        dirAg <- "https://api.nal.usda.gov/pubag/rest/search/?query=title:"
+        aux <- paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
+        # res <- RISmed::EUtilsSummary(word2Ag(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
+        # fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
+        # numb <- RISmed::QueryCount(res)
+        # articles <-data.frame('Abstract'= RISmed::AbstractText(fetch))
+        # abstracts <-as.character(articles$Abstract)
+        # abstracts <-paste(abstracts, sep ="", collapse = "####Abstract####") 
+        # title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
+        # year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
+        # author <- RISmed::Author(RISmed::EUtilsGet(res))
+        # lastname <- sapply(author, function(x)paste(x$LastName))
+        # result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
+        # result
+        
+        dat <-rvest::html(aux)
+        print(dat %>% rvest::html_text()%>%stringr::str_split("title"))
+        #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
+        
+      })
       
       ###############
       #   TAB 3     #
