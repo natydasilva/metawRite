@@ -180,10 +180,10 @@ upreport <-
               shiny::sidebarPanel(
                 shiny::helpText("Type a word below to search in PubAg, you can search ...."),
                 shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
-                # shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
-                # shiny::textInput("date1ag", label = shiny::h3("From"),value="2014/01/01"),
-                # shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
-                # shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
+                 shiny::helpText("Specify the publication year of your search, use the format YYYY"),
+                shiny::textInput("date1ag", label = shiny::h3("From"),value="2015"),
+                 #shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
+                 shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
                 shiny::actionButton("wordButtonAg","Search")),
               
               shiny::mainPanel(
@@ -573,7 +573,8 @@ upreport <-
       #   TAB 2 2    #
       ###############
       
-      word2Ag<- shiny::eventReactive(input$wordButtonAg, {input$serchtextag})
+      word2Ag <- shiny::eventReactive(input$wordButtonAg, {input$serchtextag})
+      yearAg <- shiny::eventReactive(input$wordButtonAg, {input$date1ag})
       
       output$wordtextAg <-shiny::renderTable({
         d1<-input$date1ag
@@ -582,23 +583,13 @@ upreport <-
         # aux <- paste(dirAg, word2Ag(),"&api_key=DEMO_KEY", sep = "")
         query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
         title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
+        year <- paste("publication_year:", yearAg(), sep = "")
+        search <- paste(title, year,  sep="+")
         
-       
         current_query <- gsub("QQQ", title, query)
           #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
         
-        # res <- RISmed::EUtilsSummary(word2Ag(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
-        # fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
-        # numb <- RISmed::QueryCount(res)
-        # articles <-data.frame('Abstract'= RISmed::AbstractText(fetch))
-        # abstracts <-as.character(articles$Abstract)
-        # abstracts <-paste(abstracts, sep ="", collapse = "####Abstract####") 
-        # title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
-        # year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
-        # author <- RISmed::Author(RISmed::EUtilsGet(res))
-        # lastname <- sapply(author, function(x)paste(x$LastName))
-        # result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
-        # result
+   
         
         #dat <-rvest::read_html(aux)
         results <- jsonlite::fromJSON(current_query)[[4]]$title
