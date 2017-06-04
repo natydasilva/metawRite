@@ -592,7 +592,12 @@ upreport <-
    
         
         #dat <-rvest::read_html(aux)
-        results <- jsonlite::fromJSON(current_query)[[4]]$title
+        allsearch <- jsonlite::fromJSON(current_query)
+        titlesearch <- allsearch[[4]]$title
+        authorsearch <- allsearch[[4]]$authors
+        sourcesearch <- allsearch[[4]]$source
+       results <- paste(titlesearch, authorsearch,sourcesearch)
+        
         #outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
         #print(outtxt[[1]][-c(1:2)])
         print(results)
