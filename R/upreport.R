@@ -580,8 +580,9 @@ upreport <-
         # dirAg <- "https://api.nal.usda.gov/pubag/rest/search/?query=title:"
         # aux <- paste(dirAg, word2Ag(),"&api_key=DEMO_KEY", sep = "")
         query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
-        title <- paste("title:", word2Ag(), sep="")
+        title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
         
+       
         current_query <- gsub("QQQ", title, query)
           #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
         
