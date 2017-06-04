@@ -577,8 +577,14 @@ upreport <-
       output$wordtextAg <-shiny::renderTable({
         d1<-input$date1ag
         d2<-input$date2ag
-        dirAg <- "https://api.nal.usda.gov/pubag/rest/search/?query=title:"
-        aux <- paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
+        # dirAg <- "https://api.nal.usda.gov/pubag/rest/search/?query=title:"
+        # aux <- paste(dirAg, word2Ag(),"&api_key=DEMO_KEY", sep = "")
+        query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
+        title <- paste("title:", word2Ag(), sep="")
+        
+        current_query <- gsub("QQQ", title, query)
+          #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
+        
         # res <- RISmed::EUtilsSummary(word2Ag(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
         # fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
         # numb <- RISmed::QueryCount(res)
@@ -592,11 +598,11 @@ upreport <-
         # result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
         # result
         
-        dat <-rvest::html(aux)
-        outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
-        print(outtxt[[1]][-c(1:2)])
-        #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
-        
+        #dat <-rvest::read_html(aux)
+        results <- jsonlite::fromJSON(current_query)[[4]]$title
+        #outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
+        #print(outtxt[[1]][-c(1:2)])
+        print(results)
       })
       
       ###############
@@ -611,10 +617,10 @@ upreport <-
           # browser()
           # tmp <- tempdir()
           
-          tmp <- system.file(package="metawRite")
+          tmp <- system.file(package = "metawRite")
           tempReport <- file.path(tmp,"input2.Rnw")
           file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
-          dir <- system.file(package="metawRite")
+          dir <- system.file(package = "metawRite")
           
           
           writeLines(input$title, con = file.path(dir, "_title.Rnw"))
@@ -624,9 +630,9 @@ upreport <-
           writeLines(input$result, con = file.path(dir, "_results.Rnw"))
           writeLines(input$discussion, con = file.path(dir, "_discussion.Rnw"))
           writeLines(input$funding, con = file.path(dir, "_funding.Rnw"))
-          out = knitr::knit2pdf(input = tempReport,
+          out = knitr::knit2pdf(input  = tempReport,
                                 output = file.path(tmp, "input.tex"),
-                                clean = TRUE)
+                                clean  = TRUE)
           file.rename(out, file) # move pdf to file for downloading
         }
         
