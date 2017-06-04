@@ -560,8 +560,9 @@ upreport <-
         title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
         year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
         author <- RISmed::Author(RISmed::EUtilsGet(res))
-        lastname <- sapply(author, function(x)paste(x$LastName))
-        result <- paste(1:numb, ")", "Title:", title,",", lastname, ",", year,  sep = "\n")
+        #lastname <- sapply(author, function(x)paste(x$LastName))
+        lastforestname <- sapply(author, function(x)paste(x$LastName, x$ForeName))
+        result <- paste(1:numb, ")", "Title:", title,",", lastforestname, ",", year,  sep = "\n")
         result
         #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
         
