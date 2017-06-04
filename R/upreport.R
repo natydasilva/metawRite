@@ -586,7 +586,7 @@ upreport <-
         year <- paste("publication_year:", yearAg(), sep = "")
         search <- paste(title, year,  sep="+")
         
-        current_query <- gsub("QQQ", title, query)
+        current_query <- gsub("QQQ", search, query)
           #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
         
    
