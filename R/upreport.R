@@ -162,8 +162,8 @@ upreport <-
                 shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
                 shiny::textInput("serchtext", label = shiny::h3("Keywords"), value = "pinkeye in cows"),
                 shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
-                shiny::textInput("date1", label = shiny::h3("From"),value="2014/01/01"),
-                shiny::textInput("date2", label = shiny::h3("To"),  value = "2017/01/01"),
+                shiny::textInput("date1", label = shiny::h3("From"),value="2012/01/01"),
+                shiny::textInput("date2", label = shiny::h3("To"),  value = "2016/01/01"),
                 shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
                 shiny::actionButton("wordButton","Search")),
               
@@ -181,7 +181,7 @@ upreport <-
                 shiny::helpText("Type a word below to search in PubAg, you can search ...."),
                 shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
                  shiny::helpText("Specify the publication year of your search, use the format YYYY"),
-                shiny::textInput("date1ag", label = shiny::h3("From"),value="2015"),
+                shiny::textInput("date1ag", label = shiny::h3("From"),value="2012"),
                  #shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
                  shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
                 shiny::actionButton("wordButtonAg","Search")),
@@ -493,7 +493,7 @@ upreport <-
       
     
       #it is the 
-      if(initialprotocol==FALSE){
+      if(initialprotocol == FALSE){
         
         shinyjs::show("updateproto")
         output$updateproto <- shiny::renderUI({
@@ -589,14 +589,13 @@ upreport <-
         current_query <- gsub("QQQ", search, query)
           #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
         
-   
-        
         #dat <-rvest::read_html(aux)
         allsearch <- jsonlite::fromJSON(current_query)
         titlesearch <- allsearch[[4]]$title
         authorsearch <- allsearch[[4]]$authors
         sourcesearch <- allsearch[[4]]$source
-       results <- paste(titlesearch, authorsearch,sourcesearch)
+        
+       results <- paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch)
         
         #outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
         #print(outtxt[[1]][-c(1:2)])
