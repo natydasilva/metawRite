@@ -546,11 +546,11 @@ upreport <-
       #   TAB 2     #
       ###############
       
-      word2<- shiny::eventReactive(input$wordButton, {input$serchtext})
+      word2<- shiny::eventReactive(input$wordButton, shiny::isolate(input$serchtext))
       
       output$wordtext <-shiny::renderTable({
-        d1<-input$date1
-        d2<-input$date2
+        d1<-shiny::isolate(input$date1)
+        d2<-shiny::isolate(input$date2)
         res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
         fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
         numb <- RISmed::QueryCount(res)
@@ -561,7 +561,7 @@ upreport <-
         year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
         author <- RISmed::Author(RISmed::EUtilsGet(res))
         #lastname <- sapply(author, function(x)paste(x$LastName))
-        lastforestname <- sapply(author, function(x)paste(x$LastName, x$ForeName))
+        lastforestname <- sapply(author, function(x)paste(x$LastName, x$ForeName, collapse = ","))
         result <- paste(1:numb, ")", "Title:", title,",", lastforestname, ",", year,  sep = "\n")
         result
         #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
