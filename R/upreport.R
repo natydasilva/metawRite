@@ -1,10 +1,9 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
 #' @usage upreport(initialprotocol = TRUE, initialreport = TRUE, 
-#' pair = FALSE, net = FALSE, data = NULL)
+#' net = FALSE, data = NULL)
 #' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
 #' @param initialreport logic value to indicate if is the initial review, default is TRUE
-#' @param pair logic value to indicate if pairwise meta-analysis is available, default is FALSE
 #' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
@@ -16,11 +15,11 @@
 #'\dontrun{
 #' 
 #' upreport(initialprotocol = TRUE, initialreport = TRUE, 
-#' pair = FALSE, net = FALSE, data = NULL)  
+#' net = FALSE, data = modstr)  
 #' }
  
 upreport <-
-  function(initialprotocol = TRUE, initialreport =TRUE, pair = FALSE, net = FALSE, data = NULL) {
+  function(initialprotocol = TRUE, initialreport =TRUE,  net = FALSE, data = NULL) {
     
     if(is.null(data)){
       datapair <-NULL
@@ -831,12 +830,10 @@ upreport <-
       #     }
       #   })
       
-      if(pair){
-        shinyjs::show("pairupdate")
-      }
+     
       
       if( is.null(data)==FALSE ){
-        
+        shinyjs::show("pairupdate")
       up <- NULL
       sel <- datapair %>% dplyr::filter(up %in% "1") %>% dplyr::select(trt.pair) %>% unique()
       output$updt <- shiny::renderUI({
@@ -860,8 +857,7 @@ upreport <-
           
         })
         
-        
-        
+      
         output$funel2 <- shiny::renderPlot({
           
           pardat <- shiny::isolate(pair_result %>%
@@ -929,10 +925,7 @@ upreport <-
         }
       })
       
-      
-      
-      
-      
+    
       
     }
     }
