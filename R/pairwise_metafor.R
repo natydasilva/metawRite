@@ -18,12 +18,12 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
+#' MTCpairs <- metawRite::pairs(list(treat1, treat2, treat3),
 #'                 list(event1, event2, event3),
 #'               list(n1, n2, n3),
 #'                 data = MTCdata,
 #'                 sm = "RR")
-#' MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+#' MTCpairsrg <- pairs(list(t1, t2, t3, t4),
 #'                 TE = list(y1, y2, y3,y4),
 #'               seTE = list(se1, se2, se3, se4),
 #'                 data = dat_rungano,
@@ -47,6 +47,15 @@ pairwise_metafor <- function(dataini, nupdate = 1, treat1, treat2, seTE, nobs = 
   TE <- NULL
   vi <- NULL
   data <- NULL
+  
+  # 
+  # if(ARM){
+  # treats <- paste("treat", 1:nt, sep = "") 
+  # nsize <- paste("n", 1:nt, sep = "")
+  # ys <- paste("y", 1:nt, sep = "")
+  # se <- paste("se", 1:nt, sep ="")
+  # }
+  
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
 
    MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%

@@ -25,11 +25,11 @@ Imports:
     magrittr,
     geomnet,
     metafor,
-    netmeta,
     stringr,
     stringi,
    jsonlite,
     RColorBrewer,
+    meta,
     tm
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:

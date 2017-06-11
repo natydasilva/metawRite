@@ -27,7 +27,7 @@ Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 \examples{
 \dontrun{
 
-upreport(initialprotocol = TRUE, initialreport = TRUE, 
-net = FALSE, data = modstr)  
+upreport(initialprotocol = TRUE, initialreport = TRUE,
+net = FALSE, data = NULL)  
 }
 }

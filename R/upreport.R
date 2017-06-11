@@ -14,8 +14,8 @@
 #'@examples
 #'\dontrun{
 #' 
-#' upreport(initialprotocol = TRUE, initialreport = TRUE, 
-#' net = FALSE, data = modstr)  
+#' upreport(initialprotocol = TRUE, initialreport = TRUE,
+#' net = FALSE, data = NULL)  
 #' }
  
 upreport <-
@@ -248,7 +248,7 @@ upreport <-
               )
             )
           ), 
-          
+         
           shiny::tabPanel(
             "Pairwise" ,
             shinyjs::hidden(
@@ -263,6 +263,7 @@ upreport <-
                 )), 
                                  shiny::column(3, shiny::uiOutput("updt"))), 
                 shiny::actionButton("goButton2", "Initial selection!"),
+                
                 
                 # shiny::tabPanel(
                 #   "Pairwise" ,

@@ -2,6 +2,7 @@
 
 export(forest_metafor)
 export(metaforest_plot)
+export(pairs)
 export(pairwise_metafor)
 export(upreport)
 importFrom(magrittr,"%>%")

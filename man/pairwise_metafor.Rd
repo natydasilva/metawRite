@@ -37,12 +37,12 @@ Restruscture data and pairwise meta-analysis model results using metafor package
 }
 \examples{
 \dontrun{
-MTCpairs <- netmeta::pairwise(list(treat1, treat2, treat3),
+MTCpairs <- metawRite::pairs(list(treat1, treat2, treat3),
                 list(event1, event2, event3),
               list(n1, n2, n3),
                 data = MTCdata,
                 sm = "RR")
-MTCpairsrg <- netmeta::pairwise(list(t1, t2, t3, t4),
+MTCpairsrg <- pairs(list(t1, t2, t3, t4),
                 TE = list(y1, y2, y3,y4),
               seTE = list(se1, se2, se3, se4),
                 data = dat_rungano,
