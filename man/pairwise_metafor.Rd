@@ -4,20 +4,42 @@
 \alias{pairwise_metafor}
 \title{Restruscture data and pairwise meta-analysis model results using metafor package}
 \usage{
-pairwise_metafor(dataini,nupdate = 1, treat1, treat2, seTE,
- nobs = NULL, yi, vi, sei, ... )
+pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
+data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
+allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 }
 \arguments{
-\item{dataini}{Data frame in contrast based format, if you have the data in arm-based you can use
-pairwise function from netmeta package. The column names}
+\item{armbased}{A logical indicating if the data are in arm-based format (one row for each study )}
+
+\item{treat}{A list or vector with treatment information for individual treatment arms (see Details in netmeta).}
+
+\item{event}{A list or vector with information on number of events for individual treatment arms (see Details in netmeta).}
+
+\item{n}{A list or vector with information on number of observations for individual treatment arms (see Details in netmeta).}
+
+\item{mean}{A list or vector with estimated means for individual treatment arms (see Details in netmeta).}
+
+\item{sd}{A list or vector with information on the standard deviation for individual treatment arms (see Details in netmenta).}
+
+\item{TE}{A list or vector with estimated treatment effects for individual treatment arms (see Details in netmta).}
+
+\item{seTE}{A list or vector with standard errors of estimated treatment effect for individual treatment arms (see Details in netmta).}
+
+\item{time}{A list or vector with information on person time at risk for individual treatment arms (see Details in netmeta).}
+
+\item{data}{Data frame in contrast-based or arm-based format}
+
+\item{studlab}{A vector with study labels (optional).}
+
+\item{incr}{A numerical value which is added to each cell frequency for studies with a zero cell count.}
+
+\item{allincr}{A logical indicating if incr is added to each cell frequency of all studies if at least one study has a zero cell count. If FALSE (default), incr is added only to each cell frequency of studies with a zero cell count.}
+
+\item{addincr}{A logical indicating if incr is added to each cell frequency of all studies irrespective of zero cell counts.}
+
+\item{allstudies}{A logical indicating if studies with zero or all events in two treatment arms are to be included in the meta-analysis (applies only if sm is equal to "RR" or "OR").}
 
 \item{nupdate}{number of updates}
-
-\item{treat1}{variable name with the treatment 1 in datapair}
-
-\item{treat2}{variable name with the treatment 2 in datapair}
-
-\item{seTE}{effect size standard error}
 
 \item{nobs}{a vector with the number of observations for each update}
 
@@ -37,18 +59,22 @@ Restruscture data and pairwise meta-analysis model results using metafor package
 }
 \examples{
 \dontrun{
-MTCpairs <- metawRite::pairs(list(treat1, treat2, treat3),
+MTCpairs <- pairwise(list(treat1, treat2, treat3),
                 list(event1, event2, event3),
               list(n1, n2, n3),
                 data = MTCdata,
                 sm = "RR")
-MTCpairsrg <- pairs(list(t1, t2, t3, t4),
+MTCpairsrg <- pairwise(list(t1, t2, t3, t4),
                 TE = list(y1, y2, y3,y4),
               seTE = list(se1, se2, se3, se4),
                 data = dat_rungano,
                 sm = "MD")
 modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
 treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
+modstr <- pairwise_metafor(armbased = TRUE, treat=list(treat1, treat2, treat3),
+               event= list(event1, event2, event3),
+              n=list(n1, n2, n3),
+                data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
 
 modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")

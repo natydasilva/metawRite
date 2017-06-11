@@ -27,6 +27,7 @@ Imports:
     metafor,
     stringr,
     stringi,
+    netmeta,
    jsonlite,
     RColorBrewer,
     meta,
