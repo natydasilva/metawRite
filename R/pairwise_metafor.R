@@ -3,7 +3,7 @@
 #' @usage pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
 #' data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
 #' allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
-#' @param armbased A logical indicating if the data are in arm-based format (one row for each study )
+#' @param armbased A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
 #' @param treat	A list or vector with treatment information for individual treatment arms (see Details in netmeta).
 #' @param event	A list or vector with information on number of events for individual treatment arms (see Details in netmeta).
 #' @param n	A list or vector with information on number of observations for individual treatment arms (see Details in netmeta).
@@ -45,8 +45,10 @@
 #'                event= list(event1, event2, event3),
 #'               n=list(n1, n2, n3),
 #'                 data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
-
-
+#' 
+#' modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
+#' data = dat.begg1989, nupdate = 1,  nobs = 20, measure = "GEN")
+#'                            
 #' 
 #' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 #' treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
@@ -58,16 +60,16 @@ pairwise_metafor <- function(armbased = TRUE,
                              incr = 0.5, allincr = FALSE, addincr = FALSE, allstudies = FALSE,
                               nupdate = 1, nobs = NULL, yi, vi, sei, ... ) {
 
-  seTE <- NULL
-  id <-  NULL
-  treat1 <- NULL
-  treat2 <- NULL
-  up  <- NULL
-  trt.pair <- NULL
-  rma <- NULL
-  TE <- NULL
-  vi <- NULL
-  data <- NULL
+  # seTE <- NULL
+   id <-  NULL
+   treat1 <- NULL
+   treat2 <- NULL
+   up  <- NULL
+   trt.pair <- NULL
+  # rma <- NULL
+  # TE <- NULL
+  # vi <- NULL
+  # data <- NULL
 
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
 
@@ -260,14 +262,14 @@ pairwise_metafor <- function(armbased = TRUE,
     }
   }
 
-  
+ #Transform the data from arm-based to contrast based 
   if(armbased){
- MTCpairs <- netmeta::pairwise(treat = treat, event = event, n = n, mean = mean, sd = sd, TE=TE, seTE=seTE,
-                      time =time, data = data, studlab = studlab ,
+ MTCpairs <- netmeta::pairwise(treat = treat, event = event, n = n, mean = mean, sd = sd, TE = TE, seTE = seTE,
+                      time = time, data = data, studlab = studlab ,
                       incr = incr , allincr = allincr, addincr = addincr, allstudies = allstudies,
                       ...)  
  dataini <- MTCpairs 
- }
+  }
  
   
    MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%

@@ -9,7 +9,7 @@ data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE,
 allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 }
 \arguments{
-\item{armbased}{A logical indicating if the data are in arm-based format (one row for each study )}
+\item{armbased}{A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )}
 
 \item{treat}{A list or vector with treatment information for individual treatment arms (see Details in netmeta).}
 
@@ -75,6 +75,10 @@ modstr <- pairwise_metafor(armbased = TRUE, treat=list(treat1, treat2, treat3),
                event= list(event1, event2, event3),
               n=list(n1, n2, n3),
                 data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
+
+modstr <- pairwise_metafor(armbased = TRUE, treat=trt,
+data = dat, nupdate = 1,  nobs = 20, measure = "GEN")
+                           
 
 modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
 treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
