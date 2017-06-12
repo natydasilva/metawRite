@@ -47,7 +47,7 @@
 #'                 data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
 #' 
 #' modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
-#' data = dat.begg1989, nupdate = 1,  nobs = 20, measure = "GEN")
+#' data = dat.begg1989, nupdate = 1,  nobs = 20)
 #'                            
 #' 
 #' modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
@@ -271,9 +271,10 @@ pairwise_metafor <- function(armbased = TRUE,
  dataini <- MTCpairs 
   }
  
+  if(nupdate==1) nobs=nrow(dataini)
   
    MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%
-    dplyr::mutate_if(is.factor, as.character) %>%
+     purrr::map_if(is.factor, as.character) %>% dplyr::as_data_frame() %>%
     dplyr::mutate(id = 1:nrow(dataini), vi = seTE^2) %>% 
      # plyr::ddply( plyr::.(id), function(x){
      #   aux <-   stringr::str_sort(x[1,] %>% dplyr::select(treat1, treat2))

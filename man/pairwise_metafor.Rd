@@ -76,8 +76,8 @@ modstr <- pairwise_metafor(armbased = TRUE, treat=list(treat1, treat2, treat3),
               n=list(n1, n2, n3),
                 data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
 
-modstr <- pairwise_metafor(armbased = TRUE, treat=trt,
-data = dat, nupdate = 1,  nobs = 20, measure = "GEN")
+modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
+data = dat.begg1989, nupdate = 1,  nobs = 20, measure = "GEN")
                            
 
 modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
