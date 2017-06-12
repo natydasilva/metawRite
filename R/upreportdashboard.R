@@ -16,7 +16,7 @@
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL)  
-#'  upreportdashoard(initialprotocol = FALSE, initialreport = TRUE,pair =TRUE,
+#'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =TRUE,
 #'   net = FALSE, data = modstr)
 #' }
 upreportdashoard <-
@@ -74,10 +74,16 @@ sidebar <-  shinydashboard::dashboardSidebar(
     
   ))
 
+# tmp <- system.file(package = "metawRite")
+# tempReport <- file.path(tmp,"motivation.Rnw")
+# file.copy(file.path(tmp, "motivation2.Rnw"), tempReport, overwrite = TRUE)
+# dir <- system.file(package = "metawRite")
+# 
 ###UI OLD tab panels
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
-          shiny::h2("Introduction to  metawRite package for Living Systematic review")
+          #shiny::h2("Introduction to  metawRite package for Living Systematic review")
+          shiny::includeMarkdown("inst/motivation.Rmd")
 )
 
 
@@ -323,7 +329,8 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
                       tab3,
                       tab4,
                       tab5,
-                      tab6
+                      tab6,
+                      tab7
                     )))
 
 
