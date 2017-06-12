@@ -1,5 +1,5 @@
-#' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
-#'
+#' Meta-analysis reportshiny app
+#' 
 #' @usage upreport(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 #' net = FALSE, data = NULL)
 #' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
@@ -18,7 +18,7 @@
 #' upreport(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL)  
 #' 
-#' upreport(initialprotocol = FALSE, initialreport =TRUE, net=FALSE,data=modstrMTCdata)
+#' upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, data = modstrMTCdata)
 #' }
  
 upreport <-
@@ -329,7 +329,7 @@ upreport <-
       )
       
     )
-    
+     
     server = function(input, output, session) {
       
       

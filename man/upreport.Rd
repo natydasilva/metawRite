@@ -2,7 +2,7 @@
 % Please edit documentation in R/upreport.R
 \name{upreport}
 \alias{upreport}
-\title{Meta-analysis reportshiny app, tab 1 draft version to persistent local storage}
+\title{Meta-analysis reportshiny app}
 \usage{
 upreport(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 net = FALSE, data = NULL)
@@ -24,7 +24,7 @@ element is a list with the pairwise meta-analysis models generated using pairwis
 shiny app.
 }
 \description{
-Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
+Meta-analysis reportshiny app
 }
 \examples{
 \dontrun{
@@ -32,6 +32,6 @@ Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 upreport(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 net = FALSE, data = NULL)  
 
-upreport(initialprotocol = FALSE, initialreport =TRUE, net=FALSE,data=modstrMTCdata)
+upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, data = modstrMTCdata)
 }
 }
