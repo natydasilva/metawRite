@@ -251,17 +251,7 @@ upreport <-
               )
             )
           ), 
-          shiny::tabPanel(
-            "Analysis" ,
-            shinyjs::hidden(
-              shiny::div(
-                id = "analis"
-                )
-            )
-            
-            
-          ),
-         
+          
           shiny::tabPanel(
             "Pairwise" ,
             shinyjs::hidden(
