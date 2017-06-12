@@ -1,9 +1,10 @@
 #' Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 #'
-#' @usage upreport(initialprotocol = TRUE, initialreport = TRUE, 
+#' @usage upreport(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 #' net = FALSE, data = NULL)
 #' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
 #' @param initialreport logic value to indicate if is the initial review, default is TRUE
+#' @param pair logical, if FALSE implies regular analysis not pairwise
 #' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
@@ -14,12 +15,14 @@
 #'@examples
 #'\dontrun{
 #' 
-#' upreport(initialprotocol = TRUE, initialreport = TRUE,
+#' upreport(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL)  
+#' 
+#' upreport(initialprotocol = FALSE, initialreport =TRUE, net=FALSE,data=modstrMTCdata)
 #' }
  
 upreport <-
-  function(initialprotocol = TRUE, initialreport =TRUE,  net = FALSE, data = NULL) {
+  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL) {
     
     if(is.null(data)){
       datapair <-NULL
@@ -248,6 +251,16 @@ upreport <-
               )
             )
           ), 
+          shiny::tabPanel(
+            "Analysis" ,
+            shinyjs::hidden(
+              shiny::div(
+                id = "analis"
+                )
+            )
+            
+            
+          ),
          
           shiny::tabPanel(
             "Pairwise" ,
@@ -557,7 +570,7 @@ upreport <-
         
         #outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
         #print(outtxt[[1]][-c(1:2)])
-        print(results)
+        results
       })
       
       ###############

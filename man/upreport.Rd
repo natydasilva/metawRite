@@ -4,13 +4,15 @@
 \alias{upreport}
 \title{Meta-analysis reportshiny app, tab 1 draft version to persistent local storage}
 \usage{
-upreport(initialprotocol = TRUE, initialreport = TRUE, 
+upreport(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 net = FALSE, data = NULL)
 }
 \arguments{
 \item{initialprotocol}{logic value to indicate if is the initial protocol, default is TRUE}
 
 \item{initialreport}{logic value to indicate if is the initial review, default is TRUE}
+
+\item{pair}{logical, if FALSE implies regular analysis not pairwise}
 
 \item{net}{logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE}
 
@@ -27,7 +29,9 @@ Meta-analysis reportshiny app, tab 1 draft version to persistent local storage
 \examples{
 \dontrun{
 
-upreport(initialprotocol = TRUE, initialreport = TRUE,
+upreport(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 net = FALSE, data = NULL)  
+
+upreport(initialprotocol = FALSE, initialreport =TRUE, net=FALSE,data=modstrMTCdata)
 }
 }

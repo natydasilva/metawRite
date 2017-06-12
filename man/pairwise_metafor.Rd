@@ -59,28 +59,18 @@ Restruscture data and pairwise meta-analysis model results using metafor package
 }
 \examples{
 \dontrun{
-MTCpairs <- pairwise(list(treat1, treat2, treat3),
-                list(event1, event2, event3),
-              list(n1, n2, n3),
-                data = MTCdata,
-                sm = "RR")
-MTCpairsrg <- pairwise(list(t1, t2, t3, t4),
+                
+modstrMTCdata <- pairwise_metafor(armbased = TRUE, treat = list(treat1, treat2, treat3),
+  event = list(event1, event2, event3), n = list(n1, n2, n3), data = MTCdata, nupdate = 2,
+  nobs = c(109, 5), measure = "RR")
+  
+modstrMTCpairsrg <- pairwise_metafor(armbased = TRUE, treat = list(t1, t2, t3, t4),
                 TE = list(y1, y2, y3,y4),
-              seTE = list(se1, se2, se3, se4),
+               seTE = list(se1, se2, se3, se4),
                 data = dat_rungano,
-                sm = "MD")
-modstr <- pairwise_metafor(MTCpairs, nupdate = 2, treat1 = treat1, 
-treat2 = treat2, nobs = c(109, 5), method  = "REML", measure = "RR")
-modstr <- pairwise_metafor(armbased = TRUE, treat=list(treat1, treat2, treat3),
-               event= list(event1, event2, event3),
-              n=list(n1, n2, n3),
-                data = MTCdata, nupdate = 2,  nobs = c(109, 5), measure = "RR")
-
+                sm = "MD", nupdate = 1,  nobs = 20)
+ #using data from metafor pkg               
 modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
-data = dat.begg1989, nupdate = 1,  nobs = 20, measure = "GEN")
-                           
-
-modstr2 <- pairwise_metafor(MTCpairsrg, nupdate = 1, treat1 = treat1, 
-treat2 = treat2, nobs = 29, method  = "REML", measure = "GEN")
+data = dat.begg1989, nupdate = 1,  nobs = 20)
  }
 }
