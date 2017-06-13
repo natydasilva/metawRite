@@ -84,7 +84,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
           #shiny::h2("Introduction to  metawRite package for Living Systematic review")
-          shiny::includeMarkdown("dir/motivation.Rmd")
+          shiny::includeMarkdown(file.path(dir, "motivation.Rmd"))
 )
 
 
