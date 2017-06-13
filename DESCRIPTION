@@ -29,6 +29,7 @@ Imports:
     stringr,
     stringi,
     netmeta,
+    rmarkdown,
    jsonlite,
     RColorBrewer,
     meta,

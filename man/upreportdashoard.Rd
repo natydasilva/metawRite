@@ -5,7 +5,7 @@
 \title{Meta-analysis reportshiny app, using shinydashboard (improved version)}
 \usage{
 upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
-net = FALSE, data = NULL)
+net = FALSE, data = NULL, outputformat = "pdf")
 }
 \arguments{
 \item{initialprotocol}{logic value to indicate if is the initial protocol, default is TRUE}
@@ -19,6 +19,8 @@ net = FALSE, data = NULL)
 \item{data}{list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder}
+
+\item{outputformat}{format to download protocol and report}
 }
 \description{
 Meta-analysis reportshiny app, using shinydashboard (improved version)
@@ -27,8 +29,8 @@ Meta-analysis reportshiny app, using shinydashboard (improved version)
 \dontrun{
 
 upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-net = FALSE, data = NULL)  
+net = FALSE, data = NULL,outputformat="pdf")  
  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =TRUE,
-  net = FALSE, data = modstr)
+  net = FALSE, data = modstr,outputformat = "pdf")
 }
 }

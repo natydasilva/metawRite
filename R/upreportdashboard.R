@@ -1,7 +1,7 @@
 #' Meta-analysis reportshiny app, using shinydashboard (improved version)
 #'
 #' @usage upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
-#' net = FALSE, data = NULL)
+#' net = FALSE, data = NULL, outputformat = "pdf")
 #' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
 #' @param initialreport logic value to indicate if is the initial review, default is TRUE
 #' @param pair logical, if FALSE implies regular analysis not pairwise
@@ -9,18 +9,19 @@
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 #' element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
+#' @param outputformat format to download protocol and report
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
 #'\dontrun{
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-#' net = FALSE, data = NULL)  
+#' net = FALSE, data = NULL,outputformat="pdf")  
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =TRUE,
-#'   net = FALSE, data = modstr)
+#'   net = FALSE, data = modstr,outputformat = "pdf")
 #' }
 upreportdashoard <-
-  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL) {
+  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL, outputformat="pdf") {
     
     if(is.null(data)){
       datapair <-NULL
@@ -79,7 +80,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
 # file.copy(file.path(tmp, "motivation2.Rnw"), tempReport, overwrite = TRUE)
 # dir <- system.file(package = "metawRite")
 # 
-###UI OLD tab panels
+###UI OLD tab panels FIX DIRECTORY ASK HEIKE
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
           #shiny::h2("Introduction to  metawRite package for Living Systematic review")
@@ -125,7 +126,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   
                   
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
-                  shiny::downloadButton(outputId='downproto', label="Download .pdf")
+                  shiny::downloadButton(outputId='downproto', label="Download")
                   # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
                 ),
                 shiny::fluidRow(shiny::column(8,
@@ -302,7 +303,7 @@ tab6 <- shinydashboard::tabItem(tabName = "pairwise",
     )))
 
 
-tab7<-  shinydashboard::tabItem(tabName = "network",
+tab7 <-  shinydashboard::tabItem(tabName = "network",
   shinyjs::hidden(
     shiny::div(
       id = "netupdate",
@@ -340,9 +341,9 @@ server <- function(input, output,session) {
     #   TAB 1     #
     ###############
     responsesDir <- file.path("tools")
-    
+    filenameout <- paste("myprotocol",".",outputformat,sep="")
     output$downproto = shiny::downloadHandler(
-      filename = 'myprotocol.pdf',
+      filename = filenameout,
       
       content = function(file) {
         
@@ -350,45 +351,23 @@ server <- function(input, output,session) {
         # tmp <- tempdir()
         
         tmp <- system.file(package="metawRite")
-        tempReport <- file.path(tmp,"inputpr2.Rnw")
-        file.copy(file.path(tmp, "inputpr.Rnw"), tempReport, overwrite = TRUE)
+        
+        tempReport <- file.path(tmp,"inputpr2.Rmd")
+        file.copy(file.path(tmp, "inputpr.Rmd"), tempReport, overwrite = TRUE)
         dir <- system.file(package="metawRite")
         
         
-        writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rnw"))
+        writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rmd"))
+      
+        writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"))
         
-        writeLines(input$introproto, con = file.path(dir, "_introproto.Rnw"))
-        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rnw"))
-        out = knitr::knit2pdf(input = tempReport,
-                              output = file.path(tmp, "inputpr.tex"),
-                              clean = TRUE)
+        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"))
+        
+        outform <- paste(outputformat, "_","document",sep="")
+         out = rmarkdown::render(input = tempReport,output_format= outform,
+                                
+                               clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
-      }
-      
-    )
-    
-    
-    ###See how to download Rnw file
-    
-    output$downprotornw = shiny::downloadHandler(
-      filename = 'myprotocol.Rnw',
-      
-      content = function(file) {
-        
-        tmp <- system.file(package="metawRite")
-        tempReport <- file.path(tmp,"inputpr2.Rnw")
-        file.copy(file.path(tmp, "inputpr.Rnw"), tempReport, overwrite = TRUE)
-        dir <- system.file(package="metawRite")
-        
-        writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rnw"))
-        
-        writeLines(input$introproto, con = file.path(dir, "_introproto.Rnw"))
-        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rnw"))
-        # out = knitr::knit2pdf(input = tempReport,
-        #                       output = file.path(tmp, "inputpr.tex"),
-        #                       clean = TRUE)
-        out = tempReport
-        file.rename(out, file) # move Rnw to file for downloading
       }
       
     )
@@ -535,12 +514,11 @@ server <- function(input, output,session) {
       title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
       year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
       author <- RISmed::Author(RISmed::EUtilsGet(res))
-      #lastname <- sapply(author, function(x)paste(x$LastName))
+     
       lastforestname <- sapply(author, function(x)paste(x$LastName, x$ForeName, collapse = ","))
       result <- paste(1:numb, ")", "Title:", title,",", lastforestname, ",", year,  sep = "\n")
       result
-      #wordcloud::wordcloud(abstracts, min.freq=2, max.words=70, colors=RColorBrewer::brewer.pal(7,"Dark2"))
-      
+     
     })
     
     ###############
