@@ -341,7 +341,7 @@ server <- function(input, output,session) {
     #   TAB 1     #
     ###############
     responsesDir <- file.path("tools")
-    if(outputformat=="word") outputformataux <- "doxc"
+    if(outputformat=="word") outputformataux <- "docx"
     filenameout <- paste("myprotocol",".",outputformataux,sep="")
     output$downproto = shiny::downloadHandler(
       filename = filenameout,
