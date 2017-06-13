@@ -75,16 +75,16 @@ sidebar <-  shinydashboard::dashboardSidebar(
     
   ))
 
-# tmp <- system.file(package = "metawRite")
-# tempReport <- file.path(tmp,"motivation.Rnw")
-# file.copy(file.path(tmp, "motivation2.Rnw"), tempReport, overwrite = TRUE)
-# dir <- system.file(package = "metawRite")
+ tmp <- system.file(package = "metawRite")
+ tempReport <- file.path(tmp,"motivation.Rmd")
+ file.copy(file.path(tmp, "motivation2.Rmd"), tempReport, overwrite = TRUE)
+ dir <- system.file(package = "metawRite")
 # 
 ###UI OLD tab panels FIX DIRECTORY ASK HEIKE
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
           #shiny::h2("Introduction to  metawRite package for Living Systematic review")
-          shiny::includeMarkdown("inst/motivation.Rmd")
+          shiny::includeMarkdown("dir/motivation.Rmd")
 )
 
 

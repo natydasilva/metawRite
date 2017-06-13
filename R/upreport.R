@@ -15,10 +15,10 @@
 #'@examples
 #'\dontrun{
 #' 
-#' upreport(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-#' net = FALSE, data = NULL)  
+#' upreport(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
+#' net = FALSE, data = modstr)  
 #' 
-#' upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, data = modstrMTCdata)
+#' upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, pair=TRUE,data = modstr)
 #' }
  
 upreport <-
