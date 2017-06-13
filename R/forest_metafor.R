@@ -45,6 +45,7 @@
 #' @return returns to 
 #' @importFrom magrittr %>%
 #' @export
+#' 
 forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, showweights = FALSE, xlim,
            alim, clim, ylim, at, steps = 5, level = x$level, refline = 0, digits = 2L, width, xlab, slab,
            mlab, ilab, ilab.xpos, ilab.pos, order, transf, atransf, targs, rows, efac = 1, pch = 15,
@@ -52,7 +53,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
   
     #########################################################################
     fitted <- NULL
-    predict <- NULL
+    predict.rma <- NULL
     rstandard <- NULL
  
     if (!inherits(x, "rma"))
@@ -213,7 +214,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
       pred.ci.lb <- rep(NA_real_, k)
       pred.ci.ub <- rep(NA_real_, k)
     } else {
-      temp <- predict(x, level = level)
+      temp <- predict.rma(x, level = level)
       pred <- temp$pred
       if (addcred) {
         pred.ci.lb <- temp$cr.lb
@@ -730,7 +731,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
           if (length(addcred) == 1)
             addcred <- c(addcred, addcred)
           temp <-
-            predict(
+            metafor::predict.rma(
               x,
               level = level,
               tau2.levels = addcred[1],
@@ -745,7 +746,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
           } else{
             ### here addcred=FALSE, so just use the first tau^2 and gamma^2 arbitrarily (so predict() works)
             temp <-
-              predict(
+              metafor::predict.rma(
                 x,
                 level = level,
                 tau2.levels = 1,
@@ -755,7 +756,7 @@ forest_metafor <- function(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, s
         }
         
       } else {
-        temp <- predict(x, level = level)
+        temp <- metafor::predict.rma(x, level = level)
         
       }
       
