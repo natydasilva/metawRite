@@ -365,7 +365,6 @@ server <- function(input, output,session) {
         
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
-                                
                                clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
       }
@@ -566,21 +565,21 @@ server <- function(input, output,session) {
         # tmp <- tempdir()
         
         tmp <- system.file(package = "metawRite")
-        tempReport <- file.path(tmp,"input2.Rnw")
-        file.copy(file.path(tmp, "input.Rnw"), tempReport, overwrite = TRUE)
+        tempReport <- file.path(tmp,"input2.Rmd")
+        file.copy(file.path(tmp, "input.Rmd"), tempReport, overwrite = TRUE)
         dir <- system.file(package = "metawRite")
         
         
-        writeLines(input$title, con = file.path(dir, "_title.Rnw"))
-        writeLines(input$abstract, con = file.path(dir, "_abstract.Rnw"))
-        writeLines(input$introduction, con = file.path(dir, "_introduction.Rnw"))
-        writeLines(input$method, con = file.path(dir, "_methods.Rnw"))
-        writeLines(input$result, con = file.path(dir, "_results.Rnw"))
-        writeLines(input$discussion, con = file.path(dir, "_discussion.Rnw"))
-        writeLines(input$funding, con = file.path(dir, "_funding.Rnw"))
-        out = knitr::knit2pdf(input  = tempReport,
-                              output = file.path(tmp, "input.tex"),
-                              clean  = TRUE)
+        writeLines(input$title, con = file.path(dir, "_title.Rmd"))
+        writeLines(input$abstract, con = file.path(dir, "_abstract.Rmd"))
+        writeLines(input$introduction, con = file.path(dir, "_introduction.Rmd"))
+        writeLines(input$method, con = file.path(dir, "_methods.Rmd"))
+        writeLines(input$result, con = file.path(dir, "_results.Rmd"))
+        writeLines(input$discussion, con = file.path(dir, "_discussion.Rmd"))
+        writeLines(input$funding, con = file.path(dir, "_funding.Rmd"))
+        outform <- paste(outputformat, "_","document",sep="")
+        out = rmarkdown::render(input = tempReport,output_format= outform,
+                                clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
       }
       
@@ -590,14 +589,7 @@ server <- function(input, output,session) {
     
     
     
-    
-    #Dynamic UI with updated information of the files in tools folder
-    # output$update <- shiny::renderUI({
-    #  # reactiveFileReader(1000,)
-    #   filenames <- sort(dir("tools"),TRUE)
-    #   reportnames <- unique(substr(filenames, 1,15))
-    #   shiny::selectInput("update", "Update report", reportnames)
-    # })
+  
     
     #Make reactive the new information in the report
     
@@ -633,24 +625,7 @@ server <- function(input, output,session) {
     
     #Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
     ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
-    # 
-    #     saveData <- function(data,cc) {
-    #       if(length(data[[2]] > 0)){
-    #         if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
-    # 
-    #         fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
-    #         fileConn <- file(fileName)
-    #         writeLines(data[[2]], fileConn)
-    #         close(fileConn)
-    #       }else{
-    #         fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
-    #         fileConn <- file(fileName)
-    #         writeLines(input$noquote(cc), fileConn)
-    #         close(fileConn)
-    # 
-    #       }
-    # 
-    #     }
+
     
     # action to take when submit button is pressed
     
