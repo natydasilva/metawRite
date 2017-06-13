@@ -138,7 +138,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   shiny::div(
                     id = "thankyou_msgproto",
                     shiny::h3("Thanks, your protocol was submitted successfully!"),
-                    shiny::actionLink("submit_anotherproto", "Submit another report")
+                    shiny::actionLink("submit_anotherproto", "Submit another protocol")
                   )
                 )
 ) 
@@ -489,7 +489,7 @@ server <- function(input, output,session) {
           #filter only with pr
           auxpr <-substr(filenames, 1,2)=="pr"
           reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
-          shiny::selectInput("updateproto", "Update report", reportnamesproto)
+          shiny::selectInput("updateproto", "Update protocol", reportnamesproto)
         })
         
       })
