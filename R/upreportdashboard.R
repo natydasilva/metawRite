@@ -341,7 +341,8 @@ server <- function(input, output,session) {
     #   TAB 1     #
     ###############
     responsesDir <- file.path("tools")
-    filenameout <- paste("myprotocol",".",outputformat,sep="")
+    if(outputformat=="word") outputformataux <- "doxc"
+    filenameout <- paste("myprotocol",".",outputformataux,sep="")
     output$downproto = shiny::downloadHandler(
       filename = filenameout,
       
@@ -362,6 +363,8 @@ server <- function(input, output,session) {
         writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"))
         
         writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"))
+        
+       
         
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
