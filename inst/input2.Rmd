@@ -7,31 +7,31 @@ params:
 
 
 
-## Title
+
 ```{r child='_title.Rmd'}
 ```
 
-## Abstract
+
 ```{r child='_abstract.Rmd'}
 ```
 
-## Introduction
+
 ```{r child='_introduction.Rmd'}
 ```
 
-## Methods
+
 ```{r child='_methods.Rmd'}
 ```
 
-## Results
+
 ```{r child='_results.Rmd'}
 ```
 
-## Discussion
+
 ```{r child='_discussion.Rmd'}
 ```
 
-## Funding
+
 ```{r child='_funding.Rmd'}
 ```
 

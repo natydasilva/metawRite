@@ -41,17 +41,17 @@ upreportdashoard <-
       
     }
     
-    lsr <- list(title = '',
-                abstract = '',
+    lsr <- list(title = '## Title',
+                abstract = '## Abstract',
                 introduction = '',
-                method = '',
-                result = '',
-                discussion = '',
-                funding = '')
+                method = '## Method',
+                result = '## Result',
+                discussion = '## Discussion',
+                funding = '## Funding')
     
-    protocol <- list(titleproto ="",
-                     introproto ="", 
-                     methodproto = "")
+    protocol <- list(titleproto ="## Title",
+                     introproto ="## Introduction", 
+                     methodproto ="## Methods")
 #####NEW!!!
 header <- shinydashboard::dashboardHeader(title = "metawRite")
 
@@ -80,7 +80,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
  file.copy(file.path(tmp, "motivation2.Rmd"), tempReport, overwrite = TRUE)
  dir <- system.file(package = "metawRite")
 # 
-###UI OLD tab panels FIX DIRECTORY ASK HEIKE
+
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
           #shiny::h2("Introduction to  metawRite package for Living Systematic review")

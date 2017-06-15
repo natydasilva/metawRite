@@ -5,19 +5,19 @@ params:
   n: NA
 ---
 
-## Title
+
 
 ```{r child='_titleproto.Rmd'}
 
 
 ```
 
-## Introduction
+
 ```{r child='_introproto.Rmd'}
 
 ```
 
-## Methods
-```{ r child='_methodproto.Rmd'}
+
+```{r child='_methodproto.Rmd'}
 
 ```
