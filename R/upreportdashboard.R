@@ -49,7 +49,7 @@ upreportdashoard <-
                 discussion = '## Discussion',
                 funding = '## Funding')
     
-    protocol <- list(titleproto ="## Title",
+    protocol <- list(titleproto ="## Example Protocol",
                      introproto ="## Introduction", 
                      methodproto ="## Methods")
 #####NEW!!!
@@ -57,11 +57,11 @@ header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
   shinydashboard::sidebarMenu(
-    shinydashboard::menuItem("Welcome", tabName = "welcome",id="welcome"),
-   shinyBS:: bsTooltip(id = "welcome", title = "This is an input", 
-              placement = "left", trigger = "hover"),
+    shinydashboard::menuItem("Welcome", tabName = "welcome",id="welcome",
+   shinyBS::bsTooltip(id = "welcome", title = "This is an input", 
+              placement = "left", trigger = "hover")),
     shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
-    shinydashboard::menuSubItem("Site-diagram", tabName ="welcome"),
+    #shinydashboard::menuSubItem("Site-diagram", tabName ="site-dig"),
     shinydashboard::menuItem("LSR", tabName = "lrs"),
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
@@ -337,7 +337,7 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
                     )))
 
 
-server <- function(input, output,session) {
+server <- function(input, output, session) {
 
     ###############
     #   TAB 1     #
