@@ -30,6 +30,7 @@ Imports:
     stringi,
     netmeta,
     rmarkdown,
+    shinyBS,
    jsonlite,
     RColorBrewer,
     meta,

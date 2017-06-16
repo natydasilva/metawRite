@@ -57,7 +57,9 @@ header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
   shinydashboard::sidebarMenu(
-    shinydashboard::menuItem("Welcome", tabName = "welcome"),
+    shinydashboard::menuItem("Welcome", tabName = "welcome",id="welcome"),
+   shinyBS:: bsTooltip(id = "welcome", title = "This is an input", 
+              placement = "left", trigger = "hover"),
     shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
     shinydashboard::menuSubItem("Site-diagram", tabName ="welcome"),
     shinydashboard::menuItem("LSR", tabName = "lrs"),
@@ -340,6 +342,8 @@ server <- function(input, output,session) {
     ###############
     #   TAB 1     #
     ###############
+  shinyBS::addTooltip(session, id = "welcome", title = "This is an input.",
+             placement = "left", trigger = "hover")
     responsesDir <- file.path("tools")
     if(outputformat=="word"){
       outputformataux <- "docx"
