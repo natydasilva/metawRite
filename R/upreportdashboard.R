@@ -41,27 +41,24 @@ upreportdashoard <-
       
     }
     
-    lsr <- list(title = '## Title',
-                abstract = '## Abstract',
+    lsr <- list(title = '',
+                abstract = '',
                 introduction = '',
-                method = '## Method',
-                result = '## Result',
-                discussion = '## Discussion',
-                funding = '## Funding')
+                method = '',
+                result = '',
+                discussion = '',
+                funding = '')
     
-    protocol <- list(titleproto ="## Example Protocol",
-                     introproto ="## Introduction", 
-                     methodproto ="## Methods")
-#####NEW!!!
+    protocol <- list(titleproto ="",
+                     introproto ="", 
+                     methodproto ="")
+
 header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
-  shinydashboard::sidebarMenu(
-    shinydashboard::menuItem("Welcome", tabName = "welcome",id="welcome",
-   shinyBS::bsTooltip(id = "welcome", title = "This is an input", 
-              placement = "left", trigger = "hover")),
+  shinydashboard::sidebarMenu(id="welcome",
+    shinydashboard::menuItem("Welcome", tabName = "welcome"),
     shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
-    #shinydashboard::menuSubItem("Site-diagram", tabName ="site-dig"),
     shinydashboard::menuItem("LSR", tabName = "lrs"),
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
@@ -69,23 +66,25 @@ sidebar <-  shinydashboard::dashboardSidebar(
     shinydashboard::menuSubItem("LSR-report", tabName = "report"),
     shinydashboard::menuSubItem("Pairwise", tabName = "pairwise"),
     shinydashboard::menuSubItem("Network", tabName = "network")
-    
+    #shinyBS::bsTooltip(id = 'Welcome', title = "This is an input", options = list(container = 'body'))
+
     #, 
              #sidebarMenuOutput("menu")
     
     
     
-  ))
+  )  )
+
+
 
  tmp <- system.file(package = "metawRite")
  tempReport <- file.path(tmp,"motivation.Rmd")
  file.copy(file.path(tmp, "motivation2.Rmd"), tempReport, overwrite = TRUE)
  dir <- system.file(package = "metawRite")
-# 
+
 
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
-          #shiny::h2("Introduction to  metawRite package for Living Systematic review")
           shiny::includeMarkdown(file.path(dir, "motivation.Rmd"))
 )
 
@@ -171,7 +170,6 @@ tab4 <- shinydashboard::tabItem(tabName = "pubagr",
       shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
       shiny::helpText("Specify the publication year of your search, use the format YYYY"),
       shiny::textInput("date1ag", label = shiny::h3("From"),value="2012"),
-      #shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
       shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
       shiny::actionButton("wordButtonAg","Search")),
     
@@ -185,7 +183,6 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
   shinyjs::hidden(
     shiny::div(
       id = "reportupdate",
-      #selectInput("update", "Update report",filenames)
       shiny::uiOutput("update")
     )
   ),
@@ -342,8 +339,9 @@ server <- function(input, output, session) {
     ###############
     #   TAB 1     #
     ###############
-  shinyBS::addTooltip(session, id = "welcome", title = "This is an input.",
+  shinyBS::addPopover(session, id = 'Welcome',title = 'titu', content = "This is an input.",
              placement = "left", trigger = "hover")
+
     responsesDir <- file.path("tools")
     if(outputformat=="word"){
       outputformataux <- "docx"
@@ -355,9 +353,7 @@ server <- function(input, output, session) {
       filename = filenameout,
       
       content = function(file) {
-        
-        # browser()
-        # tmp <- tempdir()
+    
         
         tmp <- system.file(package="metawRite")
         
@@ -367,13 +363,8 @@ server <- function(input, output, session) {
         
         
         writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rmd"))
-      
         writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"))
-        
         writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"))
-        
-       
-        
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
                                clean = TRUE)
@@ -409,12 +400,12 @@ server <- function(input, output, session) {
           fileName <- paste("tools/",Time(),data[[1]],".txt", sep="")
         }
         fileConn <- file(fileName)
-        writeLines(data[[2]], fileConn)
+        writeLines(data[[2]], fileConn, sep="\n")
         close(fileConn)
       }else{
         fileName <- paste("tools/",Time(),cc,".txt", sep="")
         fileConn <- file(fileName)
-        writeLines(input$noquote(cc), fileConn)
+        writeLines(input$noquote(cc), fileConn, sep = "\n")
         close(fileConn)
         
       }
@@ -498,7 +489,7 @@ server <- function(input, output, session) {
           # reactiveFileReader(1000,)
           filenames <- sort(dir("tools"),TRUE)
           #filter only with pr
-          auxpr <-substr(filenames, 1,2)=="pr"
+          auxpr <-substr(filenames, 1,2) == "pr"
           reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
           shiny::selectInput("updateproto", "Update protocol", reportnamesproto)
         })
@@ -539,35 +530,28 @@ server <- function(input, output, session) {
     yearAg <- shiny::eventReactive(input$wordButtonAg, {input$date1ag})
     
     output$wordtextAg <-shiny::renderTable({
-      d1<-input$date1ag
-      d2<-input$date2ag
-      # dirAg <- "https://api.nal.usda.gov/pubag/rest/search/?query=title:"
-      # aux <- paste(dirAg, word2Ag(),"&api_key=DEMO_KEY", sep = "")
+      d1 <- input$date1ag
+      d2 <- input$date2ag
+  
       query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
       title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
       year <- paste("publication_year:", yearAg(), sep = "")
       search <- paste(title, year,  sep="+")
-      
       current_query <- gsub("QQQ", search, query)
-      #paste(dirAg,gsub("\\s", "", word2Ag()),"&api_key=DEMO_KEY", sep = "")
-      
-      #dat <-rvest::read_html(aux)
+  
       allsearch <- jsonlite::fromJSON(current_query)
       titlesearch <- allsearch[[4]]$title
       authorsearch <- allsearch[[4]]$authors
       sourcesearch <- allsearch[[4]]$source
       
       results <- paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch)
-      
-      #outtxt<-dat %>% rvest::html_text()%>%stringr::str_split("title")
-      #print(outtxt[[1]][-c(1:2)])
       results
     })
     ###############
     #   TAB 3     #
     ###############
     output$download = shiny::downloadHandler(
-      #output$download <- observeEvent(input$download, {shiny::downloadHandler(
+    
       filename = 'myreport.pdf',
       
       content = function(file) {
@@ -595,11 +579,6 @@ server <- function(input, output, session) {
       }
       
     )
-    
-    # })
-    
-    
-    
   
     
     #Make reactive the new information in the report
@@ -632,12 +611,8 @@ server <- function(input, output, session) {
       list("funding", input$funding)
     })
     
-    
-    
-    #Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+  
     ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
-
-    
     # action to take when submit button is pressed
     
     shiny::observeEvent(input$submit, {
