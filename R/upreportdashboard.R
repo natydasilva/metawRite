@@ -2,10 +2,10 @@
 #'
 #' @usage upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 #' net = FALSE, data = NULL, outputformat = "pdf")
-#' @param initialprotocol logic value to indicate if is the initial protocol, default is TRUE
-#' @param initialreport logic value to indicate if is the initial review, default is TRUE
-#' @param pair logical, if FALSE implies regular analysis not pairwise
-#' @param net logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE
+#' @param initialprotocol logical value to indicate if it is the initial protocol, by default is TRUE.
+#' @param initialreport logical value to indicate if it is the initial review, by default is TRUE.
+#' @param pair logical value to indicate if pairwaise analysis should be run, by default it is FALSE. To run pair is needed to specify the data.
+#' @param net logical value to indicate if the analysisi will include a network meta-analysis, by default it is FALSE.
 #' @param data list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 #' element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
@@ -17,7 +17,7 @@
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL,outputformat="pdf")  
-#'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =TRUE,
+#'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
 #'   net = FALSE, data = modstr,outputformat = "pdf")
 #' }
 upreportdashoard <-
@@ -74,7 +74,6 @@ sidebar <-  shinydashboard::dashboardSidebar(
     
     
   )  )
-
 
 
  tmp <- system.file(package = "metawRite")
