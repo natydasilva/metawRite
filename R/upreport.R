@@ -643,25 +643,7 @@ upreport <-
       
       #Timereport <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
       ccaux <- list("title", "abstract", "introduction", "method", "result", "discussion", "funding")
-      # 
-      #     saveData <- function(data,cc) {
-      #       if(length(data[[2]] > 0)){
-      #         if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
-      # 
-      #         fileName <- paste("tools/",Timereport(),data[[1]],".txt", sep="")
-      #         fileConn <- file(fileName)
-      #         writeLines(data[[2]], fileConn)
-      #         close(fileConn)
-      #       }else{
-      #         fileName <- paste("tools/",Timereport(),cc,".txt", sep="")
-      #         fileConn <- file(fileName)
-      #         writeLines(input$noquote(cc), fileConn)
-      #         close(fileConn)
-      # 
-      #       }
-      # 
-      #     }
-      
+     
       # action to take when submit button is pressed
       
       shiny::observeEvent(input$submit, {
@@ -763,76 +745,6 @@ upreport <-
           
         })}
       
-      
-      ###############
-      #   TAB 4     #
-      ###############
-      # 
-      #   selectedData <- shiny::reactive({
-      #     input$goButton
-      # 
-      #   })
-      # 
-      #   up <- NULL
-      #   sel <- datapair %>% dplyr::filter(up%in% "1") %>% dplyr::select(trt.pair) %>% unique()
-      #   output$mytreat <- shiny::renderUI({
-      # 
-      #     choi <- datapair %>% dplyr::filter(up%in% input$updatelab) %>% dplyr::select(trt.pair) %>% unique()
-      #     #browser()
-      #     shiny::selectInput(
-      #       "treatpair",
-      #       "Pairwise comparison:", choices = choi
-      # 
-      #     )
-      #   })
-      # 
-      #   output$forest2 <- shiny::renderPlot({
-      # 
-      #     if(selectedData()){
-      # 
-      #       pardat <- pair_result[[as.numeric(input$updatelab)]]
-      #       pair <- names(pardat) %in% input$treatpair
-      #       npair <- 1:length(pair)
-      # 
-      #       metafor::forest(pardat[[npair[pair]]][[2]])
-      #     }else{
-      #       return(NULL)
-      #     }
-      #   })
-      # 
-      # 
-      # 
-      # 
-      # 
-      #   output$funel2 <- shiny::renderPlot({
-      # 
-      #     if(selectedData()){
-      #       pardat <- pair_result[[as.numeric(input$updatelab)]]
-      # 
-      #       pair <-
-      #         names(pardat) %in% input$treatpair
-      #       npair <- 1:length(pair)
-      #       metafor::funnel(pardat[[npair[pair]]][[2]])
-      #     }else{
-      #       return(NULL)
-      #     }
-      #   })
-      # 
-      # 
-      #   output$summary2 <- shiny::renderPrint({
-      #     if(selectedData()){
-      #       pardat <- pair_result[[as.numeric(input$updatelab)]]
-      # 
-      #       pair <-
-      #         names(pardat) %in% input$treatpair
-      # 
-      #       npair <- 1:length(pair)
-      # 
-      #       return(print(pardat[[npair[pair]]][[2]]))
-      #     }else{
-      #       return(NULL)
-      #     }
-      #   })
       
      
       
