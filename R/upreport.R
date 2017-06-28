@@ -267,13 +267,7 @@ upreport <-
                                  shiny::column(3, shiny::uiOutput("updt"))), 
                 shiny::actionButton("goButton2", "Initial selection!"),
                 
-                
-                # shiny::tabPanel(
-                #   "Pairwise" ,
-                #   shiny::fluidRow(shiny:: numericInput("updatelab", "Update:",value = 1,   min = 1,
-                #                                        max = length(pair_result)),
-                #                   shiny::uiOutput("mytreat"), shiny::actionButton("goButton", "Initial selection!")),
-                shiny::fluidRow(
+                  shiny::fluidRow(
                   shiny::column(width =  6, shiny::plotOutput("forest2" ) ),
                   shiny::column(width =  6, shiny::plotOutput("funel2" ) )
                   
@@ -302,19 +296,7 @@ upreport <-
           
         )
         
-        # shiny::tabPanel(
-        #   "Paper search",
-        #   shiny::fluidRow(shiny::column(
-        #     width = 12,
-        #     "In this tab we can include possible search for new papers, next update material")),
-        #   shiny::fluidRow(shiny::textAreaInput(
-        #     'search',
-        #     'Search',
-        #     rows = 2,
-        #     width = "900px",
-        #     value = "pinkeye", resize ="vertical"
-        #   ) )
-        # )
+   
         
       )
       
@@ -601,13 +583,6 @@ upreport <-
       
       
       
-      #Dynamic UI with updated information of the files in tools folder
-      # output$update <- shiny::renderUI({
-      #  # reactiveFileReader(1000,)
-      #   filenames <- sort(dir("tools"),TRUE)
-      #   reportnames <- unique(substr(filenames, 1,15))
-      #   shiny::selectInput("update", "Update report", reportnames)
-      # })
       
       #Make reactive the new information in the report
       
@@ -841,7 +816,6 @@ upreport <-
         }
       })
       
-    
       
     }
     }
