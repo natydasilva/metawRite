@@ -14,11 +14,14 @@
 #' @export
 #'@examples
 #'\dontrun{
+#' # To run for first time the protocol and the report but include data 
+#' # structure to run the pairwise meta-analysis
 #' 
-#' upreport(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
+#' upreport(initialprotocol = TRUE, initialreport = TRUE, pair = TRUE,
 #' net = FALSE, data = modstr)  
 #' 
-#' upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, pair=TRUE,data = modstr)
+#' upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE,
+#'  pair = TRUE,data = modstr)
 #' }
  
 upreport <-
@@ -101,7 +104,6 @@ upreport <-
               
               shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
               shiny::downloadButton(outputId='downproto', label="Download .pdf")
-             # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
               ),
             shiny::fluidRow(shiny::column(8,
                                           shiny::HTML("<div style='height: 150px;'>"),
@@ -142,7 +144,6 @@ upreport <-
                 shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
                  shiny::helpText("Specify the publication year of your search, use the format YYYY"),
                 shiny::textInput("date1ag", label = shiny::h3("From"),value="2012"),
-                 #shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2017/01/01"),
                  shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
                 shiny::actionButton("wordButtonAg","Search")),
               
@@ -295,8 +296,6 @@ upreport <-
           )
           
         )
-        
-   
         
       )
       

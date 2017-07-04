@@ -1,5 +1,5 @@
 # Note: Works with "robust.rma" objects.
-#' Forest plot from metafor package translate to ggplot2
+#' Forest plot from metafor package translate to ggplot2 working on it
 #'
 #' @usage forest_metafor(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, 
 #' showweights = FALSE, xlim, alim, clim, ylim, at, steps = 5, level = x$level,
