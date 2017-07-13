@@ -62,6 +62,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
+    shinydashboard::menuSubItem("EuroPubMed", tabName = "pubeuro"),
     shinydashboard::menuSubItem("LSR-report", tabName = "report"),
     shinydashboard::menuSubItem("Pairwise", tabName = "pairwise"),
     shinydashboard::menuSubItem("Network", tabName = "network")
@@ -176,6 +177,22 @@ tab4 <- shinydashboard::tabItem(tabName = "pubagr",
       shiny::HTML("</div>"),
       shiny::tableOutput("wordtextAg")
     )))
+
+tab4aux <- shinydashboard::tabItem(tabName = "pubeuro",
+                                shiny::sidebarLayout(
+                                  shiny::sidebarPanel(
+                                    shiny::helpText("Type a word below to search in Euro PubMed, you can search ...."),
+                                    shiny::textInput("serchtextpeuro", label = shiny::h3("Keywords"), value = "pinkeye"),
+                                    shiny::helpText("Specify the publication year of your search, use the format YYYY"),
+                                    shiny::textInput("date1euro", label = shiny::h3("From"),value="2012"),
+                                    shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
+                                    shiny::actionButton("wordButtonEuro","Search")),
+                                  
+                                  shiny::mainPanel(
+                                    shiny::HTML("<div style='height: 50px;'>"),
+                                    shiny::HTML("</div>"),
+                                    shiny::tableOutput("wordtextEuro")
+                                  )))
 
 tab5 <- shinydashboard::tabItem(tabName = "report",
   shinyjs::hidden(
