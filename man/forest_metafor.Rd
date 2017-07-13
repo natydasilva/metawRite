@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_metafor.R
 \name{forest_metafor}
 \alias{forest_metafor}
-\title{Forest plot from metafor package translate to ggplot2}
+\title{Forest plot from metafor package translate to ggplot2 working on it}
 \usage{
 forest_metafor(x, annotate = TRUE, addfit = TRUE, addcred = FALSE, 
 showweights = FALSE, xlim, alim, clim, ylim, at, steps = 5, level = x$level,
@@ -87,5 +87,5 @@ showweights = FALSE, xlim, alim, clim, ylim, at, steps = 5, level = x$level,
 returns to
 }
 \description{
-Forest plot from metafor package translate to ggplot2
+Forest plot from metafor package translate to ggplot2 working on it
 }

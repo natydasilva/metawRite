@@ -69,6 +69,7 @@ modstrMTCpairsrg <- pairwise_metafor(armbased = TRUE, treat = list(t1, t2, t3, t
                seTE = list(se1, se2, se3, se4),
                 data = dat_rungano,
                 sm = "MD", nupdate = 1,  nobs = 20)
+                
  #using data from metafor pkg               
 modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
 data = dat.begg1989, nupdate = 1,  nobs = 20)

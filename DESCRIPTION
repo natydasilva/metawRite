@@ -34,7 +34,8 @@ Imports:
    jsonlite,
     RColorBrewer,
     meta,
-    tm
+    tm,
+    europepmc
 Description: Shiny app to explore and update meta-analysis results.
 Suggests:
     roxygen2 (>= 3.0.0)

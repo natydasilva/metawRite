@@ -28,10 +28,13 @@ Meta-analysis reportshiny app
 }
 \examples{
 \dontrun{
+# To run for first time the protocol and the report but include data 
+# structure to run the pairwise meta-analysis
 
-upreport(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
+upreport(initialprotocol = TRUE, initialreport = TRUE, pair = TRUE,
 net = FALSE, data = modstr)  
 
-upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE, pair=TRUE,data = modstr)
+upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE,
+ pair = TRUE,data = modstr)
 }
 }

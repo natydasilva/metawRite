@@ -38,7 +38,6 @@ upreportdashoard <-
       treat2 <- data[[1]]$treat2
       id <- data[[1]]$id
       
-      
     }
     
     lsr <- list(title = '',

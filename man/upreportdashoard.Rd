@@ -8,13 +8,13 @@ upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
 net = FALSE, data = NULL, outputformat = "pdf")
 }
 \arguments{
-\item{initialprotocol}{logic value to indicate if is the initial protocol, default is TRUE}
+\item{initialprotocol}{logical value to indicate if it is the initial protocol, by default is TRUE.}
 
-\item{initialreport}{logic value to indicate if is the initial review, default is TRUE}
+\item{initialreport}{logical value to indicate if it is the initial review, by default is TRUE.}
 
-\item{pair}{logical, if FALSE implies regular analysis not pairwise}
+\item{pair}{logical value to indicate if pairwaise analysis should be run, by default it is FALSE. To run pair is needed to specify the data.}
 
-\item{net}{logic value to indicate if the analysisi will include a network meta-analysis, default is FALSE}
+\item{net}{logical value to indicate if the analysisi will include a network meta-analysis, by default it is FALSE.}
 
 \item{data}{list with two components, a data frame with treatment information for the pairwise meta-analysis (treat1 and treat2), id to identify each observation
 and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
