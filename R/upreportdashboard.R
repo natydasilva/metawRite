@@ -62,7 +62,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
-    shinydashboard::menuSubItem("EuroPubMed", tabName = "pubeuro"),
+   # shinydashboard::menuSubItem("EuroPubMed", tabName = "pubeuro"),
     shinydashboard::menuSubItem("LSR-report", tabName = "report"),
     shinydashboard::menuSubItem("Pairwise", tabName = "pairwise"),
     shinydashboard::menuSubItem("Network", tabName = "network")
@@ -81,13 +81,13 @@ sidebar <-  shinydashboard::dashboardSidebar(
  file.copy(file.path(tmp, "motivation2.Rmd"), tempReport, overwrite = TRUE)
  dir <- system.file(package = "metawRite")
 
-
+#Package motivation
 tab1 <-  
   shinydashboard::tabItem(tabName = "welcome",
           shiny::includeMarkdown(file.path(dir, "motivation.Rmd"))
 )
 
-
+#Initial step in a LSR, write a protocol
 tab2 <- shinydashboard::tabItem(tabName = "protocol",
                 shinyjs::hidden(
                   shiny::div(
@@ -124,7 +124,6 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       value = protocol$methodproto, resize ="vertical")
                   )),
                   
-                  
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
                   shiny::downloadButton(outputId='downproto', label="Download")
                   # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
@@ -143,7 +142,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                 )
 ) 
 
-
+#Search module, should I include all the search only in one tab
 tab3 <-  shinydashboard::tabItem(tabName = "pubmed",
   shiny::sidebarLayout(
     shiny::sidebarPanel(
@@ -161,7 +160,7 @@ tab3 <-  shinydashboard::tabItem(tabName = "pubmed",
       shiny::tableOutput("wordtext")
     )))
 
-
+# PubAg search, fich dates
 tab4 <- shinydashboard::tabItem(tabName = "pubagr",
   shiny::sidebarLayout(
     shiny::sidebarPanel(
@@ -169,6 +168,7 @@ tab4 <- shinydashboard::tabItem(tabName = "pubagr",
       shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
       shiny::helpText("Specify the publication year of your search, use the format YYYY"),
       shiny::textInput("date1ag", label = shiny::h3("From"),value="2012"),
+      shiny::textInput("date2ag", label = shiny::h3("To"),  value = "2016"),
       shiny::helpText("Now select serch and you can see the paper title, authors and publication year"),
       shiny::actionButton("wordButtonAg","Search")),
     
@@ -543,6 +543,8 @@ server <- function(input, output, session) {
     
     word2Ag <- shiny::eventReactive(input$wordButtonAg, {input$serchtextag})
     yearAg <- shiny::eventReactive(input$wordButtonAg, {input$date1ag})
+    yearAgto <- shiny::eventReactive(input$wordButtonAg, {input$date2ag})
+    allyears <- shiny::eventReactive(input$wordButtonAg, {seq(input$date1ag:input$date2ag)})
     
     output$wordtextAg <-shiny::renderTable({
       d1 <- input$date1ag
@@ -550,7 +552,8 @@ server <- function(input, output, session) {
   
       query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
       title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
-      year <- paste("publication_year:", yearAg(), sep = "")
+      for(i in yearAg():yearAgto()){
+      year <- paste("publication_year:", i, sep = "")
       search <- paste(title, year,  sep="+")
       current_query <- gsub("QQQ", search, query)
   
@@ -559,7 +562,8 @@ server <- function(input, output, session) {
       authorsearch <- allsearch[[4]]$authors
       sourcesearch <- allsearch[[4]]$source
       
-      results <- paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch)
+      results[i] <- paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch)
+      }
       results
     })
     ###############
