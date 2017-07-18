@@ -541,19 +541,22 @@ server <- function(input, output, session) {
     #   TAB 2 2    #
     ###############
     
-    word2Ag <- shiny::eventReactive(input$wordButtonAg, {input$serchtextag})
-    yearAg <- shiny::eventReactive(input$wordButtonAg, {input$date1ag})
-    yearAgto <- shiny::eventReactive(input$wordButtonAg, {input$date2ag})
+    word2Ag <- shiny::eventReactive(input$wordButtonAg, {shiny::isolate(input$serchtextag)})
+    yearAg <- shiny::eventReactive(input$wordButtonAg, {shiny::isolate(input$date1ag)})
+    yearAgto <- shiny::eventReactive(input$wordButtonAg, {shiny::isolate(input$date2ag)})
     allyears <- shiny::eventReactive(input$wordButtonAg, {seq(input$date1ag:input$date2ag)})
     
     output$wordtextAg <-shiny::renderTable({
-      d1 <- input$date1ag
-      d2 <- input$date2ag
+      d1 <- isolate(input$date1ag)
+      d2 <- isolate(input$date2ag)
   
       query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
       title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
+      results <- NULL
       for(i in yearAg():yearAgto()){
+      
       year <- paste("publication_year:", i, sep = "")
+      print(year)
       search <- paste(title, year,  sep="+")
       current_query <- gsub("QQQ", search, query)
   
@@ -562,7 +565,7 @@ server <- function(input, output, session) {
       authorsearch <- allsearch[[4]]$authors
       sourcesearch <- allsearch[[4]]$source
       
-      results[i] <- paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch)
+      results<- c(results, paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch))
       }
       results
     })
