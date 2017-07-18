@@ -556,8 +556,8 @@ server <- function(input, output, session) {
       for(i in yearAg():yearAgto()){
       
       year <- paste("publication_year:", i, sep = "")
-      print(year)
       search <- paste(title, year,  sep="+")
+      
       current_query <- gsub("QQQ", search, query)
   
       allsearch <- jsonlite::fromJSON(current_query)
@@ -565,7 +565,11 @@ server <- function(input, output, session) {
       authorsearch <- allsearch[[4]]$authors
       sourcesearch <- allsearch[[4]]$source
       
+      if(is.null(titlesearch)){
+        results <- results
+      }else{
       results<- c(results, paste(1:length(titlesearch),")", titlesearch, authorsearch,sourcesearch))
+        }
       }
       results
     })
