@@ -28,7 +28,6 @@ upreportdashoard <-
       pair_result <- NULL
       trt.pair <- NULL
       treat1 <- NULL
-      treat2 <- NULL
       id <- NULL
     }else{
       datapair <- data[[1]]
@@ -56,9 +55,9 @@ header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
   shinydashboard::sidebarMenu(id="welcome",
-    shinydashboard::menuItem("Welcome", tabName = "welcome"),
+    shinydashboard::menuItem("Welcome", tabName = "welcome", id="welcome"),
     shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
-    shinydashboard::menuItem("LSR", tabName = "lrs"),
+    shinydashboard::menuItem("LSR", tabName = "lrs", id = "lrs"),
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
@@ -148,6 +147,7 @@ tab3 <-  shinydashboard::tabItem(tabName = "pubmed",
     shiny::sidebarPanel(
       shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
       shiny::textInput("serchtext", label = shiny::h3("Keywords"), value = "pinkeye in cows"),
+      shiny::textInput("database", label = shiny::h3("NBC database"), value = "pubmed"),
       shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
       shiny::textInput("date1", label = shiny::h3("From"),value="2012/01/01"),
       shiny::textInput("date2", label = shiny::h3("To"),  value = "2016/01/01"),
@@ -517,16 +517,17 @@ server <- function(input, output, session) {
     ###############
     
     word2<- shiny::eventReactive(input$wordButton, shiny::isolate(input$serchtext))
+    dbre <- shiny::eventReactive(input$wordButton, shiny::isolate(input$database))
     
     output$wordtext <-shiny::renderTable({
       d1<-shiny::isolate(input$date1)
       d2<-shiny::isolate(input$date2)
-      res <- RISmed::EUtilsSummary(word2(), type="esearch", db="pubmed", datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
-      fetch <- RISmed::EUtilsGet(res, type = "efetch", db ="pubmed")
+      res <- RISmed::EUtilsSummary(word2(), type="esearch", db= dbre(), datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
+      fetch <- RISmed::EUtilsGet(res, type = "efetch", db = dbre())
       numb <- RISmed::QueryCount(res)
-      articles <-data.frame('Abstract'= RISmed::AbstractText(fetch))
-      abstracts <-as.character(articles$Abstract)
-      abstracts <-paste(abstracts, sep ="", collapse = "####Abstract####") 
+      # articles <-data.frame('Abstract'= RISmed::AbstractText(fetch))
+      # abstracts <-as.character(articles$Abstract)
+      # abstracts <-paste(abstracts, sep ="", collapse = "####Abstract####") 
       title <- RISmed::ArticleTitle(RISmed::EUtilsGet(res))
       year <- RISmed::YearPubmed(RISmed::EUtilsGet(res))
       author <- RISmed::Author(RISmed::EUtilsGet(res))
