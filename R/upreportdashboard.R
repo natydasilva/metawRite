@@ -48,7 +48,7 @@ upreportdashoard <-
                 funding = '')
     
     protocol <- list(titleproto ="",
-                     introproto ="", 
+                     introproto ="",
                      methodproto ="")
 
 header <- shinydashboard::dashboardHeader(title = "metawRite")
@@ -367,33 +367,35 @@ server <- function(input, output, session) {
     output$downproto = shiny::downloadHandler(
       filename = filenameout,
       
-      content = function(file) {
-    
-        
-        tmp <- system.file(package="metawRite")
+      content = function(file){
+  
+        tmp <- system.file(package = "metawRite")
         
         tempReport <- file.path(tmp,"inputpr2.Rmd")
         file.copy(file.path(tmp, "inputpr.Rmd"), tempReport, overwrite = TRUE)
         dir <- system.file(package="metawRite")
         
-        
-        writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rmd"))
-        writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"))
-        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"))
+        #xx <- stringr::str_split(input$titleproto)
+       
+        writeLines(input$titleproto, con = file.path(dir, "_titleproto.Rmd"), sep = "\n")
+        writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"),sep = "\n")
+        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"),sep = "\n")
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
                                clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
       }
-      
+   
     )
     
     #Make reactive the new information in the report
     
     
     titleproto <- shiny::reactive({
-      list("titleproto",input$titleproto)
+      list("titleproto", input$titleproto)
     })
+    
+    
     
     introproto <- shiny::reactive({
       list("introproto", input$introproto)
@@ -402,6 +404,7 @@ server <- function(input, output, session) {
     methodproto <- shiny::reactive({
       list("methodproto", input$methodproto)
     })
+
     
     Time<- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
     protoaux <- list("titleproto",  "introproto", "methodproto")
@@ -447,12 +450,12 @@ server <- function(input, output, session) {
     shiny::observeEvent(input$updateproto,{
       x <- input$updateproto
       titleprotoPath <- file.path(paste("tools/",x, protoaux[[1]],".txt", sep=""))
-      introprotoPath<- file.path(paste("tools/",x, protoaux[[2]],".txt", sep=""))
-      methodprotoPath<- file.path(paste("tools/",x, protoaux[[3]],".txt", sep=""))
+      introprotoPath <- file.path(paste("tools/",x, protoaux[[2]],".txt", sep=""))
+      methodprotoPath <- file.path(paste("tools/",x, protoaux[[3]],".txt", sep=""))
       
-      titleprotoUpdate <- readLines(titleprotoPath)
-      introprotoUpdate <- readLines(introprotoPath)
-      methodprotoUpdate <- readLines(methodprotoPath)
+      titleprotoUpdate <- paste(readLines(titleprotoPath), collapse = '\n')
+      introprotoUpdate <- paste(readLines(introprotoPath), collapse = '\n')
+      methodprotoUpdate <- paste(readLines(methodprotoPath), collapse ='\n')
       
       shiny::updateTextAreaInput(session, "titleproto", value = titleprotoUpdate)
       shiny::updateTextAreaInput(session, "introproto", value = introprotoUpdate)
@@ -548,8 +551,8 @@ server <- function(input, output, session) {
     allyears <- shiny::eventReactive(input$wordButtonAg, {seq(input$date1ag:input$date2ag)})
     
     output$wordtextAg <-shiny::renderTable({
-      d1 <- isolate(input$date1ag)
-      d2 <- isolate(input$date2ag)
+      d1 <- shiny::isolate(input$date1ag)
+      d2 <- shiny::isolate(input$date2ag)
   
       query <- "https://api.nal.usda.gov/pubag/rest/search/?query=QQQ&api_key=DEMO_KEY"
       title <- paste("title:",  gsub("\\s+","%20",word2Ag()), sep="")
@@ -672,14 +675,15 @@ server <- function(input, output, session) {
       discussionPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
       fundingPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
       
+      paste(readLines(titleprotoPath), collapse = '\n')
       
-      titleUpdate <- readLines(titlePath)
-      abstractUpdate <- readLines(abstractPath)
-      introductionUpdate <- readLines(introductionPath)
-      methodUpdate <- readLines(methodPath)
-      resultUpdate <- readLines(resultPath)
-      discussionUpdate <- readLines(discussionPath)
-      fundingUpdate <- readLines(fundingPath)
+      titleUpdate <- paste(readLines(titlePath), collapse = '\n')
+      abstractUpdate <- paste(readLines(abstractPath), collapse = '\n')
+      introductionUpdate <- paste(readLines(introductionPath), collapse = '\n')
+      methodUpdate <- paste(readLines(methodPath), collapse = '\n')
+      resultUpdate <- paste(readLines(resultPath), collapse = '\n')
+      discussionUpdate <- paste(readLines(discussionPath), collapse = '\n')
+      fundingUpdate <- paste(readLines(fundingPath), collapse = '\n')
       
       
       shiny::updateTextAreaInput(session, "title", value = titleUpdate)
