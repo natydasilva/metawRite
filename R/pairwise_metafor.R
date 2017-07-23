@@ -5,13 +5,13 @@
 #' allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 #' @param armbased A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
 #' @param treat	A list or vector with treatment information for individual treatment arms (see Details in netmeta).
-#' @param event	A list or vector with information on number of events for individual treatment arms (see Details in netmeta).
-#' @param n	A list or vector with information on number of observations for individual treatment arms (see Details in netmeta).
-#' @param mean	A list or vector with estimated means for individual treatment arms (see Details in netmeta).
-#' @param sd	A list or vector with information on the standard deviation for individual treatment arms (see Details in netmenta).
-#' @param TE	A list or vector with estimated treatment effects for individual treatment arms (see Details in netmta).
-#' @param seTE	A list or vector with standard errors of estimated treatment effect for individual treatment arms (see Details in netmta).
-#' @param time	A list or vector with information on person time at risk for individual treatment arms (see Details in netmeta).
+#' @param event	A list or vector with information on number of events for individual treatment arms (see Details in netmeta pairwise function).
+#' @param n	A list or vector with information on number of observations for individual treatment arms (see Details in netmeta pairwise function).
+#' @param mean	A list or vector with estimated means for individual treatment arms (see Details in netmeta pairwise function).
+#' @param sd	A list or vector with information on the standard deviation for individual treatment arms (see Details in netmenta pairwise function).
+#' @param TE	A list or vector with estimated treatment effects for individual treatment arms (see Details in netmta pairwise function).
+#' @param seTE	A list or vector with standard errors of estimated treatment effect for individual treatment arms (see Details in netmta pairwise function).
+#' @param time	A list or vector with information on person time at risk for individual treatment arms (see Details in netmeta pairwise function).
 #' @param data Data frame in contrast-based or arm-based format 
 #' @param studlab	A vector with study labels (optional).
 #' @param incr	A numerical value which is added to each cell frequency for studies with a zero cell count.
@@ -253,7 +253,7 @@ pairwise_metafor <- function(armbased = TRUE,
     }
   }
 
- #Transform the data from arm-based to contrast based 
+ #Transform the data from arm-based to contrast based using netmeta pkg
   if(armbased){
  MTCpairs <- netmeta::pairwise(treat = treat, event = event, n = n, mean = mean, sd = sd, TE = TE, seTE = seTE,
                       time = time, data = data, studlab = studlab ,

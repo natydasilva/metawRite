@@ -58,6 +58,7 @@ sidebar <-  shinydashboard::dashboardSidebar(
     shinydashboard::menuItem("Welcome", tabName = "welcome", id="welcome"),
     shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
     shinydashboard::menuItem("LSR", tabName = "lrs", id = "lrs"),
+    shinyBS::bsTooltip("LSR", "Living Systematic Review", placement = "bottom", trigger = "hover"),
     shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
@@ -354,8 +355,6 @@ server <- function(input, output, session) {
     ###############
     #   TAB 1     #
     ###############
-  shinyBS::addPopover(session, id = 'Welcome',title = 'titu', content = "This is an input.",
-             placement = "left", trigger = "hover")
 
     responsesDir <- file.path("tools")
     if(outputformat=="word"){
