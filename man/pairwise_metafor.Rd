@@ -6,7 +6,7 @@
 \usage{
 pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
 data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
-allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
+allstudies = FALSE, nupdate = 1, nobs = NULL, ...)
 }
 \arguments{
 \item{armbased}{A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
@@ -65,8 +65,5 @@ modstrMTCpairsrg <- pairwise_metafor(armbased = TRUE, treat = list(t1, t2, t3, t
                 data = dat_rungano,
                 sm = "MD", nupdate = 1,  nobs = 20)
                 
- #using data from metafor pkg               
-modstr <- pairwise_metafor(armbased = FALSE, treat=trt, TE=yi,seTE=sei, studlab=study,
-data = dat.begg1989, nupdate = 1,  nobs = 20)
  }
 }

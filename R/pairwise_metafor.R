@@ -2,7 +2,7 @@
 #'
 #' @usage pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
 #' data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
-#' allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
+#' allstudies = FALSE, nupdate = 1, nobs = NULL, ...)
 #' @param armbased A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
 #' if FALSE the data are already in contrast based format.
 #' @param treat	A list or vector with treatment information for individual treatment arms (see Details in netmeta).
@@ -55,7 +55,7 @@ pairwise_metafor <- function(armbased = TRUE,
    trt.pair <- NULL
   # rma <- NULL
   # TE <- NULL
-  # vi <- NULL
+   vi <- NULL
   # data <- NULL
 
 #construct a new data set with the variable trt.pair unique pair of treatments and save the data
