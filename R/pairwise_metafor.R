@@ -1,9 +1,10 @@
-#' Restruscture data and pairwise meta-analysis model results using metafor package
+#' Restruscture data in contrast based format and run pairwise meta-analysis model results using metafor package
 #'
 #' @usage pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
 #' data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
 #' allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 #' @param armbased A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
+#' if FALSE the data are already in contrast based format.
 #' @param treat	A list or vector with treatment information for individual treatment arms (see Details in netmeta).
 #' @param event	A list or vector with information on number of events for individual treatment arms (see Details in netmeta pairwise function).
 #' @param n	A list or vector with information on number of observations for individual treatment arms (see Details in netmeta pairwise function).
@@ -18,11 +19,8 @@
 #' @param allincr	A logical indicating if incr is added to each cell frequency of all studies if at least one study has a zero cell count. If FALSE (default), incr is added only to each cell frequency of studies with a zero cell count.
 #' @param addincr	A logical indicating if incr is added to each cell frequency of all studies irrespective of zero cell counts.
 #' @param allstudies	A logical indicating if studies with zero or all events in two treatment arms are to be included in the meta-analysis (applies only if sm is equal to "RR" or "OR").
-#' @param nupdate number of updates
-#' @param nobs a vector with the number of observations for each update
-#' @param yi vector of length k with the observed effect sizes or outcomes. See ‘Details’ in rma function fom metafor package.
-#' @param vi vector of length k with the corresponding sampling variances. See ‘Details’ in rma function fom metafor package.
-#' @param sei vector of length k with the corresponding standard errors (only relevant when not using vi). See ‘Details’in rma function fom metafor package.
+#' @param nupdate number of data updates 
+#' @param nobs a vector with the number of observations for each update 
 #' @param ... optional argument to functions, you can include any parameter to run rma function from metafor pkg
 #' @return returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 #' @importFrom magrittr %>%
@@ -40,16 +38,14 @@
 #'                 data = dat_rungano,
 #'                 sm = "MD", nupdate = 1,  nobs = 20)
 #'                 
-#'  #using data from metafor pkg               
-#' modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
-#' data = dat.begg1989, nupdate = 1,  nobs = 20)
+
 #'  }
 
 pairwise_metafor <- function(armbased = TRUE,
                              treat, event, n, mean, sd, TE, seTE, time,
                              data = NULL, studlab = NULL,
                              incr = 0.5, allincr = FALSE, addincr = FALSE, allstudies = FALSE,
-                              nupdate = 1, nobs = NULL, yi, vi, sei, ... ) {
+                              nupdate = 1, nobs = NULL, ... ) {
 
   # seTE <- NULL
    id <-  NULL
@@ -261,7 +257,7 @@ pairwise_metafor <- function(armbased = TRUE,
                       ...)  
  dataini <- MTCpairs 
   }
- 
+  
   if(nupdate==1) nobs=nrow(dataini)
   
    MTCpairs2 <-  dataini %>% dplyr::mutate(up = rep(c(1:nupdate), nobs) ) %>%

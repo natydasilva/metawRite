@@ -2,30 +2,31 @@
 % Please edit documentation in R/pairwise_metafor.R
 \name{pairwise_metafor}
 \alias{pairwise_metafor}
-\title{Restruscture data and pairwise meta-analysis model results using metafor package}
+\title{Restruscture data in contrast based format and run pairwise meta-analysis model results using metafor package}
 \usage{
 pairwise_metafor(armbased = TRUE, treat, event, n, mean, sd, TE, seTE, time,
 data = NULL, studlab = NULL, incr = 0.5, allincr = FALSE, addincr = FALSE, 
 allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 }
 \arguments{
-\item{armbased}{A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )}
+\item{armbased}{A logical indicating if the data are in arm-based format (one row for each study, and one treatment in each column )
+if FALSE the data are already in contrast based format.}
 
 \item{treat}{A list or vector with treatment information for individual treatment arms (see Details in netmeta).}
 
-\item{event}{A list or vector with information on number of events for individual treatment arms (see Details in netmeta).}
+\item{event}{A list or vector with information on number of events for individual treatment arms (see Details in netmeta pairwise function).}
 
-\item{n}{A list or vector with information on number of observations for individual treatment arms (see Details in netmeta).}
+\item{n}{A list or vector with information on number of observations for individual treatment arms (see Details in netmeta pairwise function).}
 
-\item{mean}{A list or vector with estimated means for individual treatment arms (see Details in netmeta).}
+\item{mean}{A list or vector with estimated means for individual treatment arms (see Details in netmeta pairwise function).}
 
-\item{sd}{A list or vector with information on the standard deviation for individual treatment arms (see Details in netmenta).}
+\item{sd}{A list or vector with information on the standard deviation for individual treatment arms (see Details in netmenta pairwise function).}
 
-\item{TE}{A list or vector with estimated treatment effects for individual treatment arms (see Details in netmta).}
+\item{TE}{A list or vector with estimated treatment effects for individual treatment arms (see Details in netmta pairwise function).}
 
-\item{seTE}{A list or vector with standard errors of estimated treatment effect for individual treatment arms (see Details in netmta).}
+\item{seTE}{A list or vector with standard errors of estimated treatment effect for individual treatment arms (see Details in netmta pairwise function).}
 
-\item{time}{A list or vector with information on person time at risk for individual treatment arms (see Details in netmeta).}
+\item{time}{A list or vector with information on person time at risk for individual treatment arms (see Details in netmeta pairwise function).}
 
 \item{data}{Data frame in contrast-based or arm-based format}
 
@@ -39,15 +40,9 @@ allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 
 \item{allstudies}{A logical indicating if studies with zero or all events in two treatment arms are to be included in the meta-analysis (applies only if sm is equal to "RR" or "OR").}
 
-\item{nupdate}{number of updates}
+\item{nupdate}{number of data updates}
 
 \item{nobs}{a vector with the number of observations for each update}
-
-\item{yi}{vector of length k with the observed effect sizes or outcomes. See ‘Details’ in rma function fom metafor package.}
-
-\item{vi}{vector of length k with the corresponding sampling variances. See ‘Details’ in rma function fom metafor package.}
-
-\item{sei}{vector of length k with the corresponding standard errors (only relevant when not using vi). See ‘Details’in rma function fom metafor package.}
 
 \item{...}{optional argument to functions, you can include any parameter to run rma function from metafor pkg}
 }
@@ -55,7 +50,7 @@ allstudies = FALSE, nupdate = 1, nobs = NULL, yi, vi, sei, ...)
 returns to .Rdata one with tde data set in contrast-based format and the second is a list with the pairwise meta analysis for each update and each pair of treatments
 }
 \description{
-Restruscture data and pairwise meta-analysis model results using metafor package
+Restruscture data in contrast based format and run pairwise meta-analysis model results using metafor package
 }
 \examples{
 \dontrun{
@@ -71,7 +66,7 @@ modstrMTCpairsrg <- pairwise_metafor(armbased = TRUE, treat = list(t1, t2, t3, t
                 sm = "MD", nupdate = 1,  nobs = 20)
                 
  #using data from metafor pkg               
-modstr <- pairwise_metafor(armbased = TRUE, treat=trt, TE=yi,seTE=sei, studlab=study,
+modstr <- pairwise_metafor(armbased = FALSE, treat=trt, TE=yi,seTE=sei, studlab=study,
 data = dat.begg1989, nupdate = 1,  nobs = 20)
  }
 }
