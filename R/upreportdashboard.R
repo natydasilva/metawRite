@@ -55,17 +55,18 @@ header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
   shinydashboard::sidebarMenu(id="welcome",
-    shinydashboard::menuItem("Welcome", tabName = "welcome", id="welcome"),
-    shinydashboard::menuSubItem("Motivation", tabName ="welcome"),
-    shinydashboard::menuItem("LSR", tabName = "lrs", id = "lrs"),
-    shinyBS::bsTooltip("LSR", "Living Systematic Review", placement = "bottom", trigger = "hover"),
-    shinydashboard::menuSubItem("Protocol", tabName = "protocol"),
+   # shinydashboard::menuItem("Welcome", tabName = "welcome", id="welcome"),
+    shinydashboard::menuItem("Motivation", tabName ="welcome"),
+    #shinydashboard::menuItem("LSR", tabName = "lrs", id = "lrs"),
+   # shinyBS::bsTooltip("LSR", "Living Systematic Review", placement = "bottom", trigger = "hover"),
+    shinydashboard::menuItem("Protocol", tabName = "protocol"),
+   shinydashboard::menuItem("Search", tabName = "search"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
    # shinydashboard::menuSubItem("EuroPubMed", tabName = "pubeuro"),
-    shinydashboard::menuSubItem("LSR-report", tabName = "report"),
-    shinydashboard::menuSubItem("Pairwise", tabName = "pairwise"),
-    shinydashboard::menuSubItem("Network", tabName = "network")
+    shinydashboard::menuItem("LSR-report", tabName = "report"),
+    shinydashboard::menuItem("Pairwise", tabName = "pairwise"),
+    shinydashboard::menuItem("Network", tabName = "network")
     #shinyBS::bsTooltip(id = 'Welcome', title = "This is an input", options = list(container = 'body'))
 
     #, 
@@ -90,9 +91,13 @@ tab1 <-
 #Initial step in a LSR, write a protocol
 tab2 <- shinydashboard::tabItem(tabName = "protocol",
                 shinyjs::hidden(
-                  shiny::div(
+                  shiny::div(style="display:inline-block",
                     id = "updateproto",
-                    shiny::uiOutput("updateproto"))
+                    shiny::uiOutput("updateproto")),
+                  shiny::div(style="display:inline-block",
+                    id = "buttreset",
+                    shiny::uiOutput("buttreset"),
+                    align="right")
                 ),
                 shiny::div(
                   id = "formproto",
@@ -146,8 +151,9 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
 tab3 <-  shinydashboard::tabItem(tabName = "pubmed",
   shiny::sidebarLayout(
     shiny::sidebarPanel(
-      shiny::helpText("Type a word below to search in PubMed, you can search authors, topics, any acronym, etc"),
+      shiny::helpText("Type a word below to search in NBC database, you can search authors, topics, any acronym, etc"),
       shiny::textInput("serchtext", label = shiny::h3("Keywords"), value = "pinkeye in cows"),
+      shiny::helpText("String indicating the NCBI database used in query, can be any valid Entrez database, i.e. pubmed, pmc, protein, nlm, etc. "),
       shiny::textInput("database", label = shiny::h3("NBC database"), value = "pubmed"),
       shiny::helpText("Specify the start and end dates of your search, use the format YYYY/MM/DD"),
       shiny::textInput("date1", label = shiny::h3("From"),value="2012/01/01"),
@@ -165,7 +171,7 @@ tab3 <-  shinydashboard::tabItem(tabName = "pubmed",
 tab4 <- shinydashboard::tabItem(tabName = "pubagr",
   shiny::sidebarLayout(
     shiny::sidebarPanel(
-      shiny::helpText("Type a word below to search in PubAg, you can search ...."),
+      shiny::helpText("Type a word below to search in PubAg, you can search keyworkds"),
       shiny::textInput("serchtextag", label = shiny::h3("Keywords"), value = "pinkeye"),
       shiny::helpText("Specify the publication year of your search, use the format YYYY"),
       shiny::textInput("date1ag", label = shiny::h3("From"),value="2012"),
@@ -393,9 +399,7 @@ server <- function(input, output, session) {
     titleproto <- shiny::reactive({
       list("titleproto", input$titleproto)
     })
-    
-    
-    
+  
     introproto <- shiny::reactive({
       list("introproto", input$introproto)
     })
@@ -405,7 +409,7 @@ server <- function(input, output, session) {
     })
 
     
-    Time<- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+    Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
     protoaux <- list("titleproto",  "introproto", "methodproto")
     
     saveData <- function(data,cc,proto=TRUE) {
@@ -465,7 +469,7 @@ server <- function(input, output, session) {
     
     #it is the 
     if(initialprotocol == FALSE){
-      
+      shinyjs::show("buttreset")
       shinyjs::show("updateproto")
       output$updateproto <- shiny::renderUI({
         # reactiveFileReader(1000,)
@@ -475,9 +479,12 @@ server <- function(input, output, session) {
         reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
         shiny::selectInput("updateproto", "Update report", reportnamesproto)
       })
+      output$buttreset <- shiny::renderUI({
+        actionButton("buttreset", "Keep only latest version")
+      })
       
       shiny::observeEvent(input$submit_anotherproto, {
-        
+        shinyjs::show("buttreset")
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
         shinyjs::hide("thankyou_msgproto")
@@ -491,13 +498,16 @@ server <- function(input, output, session) {
           shiny::selectInput("updateproto", "Update report", reportnamesproto)
         })
         
+        output$buttreset <- shiny::renderUI({
+          actionButton("buttreset", "Keep only latest version")
+        })
       })
       
     }else{
       
       # action to take when a submit another button is pressed
       shiny::observeEvent(input$submit_anotherproto, {
-        
+        shinyjs::show("buttreset")
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
         shinyjs::hide("thankyou_msgproto")
@@ -512,6 +522,9 @@ server <- function(input, output, session) {
         })
         
       })
+      output$buttreset <- shiny::renderUI({
+        actionButton("buttreset", "Keep only latest version")
+      })
     }
   
     ###############
@@ -522,8 +535,8 @@ server <- function(input, output, session) {
     dbre <- shiny::eventReactive(input$wordButton, shiny::isolate(input$database))
     
     output$wordtext <-shiny::renderTable({
-      d1<-shiny::isolate(input$date1)
-      d2<-shiny::isolate(input$date2)
+      d1 <- shiny::isolate(input$date1)
+      d2 <- shiny::isolate(input$date2)
       res <- RISmed::EUtilsSummary(word2(), type="esearch", db= dbre(), datetype='pdat', mindate=d1, maxdate=d2, retmax=500)
       fetch <- RISmed::EUtilsGet(res, type = "efetch", db = dbre())
       numb <- RISmed::QueryCount(res)
