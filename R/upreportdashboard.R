@@ -93,11 +93,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                 shinyjs::hidden(
                   shiny::div(style="display:inline-block",
                     id = "updateproto",
-                    shiny::uiOutput("updateproto")),
-                  shiny::div(style="display:inline-block",
-                    id = "buttreset",
-                    shiny::uiOutput("buttreset"),
-                    align="right")
+                    shiny::uiOutput("updateproto"))
                 ),
                 shiny::div(
                   id = "formproto",
@@ -131,6 +127,8 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
                   shiny::downloadButton(outputId='downproto', label="Download")
+                  #shiny::uiOutput("buttreset")
+                           
                   # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
                 ),
                 shiny::fluidRow(shiny::column(8,
@@ -467,24 +465,41 @@ server <- function(input, output, session) {
     
     
     
+    # action to take when select Keep only latest version
+    
+    # shiny::observeEvent(input$buttreset,{
+    #   
+    #   filenames <- sort(dir("tools"),TRUE)
+    #   #filter only with pr
+    #   auxpr <-substr(filenames, 1,2) == "pr"
+    #   reportnamesproto <- which.max(lubridate::ymd_hms(sub("-", "", unique(substr(filenames, 3,17)[auxpr] ))))
+    #      
+    #   filenamesaux <-     filenames[reportnamesproto:(reportnamesproto+2)]
+    #   unlink(paste("tools/",setdiff(filenames,filenamesaux), sep=
+    #                  ""))
+    # })
+
     #it is the 
     if(initialprotocol == FALSE){
-      shinyjs::show("buttreset")
+      #shinyjs::show("buttreset")
       shinyjs::show("updateproto")
       output$updateproto <- shiny::renderUI({
+     
         # reactiveFileReader(1000,)
         filenames <- sort(dir("tools"),TRUE)
         #filter only with pr
         auxpr <-substr(filenames, 1,2)=="pr"
         reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
         shiny::selectInput("updateproto", "Update report", reportnamesproto)
+    
       })
-      output$buttreset <- shiny::renderUI({
-        actionButton("buttreset", "Keep only latest version")
-      })
+        
+      # output$buttreset <- shiny::renderUI({
+      #   actionButton("buttreset", "Keep only latest version")
+      # })
       
       shiny::observeEvent(input$submit_anotherproto, {
-        shinyjs::show("buttreset")
+        #shinyjs::show("buttreset")
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
         shinyjs::hide("thankyou_msgproto")
@@ -498,22 +513,23 @@ server <- function(input, output, session) {
           shiny::selectInput("updateproto", "Update report", reportnamesproto)
         })
         
-        output$buttreset <- shiny::renderUI({
-          actionButton("buttreset", "Keep only latest version")
-        })
+        # output$buttreset <- shiny::renderUI({
+        #   actionButton("buttreset", "Keep only latest version")
+        # })
       })
       
     }else{
       
       # action to take when a submit another button is pressed
       shiny::observeEvent(input$submit_anotherproto, {
-        shinyjs::show("buttreset")
+        #shinyjs::show("buttreset")
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
         shinyjs::hide("thankyou_msgproto")
         
         output$updateproto <- shiny::renderUI({
           # reactiveFileReader(1000,)
+         
           filenames <- sort(dir("tools"),TRUE)
           #filter only with pr
           auxpr <-substr(filenames, 1,2) == "pr"
@@ -522,11 +538,12 @@ server <- function(input, output, session) {
         })
         
       })
-      output$buttreset <- shiny::renderUI({
-        actionButton("buttreset", "Keep only latest version")
-      })
+      # output$buttreset <- shiny::renderUI({
+      #   actionButton("buttreset", "Keep only latest version")
+      # })
     }
-  
+    
+ 
     ###############
     #   TAB 2     #
     ###############
@@ -614,7 +631,7 @@ server <- function(input, output, session) {
         writeLines(input$result, con = file.path(dir, "_results.Rmd"))
         writeLines(input$discussion, con = file.path(dir, "_discussion.Rmd"))
         writeLines(input$funding, con = file.path(dir, "_funding.Rmd"))
-        outform <- paste(outputformat, "_","document",sep="")
+        outform <- paste(outputformat, "_","document",sep = "")
         out = rmarkdown::render(input = tempReport,output_format= outform,
                                 clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
