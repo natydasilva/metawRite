@@ -10,18 +10,19 @@
 #' and trt.pair with the string name for the pairwise comparison in alphabetic order, generated using pairwise_metafor in data folder. The second
 #' element is a list with the pairwise meta-analysis models generated using pairwise_metafor in data folder
 #' @param outputformat format to download protocol and report
+#' @param clearproto only keep the latest protocol file
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
 #'\dontrun{
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-#' net = FALSE, data = NULL,outputformat="pdf")  
+#' net = FALSE, data = NULL,outputformat="pdf", clearproto =FALSE)  
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
 #'   net = FALSE, data = modstr,outputformat = "pdf")
 #' }
 upreportdashoard <-
-  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL, outputformat="pdf") {
+  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL, outputformat="pdf", clearproto =FALSE) {
     
     if(is.null(data)){
       datapair <-NULL
@@ -37,6 +38,17 @@ upreportdashoard <-
       treat2 <- data[[1]]$treat2
       id <- data[[1]]$id
       
+    }
+    
+    if(initialprotocol==FALSE & clearproto==TRUE){
+        filenames <- sort(dir("tools"),TRUE)
+        #filter only with pr
+        auxpr <-substr(filenames, 1,2) == "pr"
+        reportnamesproto <- which.max(lubridate::ymd_hms(sub("-", "", unique(substr(filenames, 3,17)[auxpr] ))))
+
+        filenamesaux <-     filenames[reportnamesproto:(reportnamesproto+2)]
+        unlink(paste("tools/",setdiff(filenames,filenamesaux), sep=
+                       ""))
     }
     
     lsr <- list(title = '',
