@@ -1,7 +1,7 @@
 #' Meta-analysis reportshiny app, using shinydashboard (improved version)
 #'
 #' @usage upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair=FALSE,
-#' net = FALSE, data = NULL, outputformat = "pdf")
+#' net = FALSE, data = NULL, outputformat = "pdf",clearproto = FALSE)
 #' @param initialprotocol logical value to indicate if it is the initial protocol, by default is TRUE.
 #' @param initialreport logical value to indicate if it is the initial review, by default is TRUE.
 #' @param pair logical value to indicate if pairwaise analysis should be run, by default it is FALSE. To run pair is needed to specify the data.

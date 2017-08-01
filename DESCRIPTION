@@ -29,6 +29,7 @@ Imports:
     stringr,
     stringi,
     netmeta,
+    lubridate,
     rmarkdown,
     shinyBS,
    jsonlite,
