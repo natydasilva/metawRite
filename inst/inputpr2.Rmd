@@ -48,11 +48,49 @@ params:
                      
 
 
-```{r child='_introproto.Rmd'}
+```{r child='_introprotorat.Rmd'}
+
+```
+```{r child='_introprotoobj.Rmd'}
+
+```
+
+```{r child='_methodprotoeli.Rmd'}
 
 ```
 
 
-```{r child='_methodproto.Rmd'}
+```{r child='_methodprotoinfo.Rmd'}
+
+```
+```{r child='_methodprotosear.Rmd'}
+
+```
+```{r child='_methodprotodataman.Rmd'}
+
+```
+
+```{r child='_methodprotosele.Rmd'}
+
+```
+```{r child='_methodprotodatacol.Rmd'}
+
+```
+```{r child='_methodprotodatait.Rmd'}
+
+```
+ ```{r child='_methodprotout.Rmd'}
+
+``` 
+ ```{r child='_methodprotorisk.Rmd'}
+
+```
+ ```{r child='_methodprotodatasy.Rmd'}
+
+``` 
+ ```{r child='_methodprotometa.Rmd'}
+
+```
+ ```{r child='_methodprotoconfi.Rmd'}
 
 ```

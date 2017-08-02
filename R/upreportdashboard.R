@@ -70,7 +70,20 @@ upreportdashoard <-
                      supportrole = "",
                      introprotorat = "",
                      introprotoobj = "",
-                     methodproto = "")
+                     methodprotoeli = "",
+                     methodprotoinfo = "",
+                     methodprotosear = "",
+                     methodprotodataman = "",
+                     methodprotosele = "",
+                     methodprotodatacol = "",
+                     methodprotodatait = "",
+                     methodprotout = "",
+                     methodprotorisk = "",
+                     methodprotodatasy = "",
+                     methodprotometa = "",
+                     methodprotoconfi = ""
+                     )
+    
 
 header <- shinydashboard::dashboardHeader(title = "metawRite")
 
@@ -220,12 +233,121 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   shiny::fluidRow(shiny::column(
                     8,
                     shiny::textAreaInput(
-                      'methodproto',
-                      'Methods',
-                      rows = 14,
+                      'methodprotoeli',
+                      'Methods: Eligibility Criteria',
+                      rows = 5,
                       width = "900px",
-                      value = protocol$methodproto, resize ="vertical")
+                      value = protocol$methodprotoeli, resize ="vertical")
                   )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotoinfo',
+                      'Methods: Information Sources',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotoinfo, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotoinfo',
+                      'Methods: Information Sources',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotoinfo, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotosear',
+                      'Methods: Search Strategy',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotosear, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotodataman',
+                      'Methods: Data Management',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotodataman, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotosele',
+                      'Methods: Selection processss',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotosele, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotodatacol',
+                      'Methods: Data Collection Process',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotodatacol, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotodatait',
+                      'Methods: Data Items',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotodatait, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotout',
+                      'Methods: Outcomes and Prioritizations',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotout, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotorisk',
+                      'Methods: Risk of Bias in individual studies',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotorisk, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotodatasy',
+                      'Methods: Data synthesis',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotodatasy, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotometa',
+                      'Methods: Meta Bias',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotometa , resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'methodprotoconfi',
+                      'Methods: Confidence in Cumulative Evidence',
+                      rows = 5,
+                      width = "900px",
+                      value = protocol$methodprotoconfi, resize ="vertical")
+                  )),
+                
                   
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
                   shiny::downloadButton(outputId='downproto', label="Download")
@@ -493,8 +615,20 @@ server <- function(input, output, session) {
         writeLines(input$supportrole, con = file.path(dir, "_supportrole.Rmd"),sep = "\n")
         writeLines(input$introprotorat, con = file.path(dir, "_introprotorat.Rmd"),sep = "\n")
         writeLines(input$introprotoobj, con = file.path(dir, "_introprotoobj.Rmd"),sep = "\n")
-      
-        writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"),sep = "\n")
+        writeLines(input$methodprotoeli, con = file.path(dir, "_methodprotoeli.Rmd"),sep = "\n")
+        writeLines(input$methodprotoinfo, con = file.path(dir, "_methodprotoinfo.Rmd"),sep = "\n")
+        writeLines(input$methodprotosear, con = file.path(dir, "_methodprotosear.Rmd"),sep = "\n")
+        writeLines(input$methodprotodataman, con = file.path(dir, "_methodprotodataman.Rmd"),sep = "\n")
+        writeLines(input$methodprotosele, con = file.path(dir, "_methodprotosele.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatacol, con = file.path(dir, "_methodprotodatacol.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatait, con = file.path(dir, "_methodprotodatait.Rmd"),sep = "\n")
+        writeLines(input$methodprotout, con = file.path(dir, "_methodprotout.Rmd"),sep = "\n")
+        writeLines(input$methodprotorisk, con = file.path(dir, "_methodprotorisk.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatasy, con = file.path(dir, "_methodprotodatasy.Rmd"),sep = "\n")
+        writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
+        writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
+        
+        
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
                                clean = TRUE)
@@ -549,16 +683,59 @@ server <- function(input, output, session) {
     introprotoobj <- shiny::reactive({
       list("introprotoobj", input$introprotoobj)
     })
-    methodproto <- shiny::reactive({
-      list("methodproto", input$methodproto)
+    methodprotoeli <- shiny::reactive({
+      list("methodprotoeli", input$methodprotoeli)
     })
-
+    methodprotoinfo <- shiny::reactive({
+      list("methodprotoinfo", input$methodprotoinfo)
+    })
+    methodprotosear <- shiny::reactive({
+      list("methodprotosear", input$methodprotosear)
+    })
+    methodprotodataman <- shiny::reactive({
+      list("methodprotodataman", input$methodprotodataman)
+    })
     
+    methodprotosele <- shiny::reactive({
+      list("methodprotosele", input$methodprotosele)
+    })
+    methodprotodatacol <- shiny::reactive({
+      list("methodprotodatacol", input$methodprotodatacol)
+    })
+    
+    methodprotodatait <- shiny::reactive({
+      list("methodprotodatait", input$methodprotodatait)
+    })
+    
+    methodprotout <- shiny::reactive({
+      list("methodprotout", input$methodprotout)
+    })
+    
+    methodprotorisk <- shiny::reactive({
+      list("methodprotorisk", input$methodprotorisk)
+    })
+    
+    methodprotodatasy <- shiny::reactive({
+      list("methodprotodatasy", input$methodprotodatasy)
+    })
+    
+    methodprotometa <- shiny::reactive({
+      list("methodprotometa", input$methodprotometa)
+    })
+    
+    methodprotoconfi <- shiny::reactive({
+      list("methodprotoconfi", input$methodprotoconfi)
+    })
+  
+  
     Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-    protoaux <- list("titleprotoident", "titleprotoup", "registration","authorcontact",
-                     "authorcontri", "amendments", "supportsorce", 
-                     "supportsponsor", "supportrole", 
-                     "introprotorat", "introprotoobj", "methodproto")
+    protoaux <- list("titleprotoident", "titleprotoup", "registration", "authorcontact",
+                     "authorcontri", "amendments", "supportsorce", "supportsponsor", 
+                     "supportrole", "introprotorat", "introprotoobj", "methodprotoeli",
+                     "methodprotoinfo" ,"methodprotosear","methodprotodataman",
+                     "methodprotosele" ,"methodprotodatacol","methodprotodatait",
+                     "methodprotout","methodprotorisk","methodprotodatasy",
+                     "methodprotometa","methodprotoconfi" )
     
     saveData <- function(data,cc,proto=TRUE) {
       if(length(data[[2]] > 0)){
@@ -588,7 +765,6 @@ server <- function(input, output, session) {
       # Save the new information in  the report  in a txt with name = date and time
       saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
       saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
-      
       saveData(registration(), protoaux[[3]], proto = TRUE)
       saveData(authorcontact(), protoaux[[4]], proto = TRUE)
       saveData(authorcontri(), protoaux[[5]], proto = TRUE)
@@ -598,9 +774,20 @@ server <- function(input, output, session) {
       saveData(supportrole(), protoaux[[9]], proto = TRUE)
       saveData(introprotorat(), protoaux[[10]], proto = TRUE)
       saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
-      saveData(methodproto(), protoaux[[12]], proto=TRUE)
+      saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
+      saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
+      saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
+      saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
+      saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
+      saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
+      saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
+      saveData(methodprotout(), protoaux[[19]], proto=TRUE)
+      saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
+      saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
+      saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
+      saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
       
-      
+    
       shinyjs::reset("formproto")
       shinyjs::hide("formproto")
       shinyjs::show("thankyou_msgproto")
@@ -622,9 +809,20 @@ server <- function(input, output, session) {
       supportrolePath <- file.path(paste("tools/",x, protoaux[[9]],".txt", sep = ""))
       introprotoratPath <- file.path(paste("tools/",x, protoaux[[10]],".txt", sep = ""))
       introprotoobjPath <- file.path(paste("tools/",x, protoaux[[11]],".txt", sep=""))
-      methodprotoPath <- file.path(paste("tools/",x, protoaux[[12]],".txt", sep = ""))
+      methodprotoeliPath <- file.path(paste("tools/",x, protoaux[[12]],".txt", sep = ""))
+      methodprotoinfoPath <- file.path(paste("tools/",x, protoaux[[13]],".txt", sep = ""))
+      methodprotosearPath <- file.path(paste("tools/",x, protoaux[[14]],".txt", sep = ""))
+      methodprotodatamanPath <- file.path(paste("tools/",x, protoaux[[15]],".txt", sep = ""))
+      methodprotoselePath <- file.path(paste("tools/",x, protoaux[[16]],".txt", sep = ""))
+      methodprotodatacolPath <- file.path(paste("tools/",x, protoaux[[17]],".txt", sep = ""))
+      methodprotodataitPath <- file.path(paste("tools/",x, protoaux[[18]],".txt", sep = ""))
+      methodprotoutPath <- file.path(paste("tools/",x, protoaux[[19]],".txt", sep = ""))
+      methodprotoriskPath <- file.path(paste("tools/",x, protoaux[[20]],".txt", sep = ""))
+      methodprotodatasyPath <- file.path(paste("tools/",x, protoaux[[21]],".txt", sep = ""))
+      methodprotometaPath <- file.path(paste("tools/",x, protoaux[[22]],".txt", sep = ""))
+      methodprotoconfiPath <- file.path(paste("tools/",x, protoaux[[23]],".txt", sep = ""))
+
       
-    
       titleprotoidentUpdate <- paste(readLines(titleprotoidentPath), collapse = '\n')
       titleprotoupUpdate <- paste(readLines(titleprotoupPath), collapse = '\n')
       registrationUpdate <- paste(readLines(registrationPath), collapse = '\n')
@@ -636,7 +834,20 @@ server <- function(input, output, session) {
       supportroleUpdate <- paste(readLines(supportrolePath), collapse = '\n')
       introprotoratUpdate <- paste(readLines(introprotoratPath), collapse = '\n')
       introprotoobjUpdate <- paste(readLines(introprotoobjPath), collapse = '\n')
-      methodprotoUpdate <- paste(readLines(methodprotoPath), collapse ='\n')
+      methodprotoeliUpdate <- paste(readLines(methodprotoeliPath), collapse ='\n')
+      methodprotoinfoUpdate <- paste(readLines(methodprotoinfoPath), collapse ='\n')
+      methodprotosearUpdate <- paste(readLines(methodprotosearPath), collapse ='\n')
+      methodprotodatamanUpdate <- paste(readLines(methodprotodatamanPath), collapse ='\n')
+      methodprotodatamanUpdate <- paste(readLines(methodprotodatamanPath), collapse ='\n')
+      methodprotoseleUpdate <- paste(readLines(methodprotoselePath), collapse ='\n')
+      methodprotodatacolUpdate <- paste(readLines(methodprotodatacolPath), collapse ='\n')
+      methodprotodataitUpdate <- paste(readLines(methodprotodataitPath), collapse ='\n')
+      methodprotoutUpdate <- paste(readLines(methodprotoutPath), collapse ='\n')
+      methodprotoriskUpdate <- paste(readLines(methodprotoriskPath), collapse ='\n')
+      methodprotodatasyUpdate <- paste(readLines(methodprotodatasyPath), collapse ='\n')
+      methodprotometaUpdate <- paste(readLines(methodprotometaPath), collapse ='\n')
+      methodprotoconfiUpdate <- paste(readLines(methodprotoconfiPath), collapse ='\n')
+
       
       shiny::updateTextAreaInput(session, "titleprotoident", value = titleprotoidentUpdate)
       shiny::updateTextAreaInput(session, "titleprotoup", value = titleprotoupUpdate)
@@ -649,7 +860,18 @@ server <- function(input, output, session) {
       shiny::updateTextAreaInput(session, "supportrole", value = supportroleUpdate)
       shiny::updateTextAreaInput(session, "introprotorat", value = introprotoratUpdate)
       shiny::updateTextAreaInput(session, "introprotoobj", value = introprotoobjUpdate)
-    shiny::updateTextAreaInput(session, "methodproto", value = methodprotoUpdate)
+      shiny::updateTextAreaInput(session, "methodprotoeli", value = methodprotoeliUpdate)
+      shiny::updateTextAreaInput(session, "methodprotoinfo", value = methodprotoinfoUpdate)
+      shiny::updateTextAreaInput(session, "methodprotosear", value = methodprotosearUpdate)
+      shiny::updateTextAreaInput(session, "methodprotodataman", value = methodprotodatamanUpdate)
+      shiny::updateTextAreaInput(session, "methodprotosele", value = methodprotoseleUpdate)
+      shiny::updateTextAreaInput(session, "methodprotodatacol", value = methodprotodatacolUpdate)
+      shiny::updateTextAreaInput(session, "methodprotodatait", value = methodprotodataitUpdate)
+      shiny::updateTextAreaInput(session, "methodprotou", value = methodprotoutUpdate)
+      shiny::updateTextAreaInput(session, "methodprotorisk", value = methodprotoriskUpdate)
+      shiny::updateTextAreaInput(session, "methodprotodatasy", value = methodprotodatasyUpdate)
+      shiny::updateTextAreaInput(session, "methodprotometa", value = methodprotometaUpdate)
+      shiny::updateTextAreaInput(session, "methodprotoconfi", value = methodprotoconfiUpdate)
     })
     
     
@@ -893,7 +1115,7 @@ server <- function(input, output, session) {
       discussionPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
       fundingPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
       
-      paste(readLines(titleprotoidentPath), collapse = '\n')
+      #paste(readLines(titleprotoidentPath), collapse = '\n')
       
       titleUpdate <- paste(readLines(titlePath), collapse = '\n')
       abstractUpdate <- paste(readLines(abstractPath), collapse = '\n')
