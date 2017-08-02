@@ -7,10 +7,45 @@ params:
 
 
 
-```{r child='_titleproto.Rmd'}
+```{r child='_titleprotoident.Rmd'}
 
 
 ```
+
+```{r child='_titleprotoup.Rmd'}
+
+
+```
+```{r child='_registration.Rmd'}
+
+
+```
+
+```{r child='_authorcontact.Rmd'}
+
+
+```
+```{r child='_authorcontri.Rmd'}
+
+
+```
+```{r child='_amendments.Rmd'}
+
+
+```
+```{r child='_supportsorce.Rmd'}
+
+
+```                     
+ ```{r child='_supportsponsor.Rmd'}
+
+
+``` 
+ ```{r child='_supportrole.Rmd'}
+
+
+``` 
+                     
 
 
 ```{r child='_introproto.Rmd'}
