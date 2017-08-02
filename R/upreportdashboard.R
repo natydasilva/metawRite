@@ -59,17 +59,18 @@ upreportdashoard <-
                 discussion = '',
                 funding = '')
     
-    protocol <- list(titleprotoident ="",
+    protocol <- list(titleprotoident = "",
                      titleprotoup = "", 
-                     registration ="",
-                     authorcontact ="",
-                     authorcontri ="",
-                     amendments ="",
-                     supportsorce ="",
-                     supportsponsor ="",
-                     supportrole ="",
-                     introproto ="",
-                     methodproto ="")
+                     registration = "",
+                     authorcontact = "",
+                     authorcontri = "",
+                     amendments = "",
+                     supportsorce = "",
+                     supportsponsor = "",
+                     supportrole = "",
+                     introprotorat = "",
+                     introprotoobj = "",
+                     methodproto = "")
 
 header <- shinydashboard::dashboardHeader(title = "metawRite")
 
@@ -133,7 +134,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       'Title: Update',
                       rows = 1,
                       width = "900px",
-                      value = protocol$titleprotoupdate, resize ="vertical")
+                      value = protocol$titleprotoup, resize ="vertical")
                   )),
                   shiny::fluidRow(shiny::column(
                     8,
@@ -201,11 +202,20 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   shiny::fluidRow(shiny::column(
                     8,
                     shiny::textAreaInput(
-                      'introproto',
-                      'Introduction',
+                      'introprotorat',
+                      'Introduction: Rationale',
                       rows = 4,
                       width = "900px",
-                      value = protocol$introproto, resize ="vertical")
+                      value = protocol$introprotorat, resize ="vertical")
+                  )),
+                  shiny::fluidRow(shiny::column(
+                    8,
+                    shiny::textAreaInput(
+                      'introprotoobj',
+                      'Introduction: Objective',
+                      rows = 4,
+                      width = "900px",
+                      value = protocol$introprotoobj, resize ="vertical")
                   )),
                   shiny::fluidRow(shiny::column(
                     8,
@@ -474,8 +484,16 @@ server <- function(input, output, session) {
        
         writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
         writeLines(input$titleprotoup, con = file.path(dir, "_titleprotoup.Rmd"), sep = "\n")
-        
-        writeLines(input$introproto, con = file.path(dir, "_introproto.Rmd"),sep = "\n")
+        writeLines(input$registration, con = file.path(dir, "_registration.Rmd"), sep = "\n")
+        writeLines(input$authorcontact, con = file.path(dir, "_authorcontact.Rmd"),sep = "\n")
+        writeLines(input$authorcontri, con = file.path(dir, "_authorcontri.Rmd"),sep = "\n")
+        writeLines(input$amendments, con = file.path(dir, "_amendments.Rmd"),sep = "\n")
+        writeLines(input$supportsorce, con = file.path(dir, "_supportsorce.Rmd"),sep = "\n") 
+        writeLines(input$supportsponsor, con = file.path(dir, "_supportsponsor.Rmd"),sep = "\n") 
+        writeLines(input$supportrole, con = file.path(dir, "_supportrole.Rmd"),sep = "\n")
+        writeLines(input$introprotorat, con = file.path(dir, "_introprotorat.Rmd"),sep = "\n")
+        writeLines(input$introprotoobj, con = file.path(dir, "_introprotoobj.Rmd"),sep = "\n")
+      
         writeLines(input$methodproto, con = file.path(dir, "_methodproto.Rmd"),sep = "\n")
         outform <- paste(outputformat, "_","document",sep="")
          out = rmarkdown::render(input = tempReport,output_format= outform,
@@ -487,7 +505,6 @@ server <- function(input, output, session) {
     
     #Make reactive the new information in the report
     
-    
     titleprotoident <- shiny::reactive({
       list("titleprotoident", input$titleprotoident)
     })
@@ -496,18 +513,52 @@ server <- function(input, output, session) {
       list("titleprotoup", input$titleprotoup)
     })
     
-  
-    introproto <- shiny::reactive({
-      list("introproto", input$introproto)
+    registration <- shiny::reactive({
+      list("registration", input$registration)
     })
     
+    authorcontact <- shiny::reactive({
+      list("authorcontact", input$authorcontact)
+    })
+    
+    authorcontri <- shiny::reactive({
+      list("authorcontri", input$authorcontri)
+    })
+    
+    amendments <- shiny::reactive({
+      list("amendments", input$amendments)
+    })
+    
+    supportsorce <- shiny::reactive({
+      list("supportsorce", input$supportsorce)
+    })
+    
+    supportsponsor <- shiny::reactive({
+      list("supportsponsor", input$supportsponsor)
+    })
+    
+    supportrole <- shiny::reactive({
+      list("supportrole", input$supportrole)
+    })
+    
+    introprotorat <- shiny::reactive({
+      list("introprotorat", input$introprotorat)
+    })
+    
+  
+    introprotoobj <- shiny::reactive({
+      list("introprotoobj", input$introprotoobj)
+    })
     methodproto <- shiny::reactive({
       list("methodproto", input$methodproto)
     })
 
     
     Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-    protoaux <- list("titleprotoident", "titleprotoup", "introproto", "methodproto")
+    protoaux <- list("titleprotoident", "titleprotoup", "registration","authorcontact",
+                     "authorcontri", "amendments", "supportsorce", 
+                     "supportsponsor", "supportrole", 
+                     "introprotorat", "introprotoobj", "methodproto")
     
     saveData <- function(data,cc,proto=TRUE) {
       if(length(data[[2]] > 0)){
@@ -535,10 +586,20 @@ server <- function(input, output, session) {
     shiny::observeEvent(input$submitproto, {
       
       # Save the new information in  the report  in a txt with name = date and time
-      saveData(titleprotoident(), protoaux[[1]], proto=TRUE)
-      saveData(titleprotoup(), protoaux[[2]], proto=TRUE)
-      saveData(introproto(), protoaux[[3]], proto = TRUE)
-      saveData(methodproto(), protoaux[[4]], proto=TRUE)
+      saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
+      saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
+      
+      saveData(registration(), protoaux[[3]], proto = TRUE)
+      saveData(authorcontact(), protoaux[[4]], proto = TRUE)
+      saveData(authorcontri(), protoaux[[5]], proto = TRUE)
+      saveData(amendments(), protoaux[[6]], proto = TRUE)
+      saveData(supportsorce(), protoaux[[7]], proto = TRUE)
+      saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
+      saveData(supportrole(), protoaux[[9]], proto = TRUE)
+      saveData(introprotorat(), protoaux[[10]], proto = TRUE)
+      saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
+      saveData(methodproto(), protoaux[[12]], proto=TRUE)
+      
       
       shinyjs::reset("formproto")
       shinyjs::hide("formproto")
@@ -550,20 +611,45 @@ server <- function(input, output, session) {
     
     shiny::observeEvent(input$updateproto,{
       x <- input$updateproto
-      titleprotoidentPath <- file.path(paste("tools/",x, protoaux[[1]],".txt", sep=""))
-      titleprotoupPath <- file.path(paste("tools/",x, protoaux[[2]],".txt", sep=""))
-      introprotoPath <- file.path(paste("tools/",x, protoaux[[3]],".txt", sep=""))
-      methodprotoPath <- file.path(paste("tools/",x, protoaux[[4]],".txt", sep=""))
+      titleprotoidentPath <- file.path(paste("tools/",x, protoaux[[1]],".txt", sep = ""))
+      titleprotoupPath <- file.path(paste("tools/",x, protoaux[[2]],".txt", sep = ""))
+      registrationPath <- file.path(paste("tools/",x, protoaux[[3]],".txt", sep = ""))
+      authorcontactPath <- file.path(paste("tools/",x, protoaux[[4]],".txt", sep = ""))
+      authorcontriPath <- file.path(paste("tools/",x, protoaux[[5]],".txt", sep = ""))
+      amendmentsPath <- file.path(paste("tools/",x, protoaux[[6]],".txt", sep = ""))
+      supportsorcePath <- file.path(paste("tools/",x, protoaux[[7]],".txt", sep = ""))
+      supportsponsorPath <- file.path(paste("tools/",x, protoaux[[8]],".txt", sep = ""))
+      supportrolePath <- file.path(paste("tools/",x, protoaux[[9]],".txt", sep = ""))
+      introprotoratPath <- file.path(paste("tools/",x, protoaux[[10]],".txt", sep = ""))
+      introprotoobjPath <- file.path(paste("tools/",x, protoaux[[11]],".txt", sep=""))
+      methodprotoPath <- file.path(paste("tools/",x, protoaux[[12]],".txt", sep = ""))
       
+    
       titleprotoidentUpdate <- paste(readLines(titleprotoidentPath), collapse = '\n')
       titleprotoupUpdate <- paste(readLines(titleprotoupPath), collapse = '\n')
-      introprotoUpdate <- paste(readLines(introprotoPath), collapse = '\n')
+      registrationUpdate <- paste(readLines(registrationPath), collapse = '\n')
+      authorcontactUpdate <- paste(readLines(authorcontactPath), collapse = '\n')
+      authorcontriUpdate <- paste(readLines(authorcontriPath), collapse = '\n')
+      amendmentsUpdate <- paste(readLines(amendmentsPath), collapse = '\n')
+      supportsorceUpdate <- paste(readLines(supportsorcePath), collapse = '\n')
+      supportsponsorUpdate <- paste(readLines(supportsponsorPath), collapse = '\n')
+      supportroleUpdate <- paste(readLines(supportrolePath), collapse = '\n')
+      introprotoratUpdate <- paste(readLines(introprotoratPath), collapse = '\n')
+      introprotoobjUpdate <- paste(readLines(introprotoobjPath), collapse = '\n')
       methodprotoUpdate <- paste(readLines(methodprotoPath), collapse ='\n')
       
       shiny::updateTextAreaInput(session, "titleprotoident", value = titleprotoidentUpdate)
-      shiny::updateTextAreaInput(session, "titleprotoup", value = titleprotoidentUpdate)
-       shiny::updateTextAreaInput(session, "introproto", value = introprotoUpdate)
-      shiny::updateTextAreaInput(session, "methodproto", value = methodprotoUpdate)
+      shiny::updateTextAreaInput(session, "titleprotoup", value = titleprotoupUpdate)
+      shiny::updateTextAreaInput(session, "registration", value = registrationUpdate)
+      shiny::updateTextAreaInput(session, "authorcontact", value = authorcontactUpdate)
+      shiny::updateTextAreaInput(session, "authorcontri", value = authorcontriUpdate)
+      shiny::updateTextAreaInput(session, "amendments", value = amendmentsUpdate)
+      shiny::updateTextAreaInput(session, "supportsorce", value = supportsorceUpdate)
+      shiny::updateTextAreaInput(session, "supportsponsor", value = supportsponsorUpdate)
+      shiny::updateTextAreaInput(session, "supportrole", value = supportroleUpdate)
+      shiny::updateTextAreaInput(session, "introprotorat", value = introprotoratUpdate)
+      shiny::updateTextAreaInput(session, "introprotoobj", value = introprotoobjUpdate)
+    shiny::updateTextAreaInput(session, "methodproto", value = methodprotoUpdate)
     })
     
     
