@@ -16,12 +16,37 @@ params:
 ```
 
 
-```{r child='_introduction.Rmd'}
+```{r child='_introductionrat.Rmd'}
 ```
-
-
-```{r child='_methods.Rmd'}
+```{r child='_introductionobj.Rmd'}
 ```
+```{r child='_methodprotoreg.Rmd'}
+```
+```{r child='_methodeli.Rmd'}
+```
+```{r child='_methodinfo.Rmd'}
+```
+```{r child='_methodsearch.Rmd'}
+```  
+```{r child='_methodselec.Rmd'}
+```   
+```{r child='_methoddatacol.Rmd'}
+```
+```{r child='_methoddatait.Rmd'}
+```
+```{r child='_methodrisk.Rmd'}
+```
+```{r child='_methodsumm.Rmd'}
+```
+```{r child='_methodsyn.Rmd'}
+```
+```{r child='_methodriskst.Rmd'}
+``` 
+```{r child='_methodstud.Rmd'}
+```  
+```{r child='_methodadd.Rmd'}
+```  
+                
 
 
 ```{r child='_results.Rmd'}
