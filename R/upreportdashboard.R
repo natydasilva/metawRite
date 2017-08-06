@@ -68,9 +68,17 @@ upreportdashoard <-
                 methodriskst = '',
                 methodstud = '',
                 methodadd = '',
-                result = '',
-                discussion = '',
+                resultstsel = '',
+                resultstch = '',
+                resultrkbist = '',
+                resultsyres = '',
+                resultrkbi = '',
+                resultaa = '',
+                discussionsumev = '',
+                discussionlimi = '',
+                discussionconc = '',
                 funding = '')
+    
     
     protocol <- list(titleprotoident = "",
                      titleprotoup = "", 
@@ -369,7 +377,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   shiny::downloadButton(outputId='downproto', label="Download")
                   #shiny::uiOutput("buttreset")
                            
-                  # shiny::downloadButton(outputId="downprotornw",label="Download .Rnw")
+                  # shiny::downloadButton(outputId="downprotornw",label="Download.Rnw")
                 ),
                 shiny::fluidRow(shiny::column(8,
                                               shiny::HTML("<div style='height: 150px;'>"),
@@ -458,6 +466,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
       shiny::textAreaInput(
         'title',
         'Title',
+        rows = 1,
         width = "900px",
         value = lsr$title, resize ="vertical")
     )),
@@ -494,7 +503,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
       shiny::textAreaInput(
         'methodprotoreg',
         'Methods: Protocol and Registration',
-        rows = 8,
+        rows = 2,
         width = "900px",
         value = lsr$methodprotoreg, resize ="vertical")
     )),
@@ -503,7 +512,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodeli',
       'Methods: Eligibility Criteria',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodeli, resize ="vertical")
   )),
@@ -512,7 +521,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodinfo',
       'Methods: Information Source',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodinfo, resize ="vertical")
   )),
@@ -521,7 +530,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodsearch',
       'Methods: Search',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodsearch , resize ="vertical")
   )),
@@ -530,7 +539,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodselec',
       'Methods: Study Selection',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodselec , resize ="vertical")
   )),
@@ -539,7 +548,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methoddatacol',
       'Methods: Data Collection Process',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methoddatacol , resize ="vertical")
   )),
@@ -548,7 +557,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methoddatait',
       'Methods: Data Item',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methoddatait , resize ="vertical")
   )),
@@ -557,7 +566,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodrisk',
       'Methods: Risk of Bias in Individual Studies',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodrisk, resize ="vertical")
   )),
@@ -566,16 +575,16 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodsumm',
       'Methods: Summary Measures',
-      rows = 8,
+      rows = 2,
       width = "900px",
-      value = lsr$methodstudy, resize ="vertical")
+      value = lsr$methodstud, resize ="vertical")
   )),
   shiny::fluidRow(shiny::column(
     8,
     shiny::textAreaInput(
       'methodsyn',
       'Methods: Synthesis of Results',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodsyn, resize ="vertical")
   )),
@@ -584,7 +593,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodriskst',
       'Methods: Risk of Bias across Studies',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodriskst, resize ="vertical")
   )),
@@ -593,29 +602,102 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::textAreaInput(
       'methodstud',
       'Methods: Additional Analysis',
-      rows = 8,
+      rows = 2,
       width = "900px",
       value = lsr$methodstud, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'methodadd',
+      'Methods: Additional Analysis',
+      rows = 2,
+      width = "900px",
+      value = lsr$methodadd, resize ="vertical")
   )),
     shiny::fluidRow(shiny::column(
       8,
       shiny::textAreaInput(
-        'result',
-        'Results',
-        rows = 8,
+        'resultstsel',
+        'Results: Study Selection',
+        rows = 2,
         width = "900px",
-        value = lsr$result, resize ="vertical")
+        value = lsr$resultstsel, resize ="vertical")
     )),
-    
-    shiny::fluidRow(shiny::column(
-      8,
-      shiny::textAreaInput(
-        'discussion',
-        'Discussion',
-        rows = 4,
-        width = "900px",
-        value = lsr$discussion, resize ="vertical")
-    )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'resultstch',
+      'Results: Study Characteristics',
+      rows = 2,
+      width = "900px",
+      value = lsr$resultstch, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'resultrkbist',
+      'Results: Risk of Bias Within Studies',
+      rows = 2,
+      width = "900px",
+      value = lsr$resultrkbist, resize ="vertical")
+  )),
+  
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'resultsyres',
+      'Results: Sunthesis of Results',
+      rows = 2,
+      width = "900px",
+      value = lsr$resultsyres, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'resultrkbi',
+      'Results: Risk of Bias Across Studies',
+      rows = 2,
+      width = "900px",
+      value = lsr$resultrkbi, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'resultaa',
+      'Results: Additional Analysis',
+      rows = 2,
+      width = "900px",
+      value = lsr$resultaa, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'discussionsumev',
+      'Results: Summary of Evidence',
+      rows = 2,
+      width = "900px",
+      value = lsr$discussionsumev, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'discussionlimi',
+      'Results: Limitations',
+      rows = 2,
+      width = "900px",
+      value = lsr$discussionlimi, resize ="vertical")
+  )),
+  shiny::fluidRow(shiny::column(
+    8,
+    shiny::textAreaInput(
+      'discussionconc',
+      'Results: Conclusion',
+      rows = 2,
+      width = "900px",
+      value = lsr$discussionconc, resize ="vertical")
+  )),
+
     shiny::fluidRow(
       shiny::column(
         8,
@@ -1177,10 +1259,18 @@ server <- function(input, output, session) {
         writeLines(input$methodsyn, con = file.path(dir, "_methodsyn.Rmd"))
         writeLines(input$methodriskst, con = file.path(dir, "_methodriskst.Rmd"))
         writeLines(input$methodstud, con = file.path(dir, "_methodstud.Rmd"))
-        writeLines(input$methodadd, con = file.path(dir, "_methodaddd.Rmd"))
-        writeLines(input$result, con = file.path(dir, "_results.Rmd"))
-        writeLines(input$discussion, con = file.path(dir, "_discussion.Rmd"))
-        writeLines(input$funding, con = file.path(dir, "_funding.Rmd"))
+        writeLines(input$methodadd, con = file.path(dir, "_methodadd.Rmd"))
+       
+         writeLines(input$resultsel, con = file.path(dir, "_resultsel.Rmd"))
+         writeLines(input$resultstch, con = file.path(dir, "_resultstch.Rmd"))
+         writeLines(input$resultrkbist, con = file.path(dir, "_resultrkbist.Rmd"))
+         writeLines(input$resultsyres, con = file.path(dir, "_resultsyres.Rmd"))
+         writeLines(input$resultrkbi, con = file.path(dir, "_resultrkbi.Rmd"))
+         writeLines(input$resultaa, con = file.path(dir, "_resultaa.Rmd"))
+         writeLines(input$discussionsumev, con = file.path(dir, "_discussionsumev.Rmd"))
+         writeLines(input$discussionlimi, con = file.path(dir, "_discussionlimi.Rmd"))
+         writeLines(input$discussionconc, con = file.path(dir, "_discussionconc.Rmd"))
+         writeLines(input$funding, con = file.path(dir, "_funding.Rmd"))
         outform <- paste(outputformat, "_","document",sep = "")
         out = rmarkdown::render(input = tempReport,output_format= outform,
                                 clean = TRUE)
@@ -1251,24 +1341,44 @@ server <- function(input, output, session) {
     methodadd <- shiny::reactive({
       list("methodadd", input$methodadd)
     })
-     
-    
-    result <- shiny::reactive({
-      
-      list("result", input$result)
+    resultstsel <- shiny::reactive({
+      list("resultstsel", input$resultstsel)
     })
-    
-    discussion <- shiny::reactive({
-      list("discussion", input$discussion)
+    resultstch <- shiny::reactive({
+      list("resultstch", input$resultstch)
     })
-    
+    resultrkbist <- shiny::reactive({
+      list("resultrkbist", input$resultrkbist)
+    })
+    resultsyres <- shiny::reactive({
+      list("resultsyres", input$resultsyres)
+    })
+    resultrkbi <- shiny::reactive({
+      list("resultrkbi", input$resultrkbi)
+    })
+   
+    resultaa <- shiny::reactive({
+      list("resultaa", input$resultaa)
+    })
+    discussionsumev <- shiny::reactive({
+      list("discussionsumev", input$discussionsumev)
+    })
+    discussionlimi <- shiny::reactive({
+      list("discussionlimi", input$discussionlimi)
+    })
+    discussionconc <- shiny::reactive({
+      list("discussionconc", input$discussionconc)
+    })
+    discussionconc <- shiny::reactive({
+      list("discussionconc", input$discussionconc)
+    })
+  
     funding <- shiny::reactive({
       list("funding", input$funding)
     })
     
   
     ccaux <- list("title", "abstract",
-                  
                   "introductionrat",
                   "introductionobj",
                   "methodprotoreg",
@@ -1284,7 +1394,16 @@ server <- function(input, output, session) {
                   "methodriskst",
                   "methodstud",
                   "methodadd",
-                   "result", "discussion", "funding")
+                  "resultstsel",
+                  "resultstch",
+                  "resultrkbist",
+                  "resultsyres",
+                  "resultrkbi",
+                  "resultaa",
+                  "discussionsumev",
+                  "discussionlimi",
+                  "discussionconc",
+                  "funding")
     # action to take when submit button is pressed
     
     shiny::observeEvent(input$submit, {
@@ -1307,10 +1426,16 @@ server <- function(input, output, session) {
       saveData(methodriskst(), ccaux[[15]], proto = FALSE)
       saveData(methodstud(), ccaux[[16]], proto = FALSE)
       saveData(methodadd(), ccaux[[17]], proto = FALSE)
-      
-      saveData(result(), ccaux[[18]], proto =FALSE)
-      saveData(discussion(), ccaux[[19]], proto =FALSE)
-      saveData(funding(), ccaux[[20]], proto =FALSE)
+      saveData(resultstsel(), ccaux[[18]], proto = FALSE)
+      saveData(resultstch(), ccaux[[19]], proto = FALSE)
+      saveData(resultrkbist(), ccaux[[20]], proto = FALSE)
+      saveData(resultsyres(), ccaux[[21]], proto = FALSE)
+      saveData(resultrkbi(), ccaux[[22]], proto = FALSE)
+      saveData(resultaa(), ccaux[[23]], proto = FALSE)
+      saveData(discussionsumev(), ccaux[[24]], proto = FALSE)
+      saveData(discussionlimi(), ccaux[[25]], proto = FALSE)
+      saveData(discussionconc(), ccaux[[26]], proto = FALSE)
+      saveData(funding(), ccaux[[27]], proto =FALSE)
       
       
       shinyjs::reset("form")
@@ -1340,10 +1465,16 @@ server <- function(input, output, session) {
       methodriskstPath <- file.path(paste("tools/",x,ccaux[[15]],".txt", sep=""))
       methodstudPath <- file.path(paste("tools/",x,ccaux[[16]],".txt", sep=""))
       methodaddPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
-    
-      resultPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
-      discussionPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
-      fundingPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
+      resultstselPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
+      resultstchPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
+      resultrkbistPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
+      resultsyresPath <- file.path(paste("tools/",x,ccaux[[21]],".txt", sep=""))
+      resultrkbiPath <- file.path(paste("tools/",x,ccaux[[22]],".txt", sep=""))
+      resultaaPath <- file.path(paste("tools/",x,ccaux[[23]],".txt", sep=""))
+      discussionsumevPath <- file.path(paste("tools/",x,ccaux[[24]],".txt", sep=""))
+      discussionlimiPath <- file.path(paste("tools/",x,ccaux[[25]],".txt", sep=""))
+      discussionconcPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
+      fundingPath <- file.path(paste("tools/",x,ccaux[[27]],".txt", sep=""))
       
       #paste(readLines(titleprotoidentPath), collapse = '\n')
       
@@ -1364,12 +1495,18 @@ server <- function(input, output, session) {
       methodriskstUpdate <- paste(readLines(methodriskstPath), collapse = '\n')
       methodstudUpdate <- paste(readLines(methodstudPath), collapse = '\n')
       methodaddUpdate <- paste(readLines(methodaddPath), collapse = '\n')
-      
-      resultUpdate <- paste(readLines(resultPath), collapse = '\n')
-      discussionUpdate <- paste(readLines(discussionPath), collapse = '\n')
+      resultstselUpdate <- paste(readLines(resultstselPath), collapse = '\n')
+      resultstchUpdate <- paste(readLines(resultstchPath), collapse = '\n')
+      resultrkbistUpdate <- paste(readLines(resultrkbistPath), collapse = '\n')
+      resultsyresUpdate <- paste(readLines(resultsyresPath), collapse = '\n')
+      resultrkbiUpdate <- paste(readLines(resultrkbiPath), collapse = '\n')
+      resultaaUpdate <- paste(readLines(resultaaPath), collapse = '\n')
+      discussionsumevUpdate <- paste(readLines(discussionsumevPath), collapse = '\n')
+      discussionlimiUpdate <- paste(readLines(discussionlimiPath), collapse = '\n')
+      discussionconcUpdate <- paste(readLines(discussionconcPath), collapse = '\n')
       fundingUpdate <- paste(readLines(fundingPath), collapse = '\n')
-      
-      
+     
+     
       shiny::updateTextAreaInput(session, "title", value = titleUpdate)
       shiny::updateTextAreaInput(session, "abstract", value = abstractUpdate)
       shiny::updateTextAreaInput(session, "introductionrat", value = introductionratUpdate)
@@ -1388,10 +1525,16 @@ server <- function(input, output, session) {
       shiny::updateTextAreaInput(session, "methodsyn", value = methodsynUpdate)
       shiny::updateTextAreaInput(session, "methodstud", value = methodstudUpdate)
       shiny::updateTextAreaInput(session, "methodadd", value = methodaddUpdate)
-      shiny::updateTextAreaInput(session, "result", value = resultUpdate)
-      shiny::updateTextAreaInput(session, "discussion", value = discussionUpdate)
+      shiny::updateTextAreaInput(session, "resultstsel", value = resultstselUpdate)
+      shiny::updateTextAreaInput(session, "resultstch", value = resultstchUpdate)
+      shiny::updateTextAreaInput(session, "resultrkbist", value = resultrkbistUpdate)
+      shiny::updateTextAreaInput(session, "resultsyres", value = resultsyresUpdate)
+      shiny::updateTextAreaInput(session, "resultrkbi", value =  resultrkbiUpdate)
+      shiny::updateTextAreaInput(session, "resultaa", value =  resultaaUpdate)
+      shiny::updateTextAreaInput(session, "discussionsumev", value =  discussionsumevUpdate)
+      shiny::updateTextAreaInput(session, "discussionlimi", value =  discussionlimiUpdate)
+      shiny::updateTextAreaInput(session, "discussionconc", value =  discussionconcUpdate)
       shiny::updateTextAreaInput(session, "funding", value = fundingUpdate)
-      
       
     })
     

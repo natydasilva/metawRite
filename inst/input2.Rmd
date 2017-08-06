@@ -47,16 +47,24 @@ params:
 ```{r child='_methodadd.Rmd'}
 ```  
                 
-
-
-```{r child='_results.Rmd'}
+```{r child='_resultstsel.Rmd'}
 ```
-
-
-```{r child='_discussion.Rmd'}
+```{r child='_resultstch.Rmd'}
 ```
-
-
+```{r child='_resultrkbist.Rmd'}
+```
+```{r child='_resultsyres.Rmd'}
+```
+```{r child='_resultrkbi.Rmd'}
+```
+```{r child='_resultaa.Rmd'}
+```
+```{r child='_discussionsumev.Rmd'}
+``` 
+```{r child='_discussionlimi.Rmd'}
+``` 
+```{r child='_discussionconc.Rmd'}
+```                 
 ```{r child='_funding.Rmd'}
 ```
 
