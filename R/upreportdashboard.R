@@ -18,11 +18,18 @@
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL,outputformat="pdf", clearproto =FALSE)  
+#' 
+#'  modstrMTCdata <- pairwise_metafor(armbased = TRUE, treat = list(treat1, treat2, treat3),
+#'   event = list(event1, event2, event3), n = list(n1, n2, n3), data = MTCdata, nupdate = 2,
+#'   nobs = c(109, 5), measure = "RR")
+#'   
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
-#'   net = FALSE, data = modstr,outputformat = "pdf")
+#'   net = FALSE, data = modstrMTCdata,outputformat = "pdf")
+#'    upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
+#'   net = FALSE, data = modstrMTCpairsrg,outputformat = "pdf")
 #' }
 upreportdashoard <-
-  function(initialprotocol = TRUE, initialreport =TRUE,  pair=FALSE,net = FALSE, data = NULL, outputformat="pdf", clearproto =FALSE) {
+  function(initialprotocol = TRUE, initialreport =TRUE,  pair = FALSE,net = FALSE, data = NULL, outputformat="pdf", clearproto =FALSE) {
     
     if(is.null(data)){
       datapair <-NULL
@@ -110,23 +117,14 @@ header <- shinydashboard::dashboardHeader(title = "metawRite")
 
 sidebar <-  shinydashboard::dashboardSidebar(
   shinydashboard::sidebarMenu(id = "welcome",
-   # shinydashboard::menuItem("Welcome", tabName = "welcome", id="welcome"),
     shinydashboard::menuItem("Motivation", tabName ="welcome"),
-    #shinydashboard::menuItem("LSR", tabName = "lrs", id = "lrs"),
-   # shinyBS::bsTooltip("LSR", "Living Systematic Review", placement = "bottom", trigger = "hover"),
     shinydashboard::menuItem("Protocol", tabName = "protocol"),
-   shinydashboard::menuItem("Search", tabName = "search"),
+    shinydashboard::menuItem("Search", tabName = "search"),
     shinydashboard::menuSubItem("PubMed", tabName = "pubmed"),
     shinydashboard::menuSubItem("PubAg", tabName = "pubagr"),
-   # shinydashboard::menuSubItem("EuroPubMed", tabName = "pubeuro"),
     shinydashboard::menuItem("LSR-report", tabName = "report"),
     shinydashboard::menuItem("Pairwise", tabName = "pairwise"),
     shinydashboard::menuItem("Network", tabName = "network")
-    #shinyBS::bsTooltip(id = 'Welcome', title = "This is an input", options = list(container = 'body'))
-
-    #, 
-             #sidebarMenuOutput("menu")
-    
   )  )
 
 
@@ -795,9 +793,13 @@ server <- function(input, output, session) {
     responsesDir <- file.path("tools")
     if(outputformat=="word"){
       outputformataux <- "docx"
-    filenameout <- paste("myprotocol",".", outputformataux,sep="")
+    filenameout <- paste("myprotocol",".", outputformataux, sep = "")
+    
+    # if(outputformat=="Rmd"){
+    #   filenameout <- paste("myprotocol",".",  sep = "")
+    # }
     }else{
-      filenameout <- paste("myprotocol",".", outputformat,sep="")  
+      filenameout <- paste("myprotocol", ".", outputformat, sep = "")  
     }
     output$downproto = shiny::downloadHandler(
       filename = filenameout,
@@ -836,11 +838,16 @@ server <- function(input, output, session) {
         writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
         writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
         
-        
-        outform <- paste(outputformat, "_","document",sep="")
-         out = rmarkdown::render(input = tempReport,output_format= outform,
+         # if(outputformat !="Rmd"){
+        outform <- paste(outputformat, "_","document", sep = "")
+         out <- rmarkdown::render(input = tempReport,output_format = outform,
                                clean = TRUE)
+         
+          
         file.rename(out, file) # move pdf to file for downloading
+        # }else{
+        #   file.copy(tempReport, file, overwrite = TRUE)
+        #}
       }
    
     )
@@ -1242,7 +1249,6 @@ server <- function(input, output, session) {
         file.copy(file.path(tmp, "input.Rmd"), tempReport, overwrite = TRUE)
         dir <- system.file(package = "metawRite")
         
-        
         writeLines(input$title, con = file.path(dir, "_title.Rmd"))
         writeLines(input$abstract, con = file.path(dir, "_abstract.Rmd"))
         writeLines(input$introductionrat, con = file.path(dir, "_introductionrat.Rmd"))
@@ -1260,7 +1266,6 @@ server <- function(input, output, session) {
         writeLines(input$methodriskst, con = file.path(dir, "_methodriskst.Rmd"))
         writeLines(input$methodstud, con = file.path(dir, "_methodstud.Rmd"))
         writeLines(input$methodadd, con = file.path(dir, "_methodadd.Rmd"))
-       
          writeLines(input$resultsel, con = file.path(dir, "_resultsel.Rmd"))
          writeLines(input$resultstch, con = file.path(dir, "_resultstch.Rmd"))
          writeLines(input$resultrkbist, con = file.path(dir, "_resultrkbist.Rmd"))
@@ -1272,7 +1277,7 @@ server <- function(input, output, session) {
          writeLines(input$discussionconc, con = file.path(dir, "_discussionconc.Rmd"))
          writeLines(input$funding, con = file.path(dir, "_funding.Rmd"))
         outform <- paste(outputformat, "_","document",sep = "")
-        out = rmarkdown::render(input = tempReport,output_format= outform,
+        out = rmarkdown::render(input = tempReport,output_format = outform,
                                 clean = TRUE)
         file.rename(out, file) # move pdf to file for downloading
       }
