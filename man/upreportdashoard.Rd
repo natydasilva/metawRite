@@ -32,7 +32,9 @@ Meta-analysis reportshiny app, using shinydashboard (improved version)
 
 upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 net = FALSE, data = NULL,outputformat="pdf", clearproto =FALSE)  
+
  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
-  net = FALSE, data = modstr,outputformat = "pdf")
+  net = FALSE, data = modstrMTCdata,outputformat = "pdf")
+  
 }
 }

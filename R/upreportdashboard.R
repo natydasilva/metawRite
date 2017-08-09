@@ -19,14 +19,9 @@
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL,outputformat="pdf", clearproto =FALSE)  
 #' 
-#'  modstrMTCdata <- pairwise_metafor(armbased = TRUE, treat = list(treat1, treat2, treat3),
-#'   event = list(event1, event2, event3), n = list(n1, n2, n3), data = MTCdata, nupdate = 2,
-#'   nobs = c(109, 5), measure = "RR")
-#'   
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
 #'   net = FALSE, data = modstrMTCdata,outputformat = "pdf")
-#'    upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
-#'   net = FALSE, data = modstrMTCpairsrg,outputformat = "pdf")
+#'   
 #' }
 upreportdashoard <-
   function(initialprotocol = TRUE, initialreport =TRUE,  pair = FALSE,net = FALSE, data = NULL, outputformat="pdf", clearproto =FALSE) {

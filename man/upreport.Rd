@@ -32,9 +32,9 @@ Meta-analysis reportshiny app
 # structure to run the pairwise meta-analysis
 
 upreport(initialprotocol = TRUE, initialreport = TRUE, pair = TRUE,
-net = FALSE, data = modstr)  
+net = FALSE, data = modstrMTCdata)  
 
 upreport(initialprotocol = FALSE, initialreport = TRUE, net = FALSE,
- pair = TRUE,data = modstr)
+ pair = TRUE,data = modstrMTCdatar)
 }
 }
