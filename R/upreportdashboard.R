@@ -54,10 +54,10 @@ upreportdashoard <-
     }
     
     lsr <- list(title = '',
-                abstract = '',
-                introductionrat = '',
+                abstract = '## Abstract',
+                introductionrat = '##Introduction',
                 introductionobj ="",
-                methodprotoreg = '',
+                methodprotoreg = '## Methods',
                 methodeli = "",
                 methodinfo = "",
                 methodsearch = "",
@@ -70,16 +70,16 @@ upreportdashoard <-
                 methodriskst = '',
                 methodstud = '',
                 methodadd = '',
-                resultstsel = '',
+                resultstsel = '## Results',
                 resultstch = '',
                 resultrkbist = '',
                 resultsyres = '',
                 resultrkbi = '',
                 resultaa = '',
-                discussionsumev = '',
+                discussionsumev = '## Discussion',
                 discussionlimi = '',
                 discussionconc = '',
-                funding = '')
+                funding = '## Funding')
     
     
     protocol <- list(titleprotoident = "",
@@ -91,9 +91,9 @@ upreportdashoard <-
                      supportsorce = "",
                      supportsponsor = "",
                      supportrole = "",
-                     introprotorat = "",
+                     introprotorat = "## Introduction",
                      introprotoobj = "",
-                     methodprotoeli = "",
+                     methodprotoeli = "## Methods",
                      methodprotoinfo = "",
                      methodprotosearch = "",
                      methodprotodataman = "",
@@ -148,6 +148,10 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                                     2015 checklist: recommended items to address in a systematic review protocol.", shiny::a("PRIMA-P file",
                                     href="http://www.prisma-statement.org/documents/PRISMA-P-checklist.pdf"))
                   ),
+                  shiny::fluidRow(
+                    shiny::helpText("This form is an R Markdown, then you should use specific R Markdown syntax" , 
+                                    shiny::a("R Markdown  Cheat Sheet", href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf"))
+                ),
                   shiny::fluidRow(shiny::column(
                     8,
                     shiny::textAreaInput(
@@ -453,6 +457,10 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     shiny::fluidRow(
       shiny::helpText("PRISMA checklist: recommended items to address in a systematic review report.", shiny::a("PRIMA checklist file",
                                                                                                         href="http://www.prisma-statement.org/documents/PRISMA%202009%20checklist.pdf"))
+  ),
+  shiny::fluidRow(
+    shiny::helpText("This form is an R Markdown, then you should use specific R Markdown syntax" , 
+                    shiny::a("R Markdown  Cheat Sheet", href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf"))
   ),
     shiny::fluidRow(shiny::column(
       8,
@@ -781,18 +789,19 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
 
 server <- function(input, output, session) {
 
-    ###############
-    #   TAB 1     #
-    ###############
+    ###########
+    #   TAB 1 #
+    ###########
 
     responsesDir <- file.path("tools")
-    if(outputformat=="word"){
+    if(outputformat == "word"){
       outputformataux <- "docx"
     filenameout <- paste("myprotocol",".", outputformataux, sep = "")
+    }
+     if(outputformat=="Rmd"){
+       outputformataux <- "Rmd" # to fix
+     filenameout <- paste("myprotocol",sep = "")
     
-    # if(outputformat=="Rmd"){
-    #   filenameout <- paste("myprotocol",".",  sep = "")
-    # }
     }else{
       filenameout <- paste("myprotocol", ".", outputformat, sep = "")  
     }
@@ -833,7 +842,7 @@ server <- function(input, output, session) {
         writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
         writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
         
-         # if(outputformat !="Rmd"){
+          # if(outputformat !="Rmd"){
         outform <- paste(outputformat, "_","document", sep = "")
          out <- rmarkdown::render(input = tempReport,output_format = outform,
                                clean = TRUE)
@@ -841,8 +850,8 @@ server <- function(input, output, session) {
           
         file.rename(out, file) # move pdf to file for downloading
         # }else{
-        #   file.copy(tempReport, file, overwrite = TRUE)
-        #}
+        #   file.rename(tempReport, file)
+        # }
       }
    
     )
