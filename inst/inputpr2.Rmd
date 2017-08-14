@@ -1,7 +1,6 @@
 ---
 title: "Protocol"
 output: pdf_document
-bibliography: tools/bibliography.bib
 params:
   n: NA
 ---
