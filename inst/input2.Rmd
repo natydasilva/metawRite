@@ -1,7 +1,6 @@
 ---
 title: "LSR-Report"
 output: pdf_document
-bibliography: tools/bibliography.bib
 params:
   n: NA
 ---
