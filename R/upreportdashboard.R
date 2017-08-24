@@ -53,58 +53,58 @@ upreportdashoard <-
                        ""))
     }
     
-    lsr <- list(title = '',
-                abstract = '## Abstract',
-                introductionrat = '##Introduction',
-                introductionobj ="",
-                methodprotoreg = '## Methods',
-                methodeli = "",
-                methodinfo = "",
-                methodsearch = "",
-                methodselec = "",
-                methoddatacol = "",
-                methoddatait = '',
-                methodrisk = '',
-                methodsumm = '',
-                methodsyn = '',
-                methodriskst = '',
-                methodstud = '',
-                methodadd = '',
-                resultstsel = '## Results',
-                resultstch = '',
-                resultrkbist = '',
-                resultsyres = '',
-                resultrkbi = '',
-                resultaa = '',
-                discussionsumev = '## Discussion',
-                discussionlimi = '',
-                discussionconc = '',
+    lsr <- list(title = '## Title',
+                abstract = '## Abstract: Stuctured Summary',
+                introductionrat = '## Introduction: Rationale  ',
+                introductionobj = "## Introduction: Objectives",
+                methodprotoreg = '## Methods: Protocol and Registration',
+                methodeli = "## Methods: Eligibility Criterio",
+                methodinfo = "## Methos: Information Source ",
+                methodsearch = "## Methods: Search ",
+                methodselec = "## Methods: Study Selection",
+                methoddatacol = "## Methods: Data Collection Process",
+                methoddatait = '## Methods: Data Item',
+                methodrisk = '## Methods: Risk of Bias in Individual Studies',
+                methodsumm = '## Methods: Summary Measures',
+                methodsyn = '## Methods: Synthesis of Results ',
+                methodriskst = '## Methods: Risk of Bias Across Studies',
+                methodstud = '## Methods:Additional Analysis ',
+                #methodadd = '## Methods: Additional Analysis',
+                resultstsel = '## Results: Study Selection ',
+                resultstch = '## Results: Study Characteristics',
+                resultrkbist = '## Results: Risk of Bias Within Studies',
+                resultsyres = '## Results: Additional Analysis',
+                resultrkbi = '## Results: Summary of Evidence',
+                resultaa = '## Results: Limitations',
+                discussionsumev = '## Discussion: Summary of Evidence ',
+                discussionlimi = '## Discussion: Limitations',
+                discussionconc = '## Discussion: Conclusions',
                 funding = '## Funding')
     
     
-    protocol <- list(titleprotoident = "",
-                     titleprotoup = "", 
-                     registration = "",
-                     authorcontact = "",
-                     authorcontri = "",
-                     amendments = "",
-                     supportsorce = "",
-                     supportsponsor = "",
-                     supportrole = "",
-                     introprotorat = "## Introduction",
-                     introprotoobj = "",
-                     methodprotoeli = "## Methods",
-                     methodprotoinfo = "",
-                     methodprotosearch = "",
-                     methodprotodataman = "",
-                     methodprotosele = "",
-                     methodprotodatacol = "",
-                     methodprotodatait = "",
-                     methodprotout = "",
-                     methodprotorisk = "",
-                     methodprotodatasy = "",
-                     methodprotometa = "",
-                     methodprotoconfi = ""
+    protocol <- list(titleprotoident = "## Title: Identification",
+                     titleprotoup = "## Title: Update", 
+                     registration = "## Registration",
+                     authorcontact = "## Author: Contact",
+                     authorcontri = "## Author: Contributions",
+                     amendments = "## Amendments",
+                     supportsorce = "## Support: Sources",
+                     supportsponsor = "## Support: Sponsor ",
+                     supportrole = "Support: Role of Sponsor of founder",
+                     introprotorat = "## Introduction: Rationale",
+                     introprotoobj = "## Introduction: Objective",
+                     methodprotoeli = "## Methods: Eligibility Criteria",
+                     methodprotoinfo = "## Methods: Information Sources",
+                     methodprotosearch = "## Methods: Search Strategy",
+                     methodprotodataman = "## Methods: Data Management ",
+                     methodprotosele = "## Methods: Data Selection process ",
+                     methodprotodatacol = "## Methods: Data Collection Process",
+                     methodprotodatait = "## Methods: Data items ",
+                     methodprotout = "## Methods:  Outcomes and Prioritizations",
+                     methodprotorisk = "## Methods:Risk of Bias in Individual Studies Meta Bias",
+                     methodprotodatasy = "## Methods: Data Synthesis",
+                     methodprotometa = "## Methods: Meta Bias",
+                     methodprotoconfi = "## Methods: Confidence in Cumulatice Evidence"
                      )
     
 
@@ -186,7 +186,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       'Author: Contact',
                       rows = 3,
                       width = "900px",
-                      value = protocol$contact, resize ="vertical")
+                      value = protocol$authorcontact, resize ="vertical")
                   )),
                   shiny::fluidRow(shiny::column(
                     8,
@@ -259,15 +259,6 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       rows = 5,
                       width = "900px",
                       value = protocol$methodprotoeli, resize ="vertical")
-                  )),
-                  shiny::fluidRow(shiny::column(
-                    8,
-                    shiny::textAreaInput(
-                      'methodprotoinfo',
-                      'Methods: Information Sources',
-                      rows = 5,
-                      width = "900px",
-                      value = protocol$methodprotoinfo, resize ="vertical")
                   )),
                   shiny::fluidRow(shiny::column(
                     8,
@@ -607,15 +598,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
       width = "900px",
       value = lsr$methodstud, resize ="vertical")
   )),
-  shiny::fluidRow(shiny::column(
-    8,
-    shiny::textAreaInput(
-      'methodadd',
-      'Methods: Additional Analysis',
-      rows = 2,
-      width = "900px",
-      value = lsr$methodadd, resize ="vertical")
-  )),
+
     shiny::fluidRow(shiny::column(
       8,
       shiny::textAreaInput(
@@ -648,7 +631,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     8,
     shiny::textAreaInput(
       'resultsyres',
-      'Results: Sunthesis of Results',
+      'Results: Synthesis of Results',
       rows = 2,
       width = "900px",
       value = lsr$resultsyres, resize ="vertical")
@@ -1270,7 +1253,7 @@ server <- function(input, output, session) {
         writeLines(input$methodsyn, con = file.path(dir, "_methodsyn.Rmd"))
         writeLines(input$methodriskst, con = file.path(dir, "_methodriskst.Rmd"))
         writeLines(input$methodstud, con = file.path(dir, "_methodstud.Rmd"))
-        writeLines(input$methodadd, con = file.path(dir, "_methodadd.Rmd"))
+        #writeLines(input$methodadd, con = file.path(dir, "_methodadd.Rmd"))
          writeLines(input$resultsel, con = file.path(dir, "_resultsel.Rmd"))
          writeLines(input$resultstch, con = file.path(dir, "_resultstch.Rmd"))
          writeLines(input$resultrkbist, con = file.path(dir, "_resultrkbist.Rmd"))
@@ -1348,9 +1331,9 @@ server <- function(input, output, session) {
     methodstud <- shiny::reactive({
       list("methodstud", input$methodstud)
     })
-    methodadd <- shiny::reactive({
-      list("methodadd", input$methodadd)
-    })
+    # methodadd <- shiny::reactive({
+    #   list("methodadd", input$methodadd)
+    # })
     resultstsel <- shiny::reactive({
       list("resultstsel", input$resultstsel)
     })
@@ -1403,7 +1386,7 @@ server <- function(input, output, session) {
                   "methodsyn",
                   "methodriskst",
                   "methodstud",
-                  "methodadd",
+                  # "methodadd",
                   "resultstsel",
                   "resultstch",
                   "resultrkbist",
@@ -1435,17 +1418,17 @@ server <- function(input, output, session) {
       saveData(methodsyn(), ccaux[[14]], proto = FALSE)
       saveData(methodriskst(), ccaux[[15]], proto = FALSE)
       saveData(methodstud(), ccaux[[16]], proto = FALSE)
-      saveData(methodadd(), ccaux[[17]], proto = FALSE)
-      saveData(resultstsel(), ccaux[[18]], proto = FALSE)
-      saveData(resultstch(), ccaux[[19]], proto = FALSE)
-      saveData(resultrkbist(), ccaux[[20]], proto = FALSE)
-      saveData(resultsyres(), ccaux[[21]], proto = FALSE)
-      saveData(resultrkbi(), ccaux[[22]], proto = FALSE)
-      saveData(resultaa(), ccaux[[23]], proto = FALSE)
-      saveData(discussionsumev(), ccaux[[24]], proto = FALSE)
-      saveData(discussionlimi(), ccaux[[25]], proto = FALSE)
-      saveData(discussionconc(), ccaux[[26]], proto = FALSE)
-      saveData(funding(), ccaux[[27]], proto =FALSE)
+     # saveData(methodadd(), ccaux[[17]], proto = FALSE)
+      saveData(resultstsel(), ccaux[[17]], proto = FALSE)
+      saveData(resultstch(), ccaux[[18]], proto = FALSE)
+      saveData(resultrkbist(), ccaux[[19]], proto = FALSE)
+      saveData(resultsyres(), ccaux[[20]], proto = FALSE)
+      saveData(resultrkbi(), ccaux[[21]], proto = FALSE)
+      saveData(resultaa(), ccaux[[22]], proto = FALSE)
+      saveData(discussionsumev(), ccaux[[23]], proto = FALSE)
+      saveData(discussionlimi(), ccaux[[24]], proto = FALSE)
+      saveData(discussionconc(), ccaux[[25]], proto = FALSE)
+      saveData(funding(), ccaux[[26]], proto =FALSE)
       
       
       shinyjs::reset("form")
@@ -1474,17 +1457,17 @@ server <- function(input, output, session) {
       methodsynPath <- file.path(paste("tools/",x,ccaux[[14]],".txt", sep=""))
       methodriskstPath <- file.path(paste("tools/",x,ccaux[[15]],".txt", sep=""))
       methodstudPath <- file.path(paste("tools/",x,ccaux[[16]],".txt", sep=""))
-      methodaddPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
-      resultstselPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
-      resultstchPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
-      resultrkbistPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
-      resultsyresPath <- file.path(paste("tools/",x,ccaux[[21]],".txt", sep=""))
-      resultrkbiPath <- file.path(paste("tools/",x,ccaux[[22]],".txt", sep=""))
-      resultaaPath <- file.path(paste("tools/",x,ccaux[[23]],".txt", sep=""))
-      discussionsumevPath <- file.path(paste("tools/",x,ccaux[[24]],".txt", sep=""))
-      discussionlimiPath <- file.path(paste("tools/",x,ccaux[[25]],".txt", sep=""))
-      discussionconcPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
-      fundingPath <- file.path(paste("tools/",x,ccaux[[27]],".txt", sep=""))
+      #methodaddPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
+      resultstselPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
+      resultstchPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
+      resultrkbistPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
+      resultsyresPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
+      resultrkbiPath <- file.path(paste("tools/",x,ccaux[[21]],".txt", sep=""))
+      resultaaPath <- file.path(paste("tools/",x,ccaux[[22]],".txt", sep=""))
+      discussionsumevPath <- file.path(paste("tools/",x,ccaux[[23]],".txt", sep=""))
+      discussionlimiPath <- file.path(paste("tools/",x,ccaux[[24]],".txt", sep=""))
+      discussionconcPath <- file.path(paste("tools/",x,ccaux[[25]],".txt", sep=""))
+      fundingPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
       
       #paste(readLines(titleprotoidentPath), collapse = '\n')
       
@@ -1504,7 +1487,7 @@ server <- function(input, output, session) {
       methodsynUpdate <- paste(readLines(methodsynPath), collapse = '\n')
       methodriskstUpdate <- paste(readLines(methodriskstPath), collapse = '\n')
       methodstudUpdate <- paste(readLines(methodstudPath), collapse = '\n')
-      methodaddUpdate <- paste(readLines(methodaddPath), collapse = '\n')
+      #methodaddUpdate <- paste(readLines(methodaddPath), collapse = '\n')
       resultstselUpdate <- paste(readLines(resultstselPath), collapse = '\n')
       resultstchUpdate <- paste(readLines(resultstchPath), collapse = '\n')
       resultrkbistUpdate <- paste(readLines(resultrkbistPath), collapse = '\n')
@@ -1534,7 +1517,7 @@ server <- function(input, output, session) {
       shiny::updateTextAreaInput(session, "methodriskst", value = methodriskstUpdate)
       shiny::updateTextAreaInput(session, "methodsyn", value = methodsynUpdate)
       shiny::updateTextAreaInput(session, "methodstud", value = methodstudUpdate)
-      shiny::updateTextAreaInput(session, "methodadd", value = methodaddUpdate)
+      #shiny::updateTextAreaInput(session, "methodadd", value = methodaddUpdate)
       shiny::updateTextAreaInput(session, "resultstsel", value = resultstselUpdate)
       shiny::updateTextAreaInput(session, "resultstch", value = resultstchUpdate)
       shiny::updateTextAreaInput(session, "resultrkbist", value = resultrkbistUpdate)

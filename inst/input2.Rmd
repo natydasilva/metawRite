@@ -44,9 +44,7 @@ params:
 ``` 
 ```{r child='_methodstud.Rmd'}
 ```  
-```{r child='_methodadd.Rmd'}
-```  
-                
+
 ```{r child='_resultstsel.Rmd'}
 ```
 ```{r child='_resultstch.Rmd'}
