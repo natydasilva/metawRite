@@ -10,5 +10,9 @@ Three main tasks are needed to have an effective living systematic review: the a
  **metawRite** package  will cover these three task integrated in a friendly web based environment for the final user. This package is not a new meta-analysis package instead will be flexible enough to read different output models from the most used meta-analysis packages in *R* (**metafor**, **meta**  among others), organize the information and display the results in an user driven interactive dashboard. The main function of this package will display a modern web-based application for update a living systematic review. 
 This package combines the power of *R*,  **shiny** and  **knitr**  to get a dynamic reports and up to date meta-analysis results remaining user friendly. The package has the potential to be used by a large number of groups that conduct and update systematic review such as What Works clearinghouse (https://ies.ed.gov/ncee/WWC/)  which reviews education interventions, Campbell Collaboration https://www.campbellcollaboration.org that includes reviews on topics such as social and criminal justice issues and many other social science topics, the Collaboration for Environment Evidence (http://www.environmentalevidence.org) and food production and security (http://www.syreaf.org) among others. 
 
+In the project description the web application only contains three main results; Report, Pairwise meta-analysis and Network meta-analysis. This structure have changed and new modules have been included. The user can write a protocol and also a report in rmarkdown format, also the user can do a search in PUBMED and other repositories and  a summary result of a pairwise meta-analysis is available. 
+
+The summary results are available using **metafor** package and some extensions to other packages are needed in the future.
+
 
 
