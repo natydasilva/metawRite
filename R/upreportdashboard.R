@@ -17,9 +17,9 @@
 #'\dontrun{
 #' 
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-#' net = FALSE, data = NULL,outputformat="pdf", clearproto =FALSE)  
+#' net = FALSE, data = NULL,outputformat = "pdf", clearproto =FALSE)  
 #' 
-#'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
+#'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair = TRUE,
 #'   net = FALSE, data = modstrMTCdata,outputformat = "pdf")
 #'   
 #' }
@@ -90,7 +90,7 @@ upreportdashoard <-
                      amendments = "## Amendments",
                      supportsorce = "## Support: Sources",
                      supportsponsor = "## Support: Sponsor ",
-                     supportrole = "Support: Role of Sponsor of founder",
+                     supportrole = "## Support: Role of Sponsor of founder",
                      introprotorat = "## Introduction: Rationale",
                      introprotoobj = "## Introduction: Objective",
                      methodprotoeli = "## Methods: Eligibility Criteria",
@@ -754,6 +754,7 @@ tab7 <-  shinydashboard::tabItem(tabName = "network",
   
 )
 
+app <- shiny::shinyApp(
 ui <- shinydashboard::dashboardPage(skin = "purple",
                     header,
                     sidebar,
@@ -767,7 +768,7 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
                       tab5,
                       tab6,
                       tab7
-                    )))
+                    ))),
 
 
 server <- function(input, output, session) {
@@ -1681,8 +1682,10 @@ server <- function(input, output, session) {
       
     }
     
-     
+    session$onSessionEnded(shiny::stopApp)    
 }
+)
 
-shiny::shinyApp(ui, server)
+shiny::runApp(app, launch.browser = TRUE)
+
 }
