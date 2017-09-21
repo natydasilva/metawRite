@@ -42,7 +42,7 @@ upreportdashoard <-
 
     }
 
-    if(initialprotocol == FALSE & clearproto==TRUE){
+    if(initialprotocol == FALSE & clearproto == TRUE){
         filenames <- sort(dir("tools"),TRUE)
         #filter only with pr
         auxpr <-substr(filenames, 1,2) == "pr"
@@ -69,7 +69,7 @@ upreportdashoard <-
                 methodsyn = '## Methods: Synthesis of Results ',
                 methodriskst = '## Methods: Risk of Bias Across Studies',
                 methodstud = '## Methods: Additional Analysis ',
-                #methodadd = '## Methods: Additional Analysis',
+                #methodadd = '# Methods: Additional Analysis',
                 resultstsel = '## Results: Study Selection ',
                 resultstch = '## Results: Study Characteristics',
                 resultrkbist = '## Results: Risk of Bias Within Studies',
@@ -362,6 +362,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
 
 
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
+                shiny::actionButton("saveproto", "Save protocol", class = "btn-primary"),
                   shiny::downloadButton(outputId='downproto', label="Download")
                   #shiny::uiOutput("buttreset")
 
@@ -696,6 +697,7 @@ tab5 <- shinydashboard::tabItem(tabName = "report",
     ),
 
     shiny::actionButton("submit", "Submit", class = "btn-primary"),
+  shiny::actionButton("save", "Save report", class = "btn-primary"),
     shiny::downloadButton('download')
   ), shiny::fluidRow(shiny::column(
     8,
@@ -998,6 +1000,38 @@ server <- function(input, output, session) {
     })
 
 
+    # action to take when save protocol button is pressed
+    
+    shiny::observeEvent(input$saveproto, {
+      
+      # Save the new information in  the report  in a txt with name = date and time
+      saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
+      saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
+      saveData(registration(), protoaux[[3]], proto = TRUE)
+      saveData(authorcontact(), protoaux[[4]], proto = TRUE)
+      saveData(authorcontri(), protoaux[[5]], proto = TRUE)
+      saveData(amendments(), protoaux[[6]], proto = TRUE)
+      saveData(supportsorce(), protoaux[[7]], proto = TRUE)
+      saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
+      saveData(supportrole(), protoaux[[9]], proto = TRUE)
+      saveData(introprotorat(), protoaux[[10]], proto = TRUE)
+      saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
+      saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
+      saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
+      saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
+      saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
+      saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
+      saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
+      saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
+      saveData(methodprotout(), protoaux[[19]], proto=TRUE)
+      saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
+      saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
+      saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
+      saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
+      
+      
+    })
+    
     # action to take when write new report in each textAreaInput
 
     shiny::observeEvent(input$updateproto,{
@@ -1437,6 +1471,42 @@ server <- function(input, output, session) {
       shinyjs::show("thankyou_msg")
     })
 
+    # action to take when save report button is pressed
+    
+    shiny::observeEvent(input$save, {
+      
+      # Save the new information in  the report  in a txt with name = date and time
+      saveData(title(), ccaux[[1]], proto = FALSE)
+      saveData(abstract(), ccaux[[2]], proto = FALSE)
+      saveData(introductionrat(), ccaux[[3]], proto = FALSE)
+      saveData(introductionobj(), ccaux[[4]], proto = FALSE)
+      saveData(methodprotoreg(), ccaux[[5]], proto = FALSE)
+      saveData(methodeli(), ccaux[[6]], proto = FALSE)
+      saveData(methodinfo(), ccaux[[7]], proto = FALSE)
+      saveData(methodsearch(), ccaux[[8]], proto = FALSE)
+      saveData(methodselec(), ccaux[[9]], proto = FALSE)
+      saveData(methoddatacol(), ccaux[[10]], proto = FALSE)
+      saveData(methoddatait(), ccaux[[11]], proto = FALSE)
+      saveData(methodrisk(), ccaux[[12]], proto = FALSE)
+      saveData(methodsumm(), ccaux[[13]], proto = FALSE)
+      saveData(methodsyn(), ccaux[[14]], proto = FALSE)
+      saveData(methodriskst(), ccaux[[15]], proto = FALSE)
+      saveData(methodstud(), ccaux[[16]], proto = FALSE)
+      # saveData(methodadd(), ccaux[[17]], proto = FALSE)
+      saveData(resultstsel(), ccaux[[17]], proto = FALSE)
+      saveData(resultstch(), ccaux[[18]], proto = FALSE)
+      saveData(resultrkbist(), ccaux[[19]], proto = FALSE)
+      saveData(resultsyres(), ccaux[[20]], proto = FALSE)
+      saveData(resultrkbi(), ccaux[[21]], proto = FALSE)
+      saveData(resultaa(), ccaux[[22]], proto = FALSE)
+      saveData(discussionsumev(), ccaux[[23]], proto = FALSE)
+      saveData(discussionlimi(), ccaux[[24]], proto = FALSE)
+      saveData(discussionconc(), ccaux[[25]], proto = FALSE)
+      saveData(funding(), ccaux[[26]], proto =FALSE)
+      
+  
+    })
+    
 
     # action to take when write new report in each textAreaInput
 
