@@ -17,8 +17,8 @@
 #'\dontrun{
 #'
 #' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
-#' net = FALSE, data = NULL,outputformat = "pdf", clearproto =FALSE)  
-#' 
+#' net = FALSE, data = NULL,outputformat = "pdf", clearproto =FALSE)
+#'
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
 #'   net = FALSE, data = modstrMTCdata,outputformat = "pdf")
 #'
@@ -149,7 +149,7 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                                     href="http://www.prisma-statement.org/documents/PRISMA-P-checklist.pdf"))
                   ),
                   shiny::fluidRow(
-                    shiny::helpText("This form is an R Markdown, then you should use specific R Markdown syntax" ,
+                    shiny::helpText("This form is an R Markdown, you should use R Markdown syntax for editing" ,
                                     shiny::a("R Markdown  Cheat Sheet", href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf"))
                 ),
                   shiny::fluidRow(shiny::column(
@@ -1001,9 +1001,9 @@ server <- function(input, output, session) {
 
 
     # action to take when save protocol button is pressed
-    
+
     shiny::observeEvent(input$saveproto, {
-      
+
       # Save the new information in  the report  in a txt with name = date and time
       saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
       saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
@@ -1028,11 +1028,11 @@ server <- function(input, output, session) {
       saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
       saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
       saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
-      
-      
+
+
     })
-    
-    # action to take when write new report in each textAreaInput
+
+    # action to take when writing a new report in each textAreaInput
 
     shiny::observeEvent(input$updateproto,{
       x <- input$updateproto
@@ -1472,9 +1472,9 @@ server <- function(input, output, session) {
     })
 
     # action to take when save report button is pressed
-    
+
     shiny::observeEvent(input$save, {
-      
+
       # Save the new information in  the report  in a txt with name = date and time
       saveData(title(), ccaux[[1]], proto = FALSE)
       saveData(abstract(), ccaux[[2]], proto = FALSE)
@@ -1503,10 +1503,10 @@ server <- function(input, output, session) {
       saveData(discussionlimi(), ccaux[[24]], proto = FALSE)
       saveData(discussionconc(), ccaux[[25]], proto = FALSE)
       saveData(funding(), ccaux[[26]], proto =FALSE)
-      
-  
+
+
     })
-    
+
 
     # action to take when write new report in each textAreaInput
 
@@ -1541,7 +1541,7 @@ server <- function(input, output, session) {
       fundingPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
 
       #paste(readLines(titleprotoidentPath), collapse = '\n')
-
+browser()
       titleUpdate <- paste(readLines(titlePath), collapse = '\n')
       abstractUpdate <- paste(readLines(abstractPath), collapse = '\n')
       introductionratUpdate <- paste(readLines(introductionratPath), collapse = '\n')
@@ -1752,8 +1752,8 @@ server <- function(input, output, session) {
 
     }
 
-    
-    session$onSessionEnded(shiny::stopApp)    
+
+    session$onSessionEnded(shiny::stopApp)
 
 }
 )
