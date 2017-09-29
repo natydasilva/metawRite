@@ -16,9 +16,8 @@
 #' @examples
 #'\dontrun{
 #'
-#' upreportdashoard(initialprotocol = TRUE, initialreport = TRUE,pair =FALSE,
+#' upreportdashoard(initialprotocol = FALSE, initialreport = TRUE,pair =FALSE,
 #' net = FALSE, data = NULL,outputformat = "pdf", clearproto =FALSE)  
-#' 
 #'  upreportdashoard(initialprotocol = TRUE, initialreport = TRUE, pair =TRUE,
 #'   net = FALSE, data = modstrMTCdata,outputformat = "pdf")
 #'
