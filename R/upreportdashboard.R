@@ -778,70 +778,6 @@ server <- function(input, output, session) {
     #   TAB 1 #
     ###########
 
-    responsesDir <- file.path("tools")
-    if(outputformat=="word"){
-      outputformataux <- "docx"
-    filenameout <- paste("myprotocol",".", outputformataux, sep = "")
-    }else{
-      filenameout <- paste("myprotocol", ".", outputformat, sep = "")
-    }
-
-     # if(outputformat=="Rmd"){
-     #   outputformataux <- "Rmd" # to fix
-     # filenameout <- paste("myprotocol",sep = "")
-     #
-
-    output$downproto = shiny::downloadHandler(
-      filename = filenameout,
-
-      content = function(file){
-
-        tmp <- system.file(package = "metawRite")
-
-        tempReport <- file.path(tmp,"inputpr2.Rmd")
-        file.copy(file.path(tmp, "inputpr.Rmd"), tempReport, overwrite = TRUE)
-        dir <- system.file(package="metawRite")
-
-        #xx <- stringr::str_split(input$titleproto)
-
-        writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
-        writeLines(input$titleprotoup, con = file.path(dir, "_titleprotoup.Rmd"), sep = "\n")
-        writeLines(input$registration, con = file.path(dir, "_registration.Rmd"), sep = "\n")
-        writeLines(input$authorcontact, con = file.path(dir, "_authorcontact.Rmd"),sep = "\n")
-        writeLines(input$authorcontri, con = file.path(dir, "_authorcontri.Rmd"),sep = "\n")
-        writeLines(input$amendments, con = file.path(dir, "_amendments.Rmd"),sep = "\n")
-        writeLines(input$supportsorce, con = file.path(dir, "_supportsorce.Rmd"),sep = "\n")
-        writeLines(input$supportsponsor, con = file.path(dir, "_supportsponsor.Rmd"),sep = "\n")
-        writeLines(input$supportrole, con = file.path(dir, "_supportrole.Rmd"),sep = "\n")
-        writeLines(input$introprotorat, con = file.path(dir, "_introprotorat.Rmd"),sep = "\n")
-        writeLines(input$introprotoobj, con = file.path(dir, "_introprotoobj.Rmd"),sep = "\n")
-        writeLines(input$methodprotoeli, con = file.path(dir, "_methodprotoeli.Rmd"),sep = "\n")
-        writeLines(input$methodprotoinfo, con = file.path(dir, "_methodprotoinfo.Rmd"),sep = "\n")
-        writeLines(input$methodprotosear, con = file.path(dir, "_methodprotosear.Rmd"),sep = "\n")
-        writeLines(input$methodprotodataman, con = file.path(dir, "_methodprotodataman.Rmd"),sep = "\n")
-        writeLines(input$methodprotosele, con = file.path(dir, "_methodprotosele.Rmd"),sep = "\n")
-        writeLines(input$methodprotodatacol, con = file.path(dir, "_methodprotodatacol.Rmd"),sep = "\n")
-        writeLines(input$methodprotodatait, con = file.path(dir, "_methodprotodatait.Rmd"),sep = "\n")
-        writeLines(input$methodprotout, con = file.path(dir, "_methodprotout.Rmd"),sep = "\n")
-        writeLines(input$methodprotorisk, con = file.path(dir, "_methodprotorisk.Rmd"),sep = "\n")
-        writeLines(input$methodprotodatasy, con = file.path(dir, "_methodprotodatasy.Rmd"),sep = "\n")
-        writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
-        writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
-
-          # if(outputformat !="Rmd"){
-        outform <- paste(outputformat, "_","document", sep = "")
-         out <- rmarkdown::render(input = tempReport,output_format = outform,
-                               clean = TRUE)
-
-
-        file.rename(out, file) # move pdf to file for downloading
-        # }else{
-        #   file.rename(tempReport, file)
-        # }
-      }
-
-    )
-
     #Make reactive the new information in the report
 
     titleprotoident <- shiny::reactive({
@@ -1031,7 +967,8 @@ server <- function(input, output, session) {
 
     })
 
-    # action to take when writing a new report in each textAreaInput
+  
+    # action to take when writing a new protocol in each textAreaInput
 
     shiny::observeEvent(input$updateproto,{
       x <- input$updateproto
@@ -1213,6 +1150,93 @@ server <- function(input, output, session) {
       #   actionButton("buttreset", "Keep only latest version")
       # })
     }
+    
+    
+    responsesDir <- file.path("tools")
+    if(outputformat=="word"){
+      outputformataux <- "docx"
+      filenameout <- paste("myprotocol",".", outputformataux, sep = "")
+    }else{
+      filenameout <- paste("myprotocol", ".", outputformat, sep = "")
+    }
+    
+    
+    
+    output$downproto = shiny::downloadHandler(
+      filename = filenameout,
+      
+      content = function(file){
+        
+        tmp <- system.file(package = "metawRite")
+        
+        tempReport <- file.path(tmp,"inputpr2.Rmd")
+        file.copy(file.path(tmp, "inputpr.Rmd"), tempReport, overwrite = TRUE)
+        dir <- system.file(package="metawRite")
+        
+        #xx <- stringr::str_split(input$titleproto)
+        saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
+        saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
+        saveData(registration(), protoaux[[3]], proto = TRUE)
+        saveData(authorcontact(), protoaux[[4]], proto = TRUE)
+        saveData(authorcontri(), protoaux[[5]], proto = TRUE)
+        saveData(amendments(), protoaux[[6]], proto = TRUE)
+        saveData(supportsorce(), protoaux[[7]], proto = TRUE)
+        saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
+        saveData(supportrole(), protoaux[[9]], proto = TRUE)
+        saveData(introprotorat(), protoaux[[10]], proto = TRUE)
+        saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
+        saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
+        saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
+        saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
+        saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
+        saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
+        saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
+        saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
+        saveData(methodprotout(), protoaux[[19]], proto=TRUE)
+        saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
+        saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
+        saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
+        saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
+        
+        
+        writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
+        writeLines(input$titleprotoup, con = file.path(dir, "_titleprotoup.Rmd"), sep = "\n")
+        writeLines(input$registration, con = file.path(dir, "_registration.Rmd"), sep = "\n")
+        writeLines(input$authorcontact, con = file.path(dir, "_authorcontact.Rmd"),sep = "\n")
+        writeLines(input$authorcontri, con = file.path(dir, "_authorcontri.Rmd"),sep = "\n")
+        writeLines(input$amendments, con = file.path(dir, "_amendments.Rmd"),sep = "\n")
+        writeLines(input$supportsorce, con = file.path(dir, "_supportsorce.Rmd"),sep = "\n")
+        writeLines(input$supportsponsor, con = file.path(dir, "_supportsponsor.Rmd"),sep = "\n")
+        writeLines(input$supportrole, con = file.path(dir, "_supportrole.Rmd"),sep = "\n")
+        writeLines(input$introprotorat, con = file.path(dir, "_introprotorat.Rmd"),sep = "\n")
+        writeLines(input$introprotoobj, con = file.path(dir, "_introprotoobj.Rmd"),sep = "\n")
+        writeLines(input$methodprotoeli, con = file.path(dir, "_methodprotoeli.Rmd"),sep = "\n")
+        writeLines(input$methodprotoinfo, con = file.path(dir, "_methodprotoinfo.Rmd"),sep = "\n")
+        writeLines(input$methodprotosear, con = file.path(dir, "_methodprotosear.Rmd"),sep = "\n")
+        writeLines(input$methodprotodataman, con = file.path(dir, "_methodprotodataman.Rmd"),sep = "\n")
+        writeLines(input$methodprotosele, con = file.path(dir, "_methodprotosele.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatacol, con = file.path(dir, "_methodprotodatacol.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatait, con = file.path(dir, "_methodprotodatait.Rmd"),sep = "\n")
+        writeLines(input$methodprotout, con = file.path(dir, "_methodprotout.Rmd"),sep = "\n")
+        writeLines(input$methodprotorisk, con = file.path(dir, "_methodprotorisk.Rmd"),sep = "\n")
+        writeLines(input$methodprotodatasy, con = file.path(dir, "_methodprotodatasy.Rmd"),sep = "\n")
+        writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
+        writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
+        
+        # if(outputformat !="Rmd"){
+        outform <- paste(outputformat, "_","document", sep = "")
+        out <- rmarkdown::render(input = tempReport,output_format = outform,
+                                 clean = TRUE)
+        
+        
+        file.rename(out, file) # move pdf to file for downloading
+        # }else{
+        #   file.rename(tempReport, file)
+        # }
+      }
+      
+    )
+    
 
 
     ###############
@@ -1293,7 +1317,8 @@ server <- function(input, output, session) {
         tempReport <- file.path(tmp,"input2.Rmd")
         file.copy(file.path(tmp, "input.Rmd"), tempReport, overwrite = TRUE)
         dir <- system.file(package = "metawRite")
-
+        
+        
         writeLines(input$title, con = file.path(dir, "_title.Rmd"))
         writeLines(input$abstract, con = file.path(dir, "_abstract.Rmd"))
         writeLines(input$introductionrat, con = file.path(dir, "_introductionrat.Rmd"))
@@ -1530,8 +1555,8 @@ server <- function(input, output, session) {
     })
 
     # helper function for reading files
-    read_and_check <- function(x, ccaux, path="tools") {
-      path <- file.path(paste("tools/",x,ccaux,".txt", sep=""))
+    read_and_check <- function(x, ccaux, path = "tools") {
+      path <- file.path(paste("tools/", x, ccaux,".txt", sep = ""))
       if (!file.exists(path)) {
         txt <- "File not found.\n"
       } else {
@@ -1545,33 +1570,33 @@ server <- function(input, output, session) {
     shiny::observeEvent(input$update,{
       x <- input$update
 
-      titlePath <- file.path(paste("tools/",x,ccaux[[1]],".txt", sep=""))
-      abstractPath <- file.path(paste("tools/",x,ccaux[[2]],".txt", sep=""))
-      introductionratPath <- file.path(paste("tools/",x,ccaux[[3]],".txt", sep=""))
-      introductionobjPath <- file.path(paste("tools/",x,ccaux[[4]],".txt", sep=""))
-      methodprotoregPath <- file.path(paste("tools/",x,ccaux[[5]],".txt", sep=""))
-      methodeliPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
-      methodinfoPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
-      methodsearchPath <- file.path(paste("tools/",x,ccaux[[8]],".txt", sep=""))
-      methodselecPath <- file.path(paste("tools/",x,ccaux[[9]],".txt", sep=""))
-      methoddatacolPath <- file.path(paste("tools/",x,ccaux[[10]],".txt", sep=""))
-      methoddataitPath <- file.path(paste("tools/",x,ccaux[[11]],".txt", sep=""))
-      methodriskPath <- file.path(paste("tools/",x,ccaux[[12]],".txt", sep=""))
-      methodsummPath <- file.path(paste("tools/",x,ccaux[[13]],".txt", sep=""))
-      methodsynPath <- file.path(paste("tools/",x,ccaux[[14]],".txt", sep=""))
-      methodriskstPath <- file.path(paste("tools/",x,ccaux[[15]],".txt", sep=""))
-      methodstudPath <- file.path(paste("tools/",x,ccaux[[16]],".txt", sep=""))
-      #methodaddPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
-      resultstselPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
-      resultstchPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
-      resultrkbistPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
-      resultsyresPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
-      resultrkbiPath <- file.path(paste("tools/",x,ccaux[[21]],".txt", sep=""))
-      resultaaPath <- file.path(paste("tools/",x,ccaux[[22]],".txt", sep=""))
-      discussionsumevPath <- file.path(paste("tools/",x,ccaux[[23]],".txt", sep=""))
-      discussionlimiPath <- file.path(paste("tools/",x,ccaux[[24]],".txt", sep=""))
-      discussionconcPath <- file.path(paste("tools/",x,ccaux[[25]],".txt", sep=""))
-      fundingPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
+      # titlePath <- file.path(paste("tools/",x,ccaux[[1]],".txt", sep=""))
+      # abstractPath <- file.path(paste("tools/",x,ccaux[[2]],".txt", sep=""))
+      # introductionratPath <- file.path(paste("tools/",x,ccaux[[3]],".txt", sep=""))
+      # introductionobjPath <- file.path(paste("tools/",x,ccaux[[4]],".txt", sep=""))
+      # methodprotoregPath <- file.path(paste("tools/",x,ccaux[[5]],".txt", sep=""))
+      # methodeliPath <- file.path(paste("tools/",x,ccaux[[6]],".txt", sep=""))
+      # methodinfoPath <- file.path(paste("tools/",x,ccaux[[7]],".txt", sep=""))
+      # methodsearchPath <- file.path(paste("tools/",x,ccaux[[8]],".txt", sep=""))
+      # methodselecPath <- file.path(paste("tools/",x,ccaux[[9]],".txt", sep=""))
+      # methoddatacolPath <- file.path(paste("tools/",x,ccaux[[10]],".txt", sep=""))
+      # methoddataitPath <- file.path(paste("tools/",x,ccaux[[11]],".txt", sep=""))
+      # methodriskPath <- file.path(paste("tools/",x,ccaux[[12]],".txt", sep=""))
+      # methodsummPath <- file.path(paste("tools/",x,ccaux[[13]],".txt", sep=""))
+      # methodsynPath <- file.path(paste("tools/",x,ccaux[[14]],".txt", sep=""))
+      # methodriskstPath <- file.path(paste("tools/",x,ccaux[[15]],".txt", sep=""))
+      # methodstudPath <- file.path(paste("tools/",x,ccaux[[16]],".txt", sep=""))
+      # #methodaddPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
+      # resultstselPath <- file.path(paste("tools/",x,ccaux[[17]],".txt", sep=""))
+      # resultstchPath <- file.path(paste("tools/",x,ccaux[[18]],".txt", sep=""))
+      # resultrkbistPath <- file.path(paste("tools/",x,ccaux[[19]],".txt", sep=""))
+      # resultsyresPath <- file.path(paste("tools/",x,ccaux[[20]],".txt", sep=""))
+      # resultrkbiPath <- file.path(paste("tools/",x,ccaux[[21]],".txt", sep=""))
+      # resultaaPath <- file.path(paste("tools/",x,ccaux[[22]],".txt", sep=""))
+      # discussionsumevPath <- file.path(paste("tools/",x,ccaux[[23]],".txt", sep=""))
+      # discussionlimiPath <- file.path(paste("tools/",x,ccaux[[24]],".txt", sep=""))
+      # discussionconcPath <- file.path(paste("tools/",x,ccaux[[25]],".txt", sep=""))
+      # fundingPath <- file.path(paste("tools/",x,ccaux[[26]],".txt", sep=""))
 
       #paste(readLines(titleprotoidentPath), collapse = '\n')
 

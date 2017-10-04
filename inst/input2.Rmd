@@ -2,7 +2,7 @@
 title: "LSR-Report"
 output:
   pdf_document:
-    #toc: true
+    toc: true
     number_sections: true
 # params:
 #   n: NA
@@ -21,51 +21,73 @@ output:
 
 ```{r child='_introductionrat.Rmd'}
 ```
+
 ```{r child='_introductionobj.Rmd'}
 ```
+
 ```{r child='_methodprotoreg.Rmd'}
 ```
+
 ```{r child='_methodeli.Rmd'}
 ```
+
 ```{r child='_methodinfo.Rmd'}
 ```
+
 ```{r child='_methodsearch.Rmd'}
 ```  
+
 ```{r child='_methodselec.Rmd'}
 ```   
+
 ```{r child='_methoddatacol.Rmd'}
 ```
+
 ```{r child='_methoddatait.Rmd'}
 ```
+
 ```{r child='_methodrisk.Rmd'}
 ```
+
 ```{r child='_methodsumm.Rmd'}
 ```
+
 ```{r child='_methodsyn.Rmd'}
 ```
+
 ```{r child='_methodriskst.Rmd'}
 ``` 
+
 ```{r child='_methodstud.Rmd'}
 ```  
 
 ```{r child='_resultstsel.Rmd'}
 ```
+
 ```{r child='_resultstch.Rmd'}
 ```
+
 ```{r child='_resultrkbist.Rmd'}
 ```
+
 ```{r child='_resultsyres.Rmd'}
 ```
+
 ```{r child='_resultrkbi.Rmd'}
 ```
+
 ```{r child='_resultaa.Rmd'}
 ```
+
 ```{r child='_discussionsumev.Rmd'}
 ``` 
+
 ```{r child='_discussionlimi.Rmd'}
 ``` 
+
 ```{r child='_discussionconc.Rmd'}
 ```                 
+
 ```{r child='_funding.Rmd'}
 ```
 

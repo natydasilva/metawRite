@@ -1,9 +1,11 @@
 ---
 title: "Protocol"
+bibliography: bibliography.bib
 output:
-  pdf_document:
-    #toc: true
-    number_sections: true
+pdf_document:
+    # toc: true
+  number_sections: true
+    
 # params:
 #   n: NA
 ---
