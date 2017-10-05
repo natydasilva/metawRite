@@ -1223,16 +1223,18 @@ server <- function(input, output, session) {
         writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
         writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
         
-        # if(outputformat !="Rmd"){
+       
         outform <- paste(outputformat, "_","document", sep = "")
+         if(outputformat=="Rmd"){
+           out = tempReport
+        }else{
+        
         out <- rmarkdown::render(input = tempReport,output_format = outform,
                                  clean = TRUE)
         
-        
+         }
         file.rename(out, file) # move pdf to file for downloading
-        # }else{
-        #   file.rename(tempReport, file)
-        # }
+      
       }
       
     )
@@ -1349,6 +1351,7 @@ server <- function(input, output, session) {
         outform <- paste(outputformat, "_","document",sep = "")
         out = rmarkdown::render(input = tempReport,output_format = outform,
                                 clean = TRUE)
+      
         file.rename(out, file) # move pdf to file for downloading
       }
 
