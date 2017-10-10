@@ -103,7 +103,8 @@ upreportdashoard <-
                      methodprotorisk = "## Methods:Risk of Bias in Individual Studies Meta Bias",
                      methodprotodatasy = "## Methods: Data Synthesis",
                      methodprotometa = "## Methods: Meta Bias",
-                     methodprotoconfi = "## Methods: Confidence in Cumulatice Evidence"
+                     methodprotoconfi = "## Methods: Confidence in Cumulatice Evidence",
+                     bibproto=""
                      )
 
 
@@ -128,21 +129,6 @@ sidebar <-  shinydashboard::dashboardSidebar(
  dir <- system.file(package = "metawRite")
  
 
-biblio <- list.files( file.path(tmp), pattern = "\\.bib$")
-
-if(length(biblio) < 1 ){
-  file.create(file =  paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
-  biblio <- list.files( file.path(tmp), pattern = "\\.bib$") 
-}
-if(length(biblio) > 1 ) {
-  shiny::stopApp("More than one .bib file, pelase check")
-}else{
- 
-   if(biblio!="bibliography.bib") {
-     file.rename(from = paste(file.path(tmp),"/",biblio, sep=""), to =
-                   paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
-   }
-    }
 
 #Package motivation
 tab1 <-
@@ -375,6 +361,15 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       width = "900px",
                       value = protocol$methodprotoconfi, resize ="vertical")
                   )),
+                shiny::fluidRow(shiny::column(
+                  8,
+                  shiny::textAreaInput(
+                    'bibproto',
+                    'Bibliography',
+                    rows = 5,
+                    width = "900px",
+                    value = protocol$bibproto, resize ="vertical")
+                )), 
 
 
                   shiny::actionButton("submitproto", "Submit protocol", class = "btn-primary"),
@@ -791,6 +786,69 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
 
 server <- function(input, output, session) {
 
+  
+  
+  tmp <- system.file(package = "metawRite")
+  biblio <- list.files( file.path(tmp), pattern = "\\.bib$")
+  
+  if(length(biblio) < 1 ){
+    file.create(file =  paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
+    biblio <- list.files( file.path(tmp), pattern = "\\.bib$") 
+  }
+  if(length(biblio) > 1 ) {
+    shiny::stopApp("More than one .bib file, pelase check")
+  }else{
+    
+    if(biblio!="bibliography.bib") {
+      file.rename(from = paste(file.path(tmp),"/",biblio, sep=""), to =
+                    paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
+    }
+  }
+  
+  saveBib <- function(data) {
+    
+    fileName <- biblio
+    fileConn <- file(fileName)
+    writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
+    close(fileConn)
+  }
+  
+  
+  
+  Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+  protoaux <- list("titleprotoident", "titleprotoup", "registration", "authorcontact",
+                   "authorcontri", "amendments", "supportsorce", "supportsponsor",
+                   "supportrole", "introprotorat", "introprotoobj", "methodprotoeli",
+                   "methodprotoinfo" ,"methodprotosear","methodprotodataman",
+                   "methodprotosele" ,"methodprotodatacol","methodprotodatait",
+                   "methodprotout","methodprotorisk","methodprotodatasy",
+                   "methodprotometa","methodprotoconfi", "bibproto" )
+  
+  
+  
+  saveData <- function(data, proto = TRUE){
+    if(length(data[[2]] > 0)){
+      if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
+      if(proto){
+        fileName <- paste("tools/","pr",Time(),data[[1]],".txt", sep = "")
+      }else{
+        fileName <- paste("tools/",Time(),data[[1]],".txt", sep = "")
+      }
+      fileConn <- file(fileName)
+      writeLines(data[[2]], fileConn, sep = "\n")
+      close(fileConn)
+    }else{
+      fileName <- paste("tools/", Time(), data[[1]], ".txt", sep = "")
+      fileConn <- file(fileName)
+      writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
+      close(fileConn)
+      
+    }
+    
+  }
+  
+  
+  
     ###########
     #   TAB 1 #
     ###########
@@ -885,66 +943,41 @@ server <- function(input, output, session) {
       list("methodprotoconfi", input$methodprotoconfi)
     })
 
+    bibproto <- shiny::reactive({
+      list("bibproto", input$bibproto)
+    })
 
-    Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-    protoaux <- list("titleprotoident", "titleprotoup", "registration", "authorcontact",
-                     "authorcontri", "amendments", "supportsorce", "supportsponsor",
-                     "supportrole", "introprotorat", "introprotoobj", "methodprotoeli",
-                     "methodprotoinfo" ,"methodprotosear","methodprotodataman",
-                     "methodprotosele" ,"methodprotodatacol","methodprotodatait",
-                     "methodprotout","methodprotorisk","methodprotodatasy",
-                     "methodprotometa","methodprotoconfi" )
-
-    saveData <- function(data,cc,proto=TRUE) {
-      if(length(data[[2]] > 0)){
-        if(!file.exists("tools")) system(sprintf("mkdir %s", "tools"))
-        if(proto){
-          fileName <- paste("tools/","pr",Time(),data[[1]],".txt", sep="")
-        }else{
-          fileName <- paste("tools/",Time(),data[[1]],".txt", sep="")
-        }
-        fileConn <- file(fileName)
-        writeLines(data[[2]], fileConn, sep="\n")
-        close(fileConn)
-      }else{
-        fileName <- paste("tools/",Time(),cc,".txt", sep="")
-        fileConn <- file(fileName)
-        writeLines(input$noquote(cc), fileConn, sep = "\n")
-        close(fileConn)
-
-      }
-
-    }
+   
 
     # action to take when submit button is pressed
 
     shiny::observeEvent(input$submitproto, {
 
       # Save the new information in  the report  in a txt with name = date and time
-      saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
-      saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
-      saveData(registration(), protoaux[[3]], proto = TRUE)
-      saveData(authorcontact(), protoaux[[4]], proto = TRUE)
-      saveData(authorcontri(), protoaux[[5]], proto = TRUE)
-      saveData(amendments(), protoaux[[6]], proto = TRUE)
-      saveData(supportsorce(), protoaux[[7]], proto = TRUE)
-      saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
-      saveData(supportrole(), protoaux[[9]], proto = TRUE)
-      saveData(introprotorat(), protoaux[[10]], proto = TRUE)
-      saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
-      saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
-      saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
-      saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
-      saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
-      saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
-      saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
-      saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
-      saveData(methodprotout(), protoaux[[19]], proto=TRUE)
-      saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
-      saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
-      saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
-      saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
-
+      saveData(titleprotoident() )
+      saveData(titleprotoup())
+      saveData(registration())
+      saveData(authorcontact())
+      saveData(authorcontri())
+      saveData(amendments() )
+      saveData(supportsorce())
+      saveData(supportsponsor())
+      saveData(supportrole())
+      saveData(introprotorat() )
+      saveData(introprotoobj())
+      saveData(methodprotoeli())
+      saveData(methodprotoinfo())
+      saveData(methodprotosear())
+      saveData(methodprotodataman())
+      saveData(methodprotosele())
+      saveData(methodprotodatacol())
+      saveData(methodprotodatait())
+      saveData(methodprotout())
+      saveData(methodprotorisk())
+      saveData(methodprotodatasy() )
+      saveData(methodprotometa())
+      saveData(methodprotoconfi() )
+      #saveBib(bibproto())
 
       shinyjs::reset("formproto")
       shinyjs::hide("formproto")
@@ -957,31 +990,30 @@ server <- function(input, output, session) {
     shiny::observeEvent(input$saveproto, {
 
       # Save the new information in  the report  in a txt with name = date and time
-      saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
-      saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
-      saveData(registration(), protoaux[[3]], proto = TRUE)
-      saveData(authorcontact(), protoaux[[4]], proto = TRUE)
-      saveData(authorcontri(), protoaux[[5]], proto = TRUE)
-      saveData(amendments(), protoaux[[6]], proto = TRUE)
-      saveData(supportsorce(), protoaux[[7]], proto = TRUE)
-      saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
-      saveData(supportrole(), protoaux[[9]], proto = TRUE)
-      saveData(introprotorat(), protoaux[[10]], proto = TRUE)
-      saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
-      saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
-      saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
-      saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
-      saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
-      saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
-      saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
-      saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
-      saveData(methodprotout(), protoaux[[19]], proto=TRUE)
-      saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
-      saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
-      saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
-      saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
-
-
+      saveData(titleprotoident())
+      saveData(titleprotoup())
+      saveData(registration())
+      saveData(authorcontact())
+      saveData(authorcontri())
+      saveData(amendments())
+      saveData(supportsorce())
+      saveData(supportsponsor())
+      saveData(supportrole())
+      saveData(introprotorat())
+      saveData(introprotoobj())
+      saveData(methodprotoeli())
+      saveData(methodprotoinfo())
+      saveData(methodprotosear() )
+      saveData(methodprotodataman() )
+      saveData(methodprotosele())
+      saveData(methodprotodatacol())
+      saveData(methodprotodatait() )
+      saveData(methodprotout() )
+      saveData(methodprotorisk() )
+      saveData(methodprotodatasy())
+      saveData(methodprotometa())
+      saveData(methodprotoconfi())
+      #saveBib(bibproto())
     })
 
   
@@ -1187,29 +1219,30 @@ server <- function(input, output, session) {
         dir <- system.file(package="metawRite")
         
         #xx <- stringr::str_split(input$titleproto)
-        saveData(titleprotoident(), protoaux[[1]], proto = TRUE)
-        saveData(titleprotoup(), protoaux[[2]], proto = TRUE)
-        saveData(registration(), protoaux[[3]], proto = TRUE)
-        saveData(authorcontact(), protoaux[[4]], proto = TRUE)
-        saveData(authorcontri(), protoaux[[5]], proto = TRUE)
-        saveData(amendments(), protoaux[[6]], proto = TRUE)
-        saveData(supportsorce(), protoaux[[7]], proto = TRUE)
-        saveData(supportsponsor(), protoaux[[8]], proto = TRUE)
-        saveData(supportrole(), protoaux[[9]], proto = TRUE)
-        saveData(introprotorat(), protoaux[[10]], proto = TRUE)
-        saveData(introprotoobj(), protoaux[[11]], proto = TRUE)
-        saveData(methodprotoeli(), protoaux[[12]], proto=TRUE)
-        saveData(methodprotoinfo(), protoaux[[13]], proto=TRUE)
-        saveData(methodprotosear(), protoaux[[14]], proto=TRUE)
-        saveData(methodprotodataman(), protoaux[[15]], proto=TRUE)
-        saveData(methodprotosele(), protoaux[[16]], proto=TRUE)
-        saveData(methodprotodatacol(), protoaux[[17]], proto=TRUE)
-        saveData(methodprotodatait(), protoaux[[18]], proto=TRUE)
-        saveData(methodprotout(), protoaux[[19]], proto=TRUE)
-        saveData(methodprotorisk(), protoaux[[20]], proto=TRUE)
-        saveData(methodprotodatasy(), protoaux[[21]], proto=TRUE)
-        saveData(methodprotometa(), protoaux[[22]], proto=TRUE)
-        saveData(methodprotoconfi(), protoaux[[23]], proto=TRUE)
+        saveData(titleprotoident())
+        saveData(titleprotoup())
+        saveData(registration())
+        saveData(authorcontact())
+        saveData(authorcontri())
+        saveData(amendments())
+        saveData(supportsorce())
+        saveData(supportsponsor())
+        saveData(supportrole())
+        saveData(introprotorat())
+        saveData(introprotoobj())
+        saveData(methodprotoeli())
+        saveData(methodprotoinfo())
+        saveData(methodprotosear())
+        saveData(methodprotodataman())
+        saveData(methodprotosele())
+        saveData(methodprotodatacol())
+        saveData(methodprotodatait())
+        saveData(methodprotout())
+        saveData(methodprotorisk())
+        saveData(methodprotodatasy())
+        saveData(methodprotometa())
+        saveData(methodprotoconfi())
+        #saveBib(bibproto())
         
         
         writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
