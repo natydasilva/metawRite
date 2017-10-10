@@ -44,11 +44,11 @@ upreportdashoard <-
     if(initialprotocol == FALSE & clearproto == TRUE){
         filenames <- sort(dir("tools"),TRUE)
         #filter only with pr
-        auxpr <-substr(filenames, 1,2) == "pr"
+        auxpr <-substr(filenames, 1, 2) == "pr"
         reportnamesproto <- which.max(lubridate::ymd_hms(sub("-", "", unique(substr(filenames, 3,17)[auxpr] ))))
 
         filenamesaux <-     filenames[reportnamesproto:(reportnamesproto+2)]
-        unlink(paste("tools/",setdiff(filenames,filenamesaux), sep=
+        unlink(paste("tools/", setdiff(filenames,filenamesaux), sep=
                        ""))
     }
 
@@ -126,6 +126,23 @@ sidebar <-  shinydashboard::dashboardSidebar(
  tempReport <- file.path(tmp,"motivation.Rmd")
  file.copy(file.path(tmp, "motivation2.Rmd"), tempReport, overwrite = TRUE)
  dir <- system.file(package = "metawRite")
+ 
+
+biblio <- list.files( file.path(tmp), pattern = "\\.bib$")
+
+if(length(biblio) < 1 ){
+  file.create(file =  paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
+  biblio <- list.files( file.path(tmp), pattern = "\\.bib$") 
+}
+if(length(biblio) > 1 ) {
+  shiny::stopApp("More than one .bib file, pelase check")
+}else{
+ 
+   if(biblio!="bibliography.bib") {
+     file.rename(from = paste(file.path(tmp),"/",biblio, sep=""), to =
+                   paste(file.path(tmp),"/", "bibliography.bib",sep = ""))
+   }
+    }
 
 #Package motivation
 tab1 <-
@@ -1102,9 +1119,7 @@ server <- function(input, output, session) {
 
       })
 
-      # output$buttreset <- shiny::renderUI({
-      #   actionButton("buttreset", "Keep only latest version")
-      # })
+    
 
       shiny::observeEvent(input$submit_anotherproto, {
         #shinyjs::show("buttreset")
@@ -1121,9 +1136,7 @@ server <- function(input, output, session) {
           shiny::selectInput("updateproto", "Update report", reportnamesproto)
         })
 
-        # output$buttreset <- shiny::renderUI({
-        #   actionButton("buttreset", "Keep only latest version")
-        # })
+   
       })
 
     }else{
