@@ -68,7 +68,6 @@ upreportdashoard <-
                 methodsyn = '## Methods: Synthesis of Results ',
                 methodriskst = '## Methods: Risk of Bias Across Studies',
                 methodstud = '## Methods: Additional Analysis ',
-                #methodadd = '# Methods: Additional Analysis',
                 resultstsel = '## Results: Study Selection ',
                 resultstch = '## Results: Study Characteristics',
                 resultrkbist = '## Results: Risk of Bias Within Studies',
@@ -130,13 +129,13 @@ sidebar <-  shinydashboard::dashboardSidebar(
  
 
 
-#Package motivation
+#Tab 1 Package motivation
 tab1 <-
   shinydashboard::tabItem(tabName = "welcome",
           shiny::includeMarkdown(file.path(dir, "motivation.Rmd"))
 )
 
-#Initial step in a LSR, write a protocol
+#Tab 2 Initial step in a LSR, write a protocol
 tab2 <- shinydashboard::tabItem(tabName = "protocol",
                 shinyjs::hidden(
                   shiny::div(style="display:inline-block",
@@ -370,28 +369,25 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                     width = "900px",
                     value = protocol$bibproto, resize ="vertical")
                 )), 
-
-
-                 
+   
                 shiny::actionButton("saveproto", "Save protocol", class = "btn-primary"),
-                shiny::actionButton("submitproto", "Previous versions", class = "btn-primary"),
+                #shiny::actionButton("finalversion", "Final version", class = "btn-primary"),
                   shiny::downloadButton(outputId='downproto', label="Download")
-                  #shiny::uiOutput("buttreset")
-
-                  # shiny::downloadButton(outputId="downprotornw",label="Download.Rnw")
+                
                 ),
                 shiny::fluidRow(shiny::column(8,
                                               shiny::HTML("<div style='height: 150px;'>"),
 
-                                              shiny::HTML("</div>")
-                )),
-                shinyjs::hidden(
-                  shiny::div(
-                    id = "thankyou_msgproto",
-                    shiny::h3("Your protocol was saved successfully, to see the previous versions press Latest link, keep only the latest"),
-                    shiny::actionLink("submit_anotherproto", "Latest", style='font-size:320%')
-                  )
-                )
+                                               shiny::HTML("</div>")
+                 ))
+                # ,
+                # shinyjs::hidden(
+                #   shiny::div(
+                #     id = "thankyou_msgproto",
+                #     shiny::h3("Your protocol was saved successfully, to see the previous versions press Latest link, keep only the latest"),
+                #     shiny::actionLink("submit_anotherproto", "Latest", style='font-size:320%')
+                #   )
+                # )
 )
 
 #Search module, should I include all the search only in one tab
@@ -787,36 +783,6 @@ ui <- shinydashboard::dashboardPage(skin = "purple",
 
 server <- function(input, output, session) {
 
-  
-
-
-  saveBib <- function(data) {
-    if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
-    
-    tmp <- system.file(package = "metawRite")
-    biblio <- list.files( paste("tools/", sep = ""), pattern = "\\.bib$")
-    
-    if(length(biblio) < 1 ){
-      file.create(file =  paste("tools/", "bibliography.bib",sep = ""))
-      biblio <- list.files( paste( "tools/", sep = ""), pattern = "\\.bib$") 
-    }
-    if(length(biblio) > 1 ){
-      shiny::stopApp("More than one .bib file, pelase check")
-    }else{
-      if(biblio!="bibliography.bib") {
-        file.rename(from = paste("tools/", biblio, sep=""), to =
-                      paste( "tools/", "bibliography.bib", sep = "") )
-      }
-    }
-    
-    fileName <- paste("tools/", biblio, sep="")
-    fileConn <- file(fileName)
-    writeLines(input$noquote(data), fileConn, sep = "\n")
-    close(fileConn)
-  }
-
-  
-  
   Time <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
   protoaux <- list("titleprotoident", "titleprotoup", "registration", "authorcontact",
                    "authorcontri", "amendments", "supportsorce", "supportsponsor",
@@ -849,6 +815,71 @@ server <- function(input, output, session) {
     
   }
   
+  
+  saveBib <- function(data){
+    tmp <- system.file(package = "metawRite")
+     
+    if(length(data[[2]] > 0)){
+      if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
+      biblio <- list.files( paste("tools/", sep = ""), pattern = "\\.bib$")
+      
+      if(length(biblio) < 1 ){
+        file.create(file =  paste("tools/", "bibproto.bib",sep = ""))
+        biblio <- list.files( paste( "tools/", sep = ""), pattern = "\\.bib$") 
+      }
+      if(length(biblio) > 1 ){
+        shiny::stopApp("More than one .bib file, pelase check")
+      }else{
+        if(biblio!="bibproto.bib") {
+          file.rename(from = paste("tools/", biblio, sep = ""), to =
+                        paste( "tools/", "bibproto.bib", sep = "") )
+        }else{
+          biblio <- biblio
+        }
+      }
+      
+      fileName <- paste("tools/", biblio, sep="")
+      fileConn <- file(fileName)
+      writeLines(input$noquote(data[[2]]), fileConn, sep = "\n")
+      close(fileConn)
+}else{
+      fileName <- paste("tools/", biblio, sep="")
+      fileConn <- file(fileName)
+      writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
+      close(fileConn)
+      
+    }
+    
+  }
+  
+  
+  # saveBib <- function(data) {
+  #   if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
+  #   
+  #   tmp <- system.file(package = "metawRite")
+  #   biblio <- list.files( paste("tools/", sep = ""), pattern = "\\.bib$")
+  #   
+  #   if(length(biblio) < 1 ){
+  #     file.create(file =  paste("tools/", "bibproto.bib",sep = ""))
+  #     biblio <- list.files( paste( "tools/", sep = ""), pattern = "\\.bib$") 
+  #   }
+  #   if(length(biblio) > 1 ){
+  #     shiny::stopApp("More than one .bib file, pelase check")
+  #   }else{
+  #     if(biblio!="bibproto.bib") {
+  #       file.rename(from = paste("tools/", biblio, sep = ""), to =
+  #                     paste( "tools/", "bibproto.bib", sep = "") )
+  #     }else{
+  #       biblio <- biblio
+  #     }
+  #   }
+  #   
+  #   fileName <- paste("tools/", biblio, sep="")
+  #   fileConn <- file(fileName)
+  #   writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
+  #   close(fileConn)
+  # }
+  # 
   
   
     ###########
@@ -949,44 +980,6 @@ server <- function(input, output, session) {
       list("bibproto", input$bibproto)
     })
 
-   
-
-    # action to take when submit button is pressed
-
-    shiny::observeEvent(input$submitproto, {
-
-      # Save the new information in  the report  in a txt with name = date and time
-      saveData(titleprotoident() )
-      saveData(titleprotoup())
-      saveData(registration())
-      saveData(authorcontact())
-      saveData(authorcontri())
-      saveData(amendments() )
-      saveData(supportsorce())
-      saveData(supportsponsor())
-      saveData(supportrole())
-      saveData(introprotorat() )
-      saveData(introprotoobj())
-      saveData(methodprotoeli())
-      saveData(methodprotoinfo())
-      saveData(methodprotosear())
-      saveData(methodprotodataman())
-      saveData(methodprotosele())
-      saveData(methodprotodatacol())
-      saveData(methodprotodatait())
-      saveData(methodprotout())
-      saveData(methodprotorisk())
-      saveData(methodprotodatasy() )
-      saveData(methodprotometa())
-      saveData(methodprotoconfi() )
-      #saveBib(bibproto())
-
-      shinyjs::reset("formproto")
-      shinyjs::hide("formproto")
-      shinyjs::show("thankyou_msgproto")
-     
-      })
-
 
     # action to take when save protocol button is pressed
 
@@ -1016,7 +1009,7 @@ server <- function(input, output, session) {
       saveData(methodprotodatasy())
       saveData(methodprotometa())
       saveData(methodprotoconfi())
-      #saveBib(bibproto())
+      saveBib(bibproto())
     })
 
   
@@ -1099,83 +1092,58 @@ server <- function(input, output, session) {
     })
 
 
-
-    # action to take when select Keep only latest version
-
-    # shiny::observeEvent(input$buttreset,{
-    #
-    #   filenames <- sort(dir("tools"),TRUE)
-    #   #filter only with pr
-    #   auxpr <-substr(filenames, 1,2) == "pr"
-    #   reportnamesproto <- which.max(lubridate::ymd_hms(sub("-", "", unique(substr(filenames, 3,17)[auxpr] ))))
-    #
-    #   filenamesaux <-     filenames[reportnamesproto:(reportnamesproto+2)]
-    #   unlink(paste("tools/",setdiff(filenames,filenamesaux), sep=
-    #                  ""))
-    # })
-
-    #it is the
     if(initialprotocol == FALSE){
-      #shinyjs::show("buttreset")
       shinyjs::show("updateproto")
       output$updateproto <- shiny::renderUI({
-
-        # reactiveFileReader(1000,)
+        
         filenames <- sort(dir("tools"),TRUE)
         #filter only with pr
-        auxpr <-substr(filenames, 1,2)=="pr"
-        if(length(auxpr>10)){
-        reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])[1:10]
+        auxpr <-substr(filenames, 1, 2) == "pr"
+        if(length(auxpr > 10)){
+        reportnamesproto <- unique(substr(filenames, 1, 17)[auxpr])[1:10]
         }else{
-          reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+          reportnamesproto <- unique(substr(filenames, 1, 17)[auxpr])
         }
         shiny::selectInput("updateproto", "Update report", reportnamesproto)
 
       })
 
-    
-
-      shiny::observeEvent(input$submit_anotherproto, {
-        #shinyjs::show("buttreset")
+      shiny::observeEvent(input$saveproto, {
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
-        shinyjs::hide("thankyou_msgproto")
-
+        
         output$updateproto <- shiny::renderUI({
-          # reactiveFileReader(1000,)
           filenames <- sort(dir("tools"),TRUE)
           #filter only with pr
-          auxpr <-substr(filenames, 1,2)=="pr"
-          reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+          if(length(auxpr>10)){
+            reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])[1:10]
+          }else{
+            reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+          }
           shiny::selectInput("updateproto", "Update report", reportnamesproto)
         })
-
    
       })
 
     }else{
-
       # action to take when a submit another button is pressed
-      shiny::observeEvent(input$submit_anotherproto, {
-        #shinyjs::show("buttreset")
+      shiny::observeEvent(input$saveproto, {
         shinyjs::show("updateproto")
         shinyjs::show("formproto")
-        shinyjs::hide("thankyou_msgproto")
+        #shinyjs::hide("thankyou_msgproto")
 
         output$updateproto <- shiny::renderUI({
          
-
           filenames <- sort(dir("tools"),TRUE)
           #filter only with pr
-          auxpr <-substr(filenames, 1,2) == "pr"
-          reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+         
+            reportnamesproto <- unique(substr(filenames, 1,17)[auxpr])
+          
           shiny::selectInput("updateproto", "Update protocol", reportnamesproto)
         })
 
       })
-      # output$buttreset <- shiny::renderUI({
-      #   actionButton("buttreset", "Keep only latest version")
-      # })
+      
     }
     
     
@@ -1187,8 +1155,7 @@ server <- function(input, output, session) {
       filenameout <- paste("myprotocol", ".", outputformat, sep = "")
     }
     
-    
-    
+
     output$downproto = shiny::downloadHandler(
       filename = filenameout,
       
@@ -1224,7 +1191,7 @@ server <- function(input, output, session) {
         saveData(methodprotodatasy())
         saveData(methodprotometa())
         saveData(methodprotoconfi())
-        #saveBib(bibproto())
+        saveBib(bibproto())
         
         
         writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
@@ -1250,7 +1217,7 @@ server <- function(input, output, session) {
         writeLines(input$methodprotodatasy, con = file.path(dir, "_methodprotodatasy.Rmd"),sep = "\n")
         writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
         writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
-        writeLines(input$bibproto, con = file.path(dir, "bibliography.bib"),sep = "\n")
+        writeLines(input$bibproto, con = file.path(dir, "_bibproto.bib"),sep = "\n")
         
        
         outform <- paste(outputformat, "_","document", sep = "")
@@ -1541,7 +1508,6 @@ server <- function(input, output, session) {
       saveData(discussionlimi(), ccaux[[24]], proto = FALSE)
       saveData(discussionconc(), ccaux[[25]], proto = FALSE)
       saveData(funding(), ccaux[[26]], proto =FALSE)
-
 
       shinyjs::reset("form")
       shinyjs::hide("form")
