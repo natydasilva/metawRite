@@ -22,6 +22,7 @@ Imports:
     digest,
     htmltools,
     knitr,
+    bibtex,
     shinydashboard,
     magrittr,
     geomnet,

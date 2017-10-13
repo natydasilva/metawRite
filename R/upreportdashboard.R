@@ -102,8 +102,7 @@ upreportdashoard <-
                      methodprotorisk = "## Methods:Risk of Bias in Individual Studies Meta Bias",
                      methodprotodatasy = "## Methods: Data Synthesis",
                      methodprotometa = "## Methods: Meta Bias",
-                     methodprotoconfi = "## Methods: Confidence in Cumulatice Evidence",
-                     bibproto=""
+                     methodprotoconfi = "## Methods: Confidence in Cumulatice Evidence"
                      )
 
 
@@ -152,7 +151,12 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                   shiny::fluidRow(
                     shiny::helpText("This form is an R Markdown, you should use R Markdown syntax for editing" ,
                                     shiny::a("R Markdown  Cheat Sheet", href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf"))
-                ),
+                )),
+                
+                shiny::fileInput("file1", "Choose bib File",
+                          multiple = FALSE,
+                          accept = ".bib"), 
+                
                   shiny::fluidRow(shiny::column(
                     8,
                     shiny::textAreaInput(
@@ -360,21 +364,19 @@ tab2 <- shinydashboard::tabItem(tabName = "protocol",
                       width = "900px",
                       value = protocol$methodprotoconfi, resize ="vertical")
                   )),
-                shiny::fluidRow(shiny::column(
-                  8,
-                  shiny::textAreaInput(
-                    'bibproto',
-                    'Bibliography',
-                    rows = 5,
-                    width = "900px",
-                    value = protocol$bibproto, resize ="vertical")
-                )), 
-   
+                # shiny::fluidRow(shiny::column(
+                #   8,
+                #   shiny::textAreaInput(
+                #     'bibproto',
+                #     'Bibliography',
+                #     rows = 5,
+                #     width = "900px",
+                #     value = protocol$bibproto, resize ="vertical")
+                # )), 
+                # 
                 shiny::actionButton("saveproto", "Save protocol", class = "btn-primary"),
                 #shiny::actionButton("finalversion", "Final version", class = "btn-primary"),
-                  shiny::downloadButton(outputId='downproto', label="Download")
-                
-                ),
+                  shiny::downloadButton(outputId='downproto', label="Download"),
                 shiny::fluidRow(shiny::column(8,
                                               shiny::HTML("<div style='height: 150px;'>"),
 
@@ -790,7 +792,7 @@ server <- function(input, output, session) {
                    "methodprotoinfo" ,"methodprotosear","methodprotodataman",
                    "methodprotosele" ,"methodprotodatacol","methodprotodatait",
                    "methodprotout","methodprotorisk","methodprotodatasy",
-                   "methodprotometa","methodprotoconfi", "bibproto" )
+                   "methodprotometa","methodprotoconfi" )
   
   
   
@@ -816,41 +818,41 @@ server <- function(input, output, session) {
   }
   
   
-  saveBib <- function(data){
-    tmp <- system.file(package = "metawRite")
-     
-    if(length(data[[2]] > 0)){
-      if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
-      biblio <- list.files( paste("tools/", sep = ""), pattern = "\\.bib$")
-      
-      if(length(biblio) < 1 ){
-        file.create(file =  paste("tools/", "bibproto.bib",sep = ""))
-        biblio <- list.files( paste( "tools/", sep = ""), pattern = "\\.bib$") 
-      }
-      if(length(biblio) > 1 ){
-        shiny::stopApp("More than one .bib file, pelase check")
-      }else{
-        if(biblio!="bibproto.bib") {
-          file.rename(from = paste("tools/", biblio, sep = ""), to =
-                        paste( "tools/", "bibproto.bib", sep = "") )
-        }else{
-          biblio <- biblio
-        }
-      }
-      
-      fileName <- paste("tools/", biblio, sep="")
-      fileConn <- file(fileName)
-      writeLines(input$noquote(data[[2]]), fileConn, sep = "\n")
-      close(fileConn)
-}else{
-      fileName <- paste("tools/", biblio, sep="")
-      fileConn <- file(fileName)
-      writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
-      close(fileConn)
-      
-    }
-    
-  }
+#   saveBib <- function(data){
+#     tmp <- system.file(package = "metawRite")
+#       file.create(file =  paste("tools/", "bibproto.bib",sep = ""))
+#       
+#     if(length(data[[2]] > 0)){
+#       if(!file.exists("tools")) system(sprintf("mkdir %s", "tools") )
+#       biblio <- list.files( paste("tools/", sep = ""), pattern = "\\.bib$")
+# 
+#       if(length(biblio) < 1 ){
+#         file.create(file =  paste("tools/", "bibproto.bib",sep = ""))
+#         biblio <- list.files( paste( "tools/", sep = ""), pattern = "\\.bib$")
+#       }
+#       if(length(biblio) > 1 ){
+#         shiny::stopApp("More than one .bib file, pelase check")
+#       }else{
+#         if(biblio!="bibproto.bib") {
+#           file.rename(from = paste("tools/", biblio, sep = ""), to =
+#                         paste( "tools/", "bibproto.bib", sep = "") )
+#         }else{
+#           biblio <- biblio
+#         }
+#     
+#       fileName <- paste("tools/", biblio,sep = "")
+#       fileConn <- file(fileName)
+#       writeLines(input$noquote(data[[2]]), fileConn, sep = "\n")
+#       close(fileConn)
+# }else{
+#       fileName <- paste("tools/", biblio,sep = "")
+#       fileConn <- file(fileName)
+#       writeLines(input$noquote(data[[1]]), fileConn, sep = "\n")
+#       close(fileConn)
+#       
+#     }
+#     
+#   }
   
   
   # saveBib <- function(data) {
@@ -976,11 +978,17 @@ server <- function(input, output, session) {
       list("methodprotoconfi", input$methodprotoconfi)
     })
 
-    bibproto <- shiny::reactive({
-      list("bibproto", input$bibproto)
+    observeEvent(input$file1, {
+      #shiny::req(input$file1)
+      inFile <- input$file1
+      tmp <- system.file(package = "metawRite")
+      tempReport <- file.path(tmp,"biblio.bib")
+      file.copy(inFile$datapath, tempReport )
+      
     })
+    
 
-
+   
     # action to take when save protocol button is pressed
 
     shiny::observeEvent(input$saveproto, {
@@ -1009,10 +1017,14 @@ server <- function(input, output, session) {
       saveData(methodprotodatasy())
       saveData(methodprotometa())
       saveData(methodprotoconfi())
-      saveBib(bibproto())
+      #saveBib(bibproto())
     })
 
   
+    
+    shiny::observeEvent(input$file1,{
+    })
+    
     # action to take when writing a new protocol in each textAreaInput
 
     shiny::observeEvent(input$updateproto,{
@@ -1191,7 +1203,7 @@ server <- function(input, output, session) {
         saveData(methodprotodatasy())
         saveData(methodprotometa())
         saveData(methodprotoconfi())
-        saveBib(bibproto())
+        #saveBib(bibproto())
         
         
         writeLines(input$titleprotoident, con = file.path(dir, "_titleprotoident.Rmd"), sep = "\n")
@@ -1217,7 +1229,7 @@ server <- function(input, output, session) {
         writeLines(input$methodprotodatasy, con = file.path(dir, "_methodprotodatasy.Rmd"),sep = "\n")
         writeLines(input$methodprotometa, con = file.path(dir, "_methodprotometa.Rmd"),sep = "\n")
         writeLines(input$methodprotoconfi, con = file.path(dir, "_methodprotoconfi.Rmd"),sep = "\n")
-        writeLines(input$bibproto, con = file.path(dir, "_bibproto.bib"),sep = "\n")
+        #writeLines(input$bibproto, con = file.path(dir, "_bibproto.bib"),sep = "\n")
         
        
         outform <- paste(outputformat, "_","document", sep = "")
