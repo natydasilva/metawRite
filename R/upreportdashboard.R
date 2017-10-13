@@ -978,7 +978,7 @@ server <- function(input, output, session) {
       list("methodprotoconfi", input$methodprotoconfi)
     })
 
-    observeEvent(input$file1, {
+    shiny::observeEvent(input$file1, {
       #shiny::req(input$file1)
       inFile <- input$file1
       tmp <- system.file(package = "metawRite")
