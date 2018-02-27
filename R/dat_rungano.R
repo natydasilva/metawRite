@@ -12,7 +12,7 @@
 #' \item{se1}{ something}
 #' \item{se2}{ something}
 #' \item{se3}{ something}
-#' \item{se4}{ something}
+#' \item{se4}{ something else}
 #' \item{na}{something}
 #' \item{s}{something}
 #' \item{prsv}{something}
