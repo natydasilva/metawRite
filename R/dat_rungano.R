@@ -13,14 +13,14 @@
 #' \item{se2}{ something}
 #' \item{se3}{ something}
 #' \item{se4}{ something}
-#' \item{na}{tsomething}
-#' \item{s}{tsomething}
-#' \item{prsv}{tsomething}
-#' \item{Author}{tsomething}
-#' \item{rand.allo}{tsomething}
-#' \item{blinding}{tsomething}
-#' \item{peerRev}{tsomething}
-#' \item{type}{tsomething}
+#' \item{na}{something}
+#' \item{s}{something}
+#' \item{prsv}{something}
+#' \item{Author}{something}
+#' \item{rand.allo}{something}
+#' \item{blinding}{something}
+#' \item{peerRev}{something}
+#' \item{type}{something}
 #' }
 #' @docType data
 #' @keywords datasets
